@@ -1,6 +1,7 @@
 import packages._
 import packages.gui._
 import packages.game._
+import packages.sugar._
 import swing._
 
 /** Main Application : 
