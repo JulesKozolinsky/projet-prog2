@@ -5,4 +5,7 @@ package packages
   * Description du contenu du package
   */
 
-package object game {}
+package object game {
+  /** Période du tick en millisecondes */
+  val tick = 100
+}
