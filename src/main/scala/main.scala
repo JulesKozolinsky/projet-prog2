@@ -1,5 +1,6 @@
-import GAME._
-import GUI._
+import packages._
+import packages.gui._
+import packages.game._
 import swing._
 
 /** Main Application : 
