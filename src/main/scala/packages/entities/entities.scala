@@ -1,13 +1,13 @@
 package packages
 package entities
 
+import sugar._
 
 /** Les Tileable sont l'ensembles de éléments susceptibles d'apparaître sur la map : tours, monstres, cailloux, arbres, alliés éventuels... */
 abstract class Tileable ()
 {
   /** Coordonnées de l'objet */
-  var l : Int
-  var c : Int
+  var pos : Position
 }
 
 
@@ -80,8 +80,7 @@ class Tower1 (ligne:Int,colonne:Int) extends Tower
   val range = 3
   val price = 20
   val power = 5
-  var l = ligne
-  var c = colonne
+  var pos = new Position (ligne, colonne)
   var wait_since = 0
 }
 
@@ -93,8 +92,7 @@ class Tower2 (ligne:Int,colonne:Int) extends Tower
   val range = 3
   val price = 35
   val power = 6
-  var l = ligne
-  var c = colonne
+  var pos = new Position (ligne, colonne)
   var wait_since = 0
 }
 
@@ -102,8 +100,7 @@ class Monster1 () extends Enemy
 {
   val gold = 6
   val slowness = 12
-  var l = 4
-  var c = 0
+  var pos = new Position (4,0)
   var life = 40
   var wait_since = 0
 }
@@ -112,8 +109,7 @@ class Monster2 () extends Enemy
 {
   val gold = 8
   val slowness = 12
-  var l = 4 
-  var c = 0
+  var pos = (new Position)(4,0)
   var life = 50
   var wait_since = 0
 }
