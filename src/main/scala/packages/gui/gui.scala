@@ -26,7 +26,7 @@ class Grid(nb_line:Int, nb_columns:Int) extends GridPanel(nb_line, nb_columns) /
 /** Permet de choisir entre plusieurs tours
   * 
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
-*/
+  */
 class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
 
 }

@@ -100,7 +100,7 @@ class Monster1 () extends Enemy
 {
   val gold = 6
   val slowness = 12
-  var pos = new Position (4,0)
+  var pos = new Position(4,0)
   var life = 40
   var wait_since = 0
 }
@@ -109,7 +109,7 @@ class Monster2 () extends Enemy
 {
   val gold = 8
   val slowness = 12
-  var pos = (new Position)(4,0)
+  var pos = new Position(4,0)
   var life = 50
   var wait_since = 0
 }

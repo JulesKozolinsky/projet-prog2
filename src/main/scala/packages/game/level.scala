@@ -1,6 +1,8 @@
 package packages
 package game
 
+import sugar._
+
 /** Crée un nouveau niveau
   * 
   * Un niveau comporte plusieurs vagues de monstres appelées ici des rounds.
