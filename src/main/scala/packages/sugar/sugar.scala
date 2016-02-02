@@ -27,3 +27,10 @@ class PosGridPanel(lines : Int, cols : Int) extends GridPanel(lines,cols)
     contents(p.l * cols + p.c)
   }
 }
+
+
+
+class Vector (point1:Position,point2:Position)
+{
+  def norme : Double = math.sqrt((point1.l - point2.l)*(point1.l - point2.l) + (point1.c - point2.c*(point1.c - point2.c )))
+}

@@ -2,6 +2,7 @@ package packages
 package entities
 
 import sugar._
+import map._
 
 /** Les Tileable sont l'ensembles de éléments susceptibles d'apparaître sur la map : tours, monstres, cailloux, arbres, alliés éventuels... */
 abstract class Tileable ()
@@ -74,7 +75,7 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
     }
   }
 
-  /** le apply des tours est le fait de tirer sur un/des monstres 
+  /** le apply des tours est le fait de tirer sur un/des monstres
     * @param pot_targets est un tableau contenant toutes les cibles que la tour a en visu ; si le tableau est non vide et  : si pas de cible en vue la tour ne tire pas et on ne remet pas son wait_since à zéro, on n'appelle pas non plus apply
     */
   def apply  : Unit = {
@@ -95,7 +96,6 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
     {
       this.wait_since = 1+this.wait_since
     }
-
   }
 
 }
@@ -119,7 +119,7 @@ case class Monster2 extends MonsterType
 
 
 /** Les Monstres sont les ennemis */
-class Monster (taillpe : MonsterType) extends Living 
+class Monster (taillpe : MonsterType) extends Living
 {
   /** butin obtenu lors de la mort du monstre */
   var gold = 6
@@ -131,7 +131,7 @@ class Monster (taillpe : MonsterType) extends Living
 
   taillpe match {
     case Monster1() => {
-      var gold = 6 
+      var gold = 6
       var slowness = 12
       var life = 40
     }
@@ -141,5 +141,16 @@ class Monster (taillpe : MonsterType) extends Living
       var life = 50
     }
   }
-def apply () : Unit = {}
+  def apply () : Unit = {
+    if (this.wait_since == this.slowness)
+      {
+        /*this.pos = Map.next_case(this.pos)*/
+        this.wait_since = 0
+      }
+    else
+    {
+      this.wait_since = this.wait_since + 1
+    }
+  }
+
 }

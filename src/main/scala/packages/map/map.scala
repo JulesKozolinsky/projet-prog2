@@ -2,7 +2,7 @@ package packages
 package game
 
 import entities._
-
+import sugar._
 
 /** Crée l'object Map, qui gère le déplacement des monstres */
 object Map
@@ -22,11 +22,14 @@ object Map
   var monsters = Array.ofDim[Set[Moveable]](height,width)
 
   /** */
-  def compute_path (monster:Monster) = {}
+  def compute_path () : Array[Position] = {new Array [Position] (0)}
 
   /** */
   def move_monster (monster:Monster) = {}
 
   /** */
   def remove_monster (monster:Monster) = {}
+
+  /** */
+  def next_case (p:Position) : Position = {new Position (0,0)}
 }
