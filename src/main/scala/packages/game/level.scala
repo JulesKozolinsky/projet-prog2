@@ -38,7 +38,7 @@ class Level(file:String)
 
   /** Crée une nouvelle tour
     * 
-    * Devra prendre en paramètre un TowerType
+    * Devra prendre en paramètre un TowerType et une position
     */
   def create_new_tower() = {}
 

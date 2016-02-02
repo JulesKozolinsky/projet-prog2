@@ -18,7 +18,7 @@ abstract class Actor() extends Tileable
   var wait_since : Int
 
   /** fonction qui fait agir (avancer ou tirer) l'Actor */
-  def act : Unit
+  def apply : Unit
 }
 
 
@@ -29,28 +29,55 @@ abstract class Moveable () extends Actor
   val slowness : Int
 
   /** le act des moveable est le fait de bouger */
-  def act : Unit = {}
+  def apply : Unit = {}
 }
 
-abstract class Tower () extends Actor
+
+abstract class TowerType
+  case class Tower1 extends TowerType
+  case class Tower2 extends TowerType
+
+class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
 {
+
   /** la fréquence d'une tour est le nombre de tick entre deux tirs */
-  val frequency : Int
+  var frequency : Int = 10
 
   /** la priorité d'une tour détermine la manière dont elle choisit le monstre sur lequel elle tire */
-  val priority : Int
+  var priority : Int = 0
 
   /** la portée d'une tour détermine la distance maximale à laquelle elle peut tirer */
-  val range : Int
+  var range : Int = 3
 
   /** le prix d'une tour est ... son prix */
-  val price : Int
+  var price : Int = 35
 
   /** la puissance de feu d'une tour */
-  val power : Int
+  var power : Int = 6
+
+  var pos = new Position (ligne, colonne)
+  var wait_since = 0
 
   /** le act des tours est le fait de tirer sur un/des monstres */
-  def act : Unit = {}
+  def apply : Unit = {}
+
+  taillpe match {
+    case Tower1() => {
+      this.frequency =  10
+      this.priority = 0
+      this.range = 3
+      this.price = 20
+      this.power = 5
+    }
+    case Tower2() => {
+      this.frequency =  12
+      this.priority = 1
+      this.range = 3
+      this.price = 35
+      this.power = 6
+    }
+  }
+
 }
 
 
@@ -72,29 +99,6 @@ abstract class Enemy () extends Living
   val gold : Int
 }
 
-/** Tour1 avec comme priorité le monstre le plus proche */
-class Tower1 (ligne:Int,colonne:Int) extends Tower
-{
-  val frequency = 10
-  val priority = 0
-  val range = 3
-  val price = 20
-  val power = 5
-  var pos = new Position (ligne, colonne)
-  var wait_since = 0
-}
-
-/** Tour2 avec comme priorité le monstre le plus faible */
-class Tower2 (ligne:Int,colonne:Int) extends Tower
-{
-  val frequency = 12
-  val priority = 1
-  val range = 3
-  val price = 35
-  val power = 6
-  var pos = new Position (ligne, colonne)
-  var wait_since = 0
-}
 
 class Monster1 () extends Enemy
 {
