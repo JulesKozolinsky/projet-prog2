@@ -26,20 +26,16 @@ abstract class Actor() extends Tileable
 abstract class Moveable () extends Actor
 {
   /** la lenteur d'un monstre est le nombre de tick entre deux déplacements */
-  val slowness : Int
-
-  /** le act des moveable est le fait de bouger */
-  def apply : Unit = {}
+  var slowness : Int
 }
 
 
 abstract class TowerType
-  case class Tower1 extends TowerType
-  case class Tower2 extends TowerType
+case class Tower1 extends TowerType
+case class Tower2 extends TowerType
 
 class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
 {
-
   /** la fréquence d'une tour est le nombre de tick entre deux tirs */
   var frequency : Int = 10
 
@@ -55,11 +51,11 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
   /** la puissance de feu d'une tour */
   var power : Int = 6
 
+  /** la position où l'on place la tour */
   var pos = new Position (ligne, colonne)
-  var wait_since = 0
 
-  /** le act des tours est le fait de tirer sur un/des monstres */
-  def apply : Unit = {}
+  /** le compteur d'activité */
+  var wait_since = 0
 
   taillpe match {
     case Tower1() => {
@@ -71,11 +67,35 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
     }
     case Tower2() => {
       this.frequency =  12
-      this.priority = 1
+      this.priority = 0
       this.range = 3
       this.price = 35
       this.power = 6
     }
+  }
+
+  /** le apply des tours est le fait de tirer sur un/des monstres 
+    * @param pot_targets est un tableau contenant toutes les cibles que la tour a en visu ; si le tableau est non vide et  : si pas de cible en vue la tour ne tire pas et on ne remet pas son wait_since à zéro, on n'appelle pas non plus apply
+    */
+  def apply  : Unit = {
+    if (this.wait_since == this.frequency)
+    {
+      var pot_targets = new Array [Monster] (0) /* pour l'instant, ensuite on utilisera map.get_targets(this) */
+      if (pot_targets.isEmpty)
+      {
+        this.wait_since = math.min(frequency,(1+this.wait_since))
+      }
+      else
+      {
+        (pot_targets(0)).receive_damages (this.power)
+        this.wait_since = 0
+      }
+    }
+    else
+    {
+      this.wait_since = 1+this.wait_since
+    }
+
   }
 
 }
@@ -88,32 +108,38 @@ abstract class Living () extends Moveable
   var life : Int
 
   /** fonction retirant une quantité de point de vie au Living */
-  def receive_damages(dam:Int):Unit = {}
+  def receive_damages(dam:Int):Unit = {this.life = math.max (0,this.life - dam)}
 }
 
 
-/** les Enemy sont les monstres */
-abstract class Enemy () extends Living
-{
-  /** quantité d'argent reçue par le joueur en tuant ce monstre */
-  val gold : Int
-}
+
+abstract class MonsterType
+case class Monster1 extends MonsterType
+case class Monster2 extends MonsterType
 
 
-class Monster1 () extends Enemy
+/** Les Monstres sont les ennemis */
+class Monster (taillpe : MonsterType) extends Living 
 {
-  val gold = 6
-  val slowness = 12
-  var pos = new Position(4,0)
+  /** butin obtenu lors de la mort du monstre */
+  var gold = 6
+
+  var slowness = 12
+  var pos = new Position (4,0)
   var life = 40
   var wait_since = 0
-}
 
-class Monster2 () extends Enemy
-{
-  val gold = 8
-  val slowness = 12
-  var pos = new Position(4,0)
-  var life = 50
-  var wait_since = 0
+  taillpe match {
+    case Monster1() => {
+      var gold = 6 
+      var slowness = 12
+      var life = 40
+    }
+    case Monster2() => {
+      var gold = 8
+      var slowness = 12
+      var life = 50
+    }
+  }
+def apply () : Unit = {}
 }
