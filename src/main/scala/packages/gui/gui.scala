@@ -6,6 +6,7 @@ import swing._
 import javax.swing.Icon
 import javax.swing.border.Border
 import javax.swing.BorderFactory
+import javax.swing.ImageIcon
 import java.awt.Color
 import sugar._
 
@@ -85,7 +86,7 @@ class InfoGame(file : String) extends GridPanel(1,2){
   /** text contient le nombre de vies par exemple*/
   var text = "100"
   /** Icone représentant la donnée affichée*/
-  val icone = new Label("Vies : ")
+  val icone = new Label("",new ImageIcon(""),Alignment(0))
   /** Label affichant l'information */
   val info = new Label("100")
   contents += icone; contents += info
