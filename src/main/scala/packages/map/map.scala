@@ -22,12 +22,11 @@ object Map
   var monsters = Array.ofDim[Set[Moveable]](height,width)
 
   /** */
-  def compute_path (monster:Enemy) = {}
+  def compute_path (monster:Monster) = {}
 
   /** */
-  def move_monster (monster:Enemy) = {}
+  def move_monster (monster:Monster) = {}
 
   /** */
-  def remove_monster (monster:Enemy) = {}
-
+  def remove_monster (monster:Monster) = {}
 }
