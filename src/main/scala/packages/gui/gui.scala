@@ -32,7 +32,7 @@ class GamePanel extends BorderPanel {
 }
 
 /** Contient toutes les options et les informations sur le jeu
-  * 
+  *
   * Exemple : information sur la vie et l'argent, options sur la tour à utiliser
   */
 class GameOptions extends BorderPanel {
@@ -48,7 +48,7 @@ class GameOptions extends BorderPanel {
 }
 
 /** Contient la grille des cases du jeu
-  * 
+  *
   * @param nb_lines Nombre de lignes dans la grille
   * @param nb_columns Nombre de colonnes dans la grille
   */
@@ -67,7 +67,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 }
 
 /** Permet de choisir entre plusieurs tours
-  * 
+  *
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
   */
 class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
@@ -78,8 +78,8 @@ class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
     }
 }
 
-/** Permet d'afficher une information sur le jeu avec une icône et un texte 
-  * 
+/** Permet d'afficher une information sur le jeu avec une icône et un texte
+  *
   * Exemples : nombre de vies, argent restant
   * @param file Fichier contenant une icône
   */
