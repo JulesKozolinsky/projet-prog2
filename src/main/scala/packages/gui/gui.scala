@@ -9,14 +9,17 @@ import javax.swing.BorderFactory
 import javax.swing.ImageIcon
 import java.awt.Color
 import sugar._
-
+import java.awt.Image._ 
+import scala.swing.event._
 
 /** Main Frame de la GUI
   */
 class MainFrameGUI extends swing.MainFrame {
   //nom de la fenêtre principale
   title = "Tower defense"
-  contents = new GamePanel
+  val frame = new GamePanel
+  contents = frame
+  
 }
 
 /** Contient la grille et les options du jeu
@@ -32,7 +35,7 @@ class GamePanel extends BorderPanel {
 }
 
 /** Contient toutes les options et les informations sur le jeu
-  *
+  * 
   * Exemple : information sur la vie et l'argent, options sur la tour à utiliser
   */
 class GameOptions extends BorderPanel {
@@ -48,11 +51,12 @@ class GameOptions extends BorderPanel {
 }
 
 /** Contient la grille des cases du jeu
-  *
+  * 
   * @param nb_lines Nombre de lignes dans la grille
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
+  
   for(i<-0 to this.rows - 1) //rows et columns sont héritées de GridPanel
     {
       for(j<-0 to this.columns - 1)
@@ -64,10 +68,17 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     case but : Button => but
     case _  => throw new ClassCastException
   }).text = "Changé"
+
+  val button = this(new Position(1,1))
+  val reactor = new Object with Reactor
+  reactor.listenTo(button)
+  reactor.reactions += {
+    case UIElementResized(_) => ()
+  }
 }
 
 /** Permet de choisir entre plusieurs tours
-  *
+  * 
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
   */
 class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
@@ -78,8 +89,8 @@ class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
     }
 }
 
-/** Permet d'afficher une information sur le jeu avec une icône et un texte
-  *
+/** Permet d'afficher une information sur le jeu avec une icône et un texte 
+  * 
   * Exemples : nombre de vies, argent restant
   * @param file Fichier contenant une icône
   */
@@ -87,7 +98,9 @@ class InfoGame(file : String) extends GridPanel(1,2){
   /** text contient le nombre de vies par exemple*/
   var text = "100"
   /** Icone représentant la donnée affichée*/
-  val icone = new Label("",new ImageIcon(getClass.getResource("/tower1.png")),Alignment(0))
+  
+  val icone = new Label("",new ImageIcon(getClass.getResource("/little_heart.png")),Alignment(0))
+  //val image = (new ImageIcon(getClass.getResource("/little_heart.png"))).getImage
   /** Label affichant l'information */
   val info = new Label("100")
   contents += icone; contents += info
