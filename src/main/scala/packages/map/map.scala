@@ -21,24 +21,22 @@ object Map
     */
   var monsters = Array.ofDim[Set[Moveable]](height,width)
 
-  /** */
+  /** le chemin où les monstrers peuvent se déplacer*/
   var path : Array[Position] = {new Array[Position] (0)}
 
-  /** */
+  /** là où sont stockées les images associées aux tours*/
   var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
 
-  /** */
-
-  /** */
+  /** Calcule le chemin à partir d'une position jusqu'à la fin (appelé au début du round)*/
   def compute_path () : Array[Position] = {new Array [Position] (0)}
 
-  /** */
-  def move_monster (monster:Monster) = {}
+  /** Supprime le monstre monster de la 1ere position et l'ajoute sur la deuxieme*/
+  def move_monster (monster:Monster) (p1:Position) (p2:Position) = {}
 
   /** */
   def remove_monster (monster:Monster) = {}
 
-  /** */
+  /** Donne la case suivante d'un monster à partir du chemin*/
   def next_case (p:Position) : Position = {new Position (0,0)}
 
   /** */
