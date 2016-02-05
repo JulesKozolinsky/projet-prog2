@@ -17,9 +17,6 @@ abstract class Actor() extends Tileable
 {
   /** temps depuis lequel l'Actor n'a pas agit */
   var wait_since : Int
-
-  /** fonction qui fait agir (avancer ou tirer) l'Actor */
-  def apply : Unit
 }
 
 
@@ -30,6 +27,8 @@ abstract class Moveable () extends Actor
   var slowness : Int
 }
 
+
+/** Les différents types de tour  */
 
 abstract class TowerType
 case class Tower1 extends TowerType
@@ -44,13 +43,13 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
   var priority : Int = 0
 
   /** la portée d'une tour détermine la distance maximale à laquelle elle peut tirer */
-  var range : Int = 3
+  var range : Double = 3.
 
-  /** le prix d'une tour est ... son prix */
+  /** le prix d'une tour */
   var price : Int = 35
 
   /** la puissance de feu d'une tour */
-  var power : Int = 6
+  var power : Int = 5
 
   /** la position où l'on place la tour */
   var pos = new Position (ligne, colonne)
@@ -62,26 +61,27 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
     case Tower1() => {
       this.frequency =  10
       this.priority = 0
-      this.range = 3
+      this.range = 3.
       this.price = 20
       this.power = 5
     }
     case Tower2() => {
       this.frequency =  12
       this.priority = 0
-      this.range = 3
+      this.range = 3.
       this.price = 35
       this.power = 6
     }
   }
 
-  /** le apply des tours est le fait de tirer sur un/des monstres
-    * @param pot_targets est un tableau contenant toutes les cibles que la tour a en visu ; si le tableau est non vide et  : si pas de cible en vue la tour ne tire pas et on ne remet pas son wait_since à zéro, on n'appelle pas non plus apply
+  /** le apply des tours est le fait de tirer sur un/des monstres ; 
+    * apply renvoie la liste des monstres tués par la tour
+    * @param pot_targets est un tableau contenant toutes les cibles potentielles (que la tour a en visu) ; si le tableau est non vide et  : si pas de cible en vue la tour ne tire pas et on ne remet pas son wait_since à zéro, on n'appelle pas non plus apply
     */
-  def apply  : Unit = {
+  def apply : List[Monster] = {
     if (this.wait_since == this.frequency)
     {
-      var pot_targets = new Array [Monster] (0) /* pour l'instant, ensuite on utilisera map.get_targets(this) */
+      var pot_targets =  Map.get_targets(this)
       if (pot_targets.isEmpty)
       {
         this.wait_since = math.min(frequency,(1+this.wait_since))
@@ -96,6 +96,7 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
     {
       this.wait_since = 1+this.wait_since
     }
+    List() // to do !! je n'ai pas renvoyé la liste
   }
 
 }
@@ -141,16 +142,28 @@ class Monster (taillpe : MonsterType) extends Living
       var life = 50
     }
   }
-  def apply () : Unit = {
+
+  /** le apply du monstre renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
+  def apply () : Boolean  = {
+    var x = false
     if (this.wait_since == this.slowness)
+    {
+      if ((this.pos).c == (Map.height-1))
       {
-        /*this.pos = Map.next_case(this.pos)*/
+        x = true
+      }
+      else
+      {
+        Map.move_monster (this,this.pos,Map.next_case(this.pos))
+        this.pos = Map.next_case(this.pos)
         this.wait_since = 0
       }
+    }
     else
     {
       this.wait_since = this.wait_since + 1
     }
+    x
   }
 
 }
