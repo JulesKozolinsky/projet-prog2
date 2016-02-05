@@ -22,7 +22,9 @@ object Map
   var monsters = Array.ofDim[Set[Moveable]](height,width)
 
   /** */
-  var path = Array[Position]
+  var path : Array[Position] = {new Array[Position] (0)}
+
+  /** */
 
   /** */
   def compute_path () : Array[Position] = {new Array [Position] (0)}
@@ -40,9 +42,9 @@ object Map
   def get_targets (tower:Tower) : Array[Monster] = {new Array[Monster] (0)}
 
   /** */
-  def new_tower (p:Position) = {}
+  def new_tower (t:TowerType) (p:Position) : Boolean = {true}
 
   /** */
-  def free_for_tower (p:Position) : Bool = {/* la poisition n'est pas dans le chemin */}
+  def free_for_tower (p:Position) : Boolean = {true /* la poisition n'est pas dans le chemin */}
 }
 // get_targets (Tour (range,position)) Vector(2 pts) (norme)
