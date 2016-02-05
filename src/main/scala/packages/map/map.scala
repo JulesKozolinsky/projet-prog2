@@ -32,9 +32,11 @@ object Map
 
   /** */
   def next_case (p:Position) : Position = {new Position (0,0)}
-}
 
   /** */
-  def get_targets (tower:Tower) = {new Array[Monster] (0)}
+  def get_targets (tower:Tower) : Array[Monster] = {new Array[Monster] (0)}
 
+  /** */
+  def new_tower (p:Position) = {}
+}
 // get_targets (Tour (range,position)) Vector(2 pts) (norme)
