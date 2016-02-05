@@ -28,6 +28,7 @@ class GamePanel extends BorderPanel {
   val game_grid = new GameGrid(9,20)
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)
+
 }
 
 /** Contient toutes les options et les informations sur le jeu
@@ -86,7 +87,7 @@ class InfoGame(file : String) extends GridPanel(1,2){
   /** text contient le nombre de vies par exemple*/
   var text = "100"
   /** Icone représentant la donnée affichée*/
-  val icone = new Label("",new ImageIcon(getClass.getResource("/little_heart.png")),Alignment(0))
+  val icone = new Label("",new ImageIcon(getClass.getResource("/tower1.png")),Alignment(0))
   /** Label affichant l'information */
   val info = new Label("100")
   contents += icone; contents += info
