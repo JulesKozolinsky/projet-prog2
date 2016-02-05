@@ -25,6 +25,9 @@ object Map
   var path : Array[Position] = {new Array[Position] (0)}
 
   /** */
+  var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
+
+  /** */
 
   /** */
   def compute_path () : Array[Position] = {new Array [Position] (0)}
