@@ -1,5 +1,5 @@
 package packages
-package game
+package map
 
 import entities._
 import sugar._
