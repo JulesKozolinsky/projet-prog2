@@ -49,9 +49,8 @@ object Map
   def remove_monster (monster:Monster,p:Position)= {}
 
   /** ajoute un monstre à la position p de la carte monsters*/
-  def add_monster (monster:Monster,p:Position) = {
+  def add_monster (monster:Monster,p:Position) = {}
 
-  }
 
   /** Donne la case suivante d'un monster à partir du chemin*/
   def next_case (p:Position) : Position = {new Position (0,0)}
