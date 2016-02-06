@@ -25,19 +25,19 @@ object Map
   var monsters = Array.ofDim[scala.collection.mutable.Set[Monster]](height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
-  var path : Array[Position] = {compute_path()}
+  var path : List[Position] = {compute_path()}
 
   /** là où sont stockées les images associées aux tours*/
   var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
 
   /** Calcule le chemin à partir d'une position jusqu'à la fin (appelé au début du round) */
-  def compute_path () : Array[Position] = {
-      var path = new Array[Position](width)
+  def compute_path () : List[Position] = {
+      var path = List[Position]()
       var c = 0;
       for( c <- 0 to (width-1)) {
-        path(c) = new Position (height/2,c)
+        path = (new Position (height/2,c))::path
       }
-      path
+      path.reverse
      }
 
   /** Supprime le monstre monster de la 1ere position et l'ajoute sur la deuxieme */
