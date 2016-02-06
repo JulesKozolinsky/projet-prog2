@@ -22,7 +22,7 @@ object Map
   /** la carte monsters représente les montres, il peut y en avoir plusieurs sur une même case,
     * d'où l'ensemble (Set) de monstres par case
     */
-  var monsters = Array.ofDim[Set[Monster]](height,width)
+  var monsters = Array.ofDim[scala.collection.mutable.Set[Monster]](height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
   var path : Array[Position] = {compute_path()}
@@ -42,14 +42,21 @@ object Map
 
   /** Supprime le monstre monster de la 1ere position et l'ajoute sur la deuxieme */
   def move_monster (monster:Monster,p1:Position,p2:Position) : Unit = {
-
+    remove_monster (monster,p1)
+    add_monster (monster,p2)
   }
 
-  /** supprime le monstre à la position p de la carte monsters*/
-  def remove_monster (monster:Monster,p:Position)= {}
+  /** supprime le monstre à la position p de la carte monsters */
+  def remove_monster (monster:Monster,p:Position) : Unit = {
+    if ( !( (monsters(p.l)(p.c)).remove(monster) ))
+    {throw new Exception("monster is not in this box")}
+  }
 
-  /** ajoute un monstre à la position p de la carte monsters*/
-  def add_monster (monster:Monster,p:Position) = {}
+  /** ajoute un monstre à la position p de la carte monsters */
+  def add_monster (monster:Monster,p:Position) : Unit = {
+    if ( !( (monsters(p.l)(p.c)).add(monster) ))
+    {throw new Exception("monster is already in this box")}
+  }
 
 
   /** Donne la case suivante d'un monster à partir du chemin*/
