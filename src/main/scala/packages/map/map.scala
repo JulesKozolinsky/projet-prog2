@@ -58,12 +58,18 @@ object Map
     {throw new Exception("monster is already in this box")}
   }
 
-
   /** Donne la case suivante d'un monster à partir du chemin*/
-  def next_case (p:Position) : Position = {new Position (0,0)}
+  def next_case (p:Position) : Position = {
+    if (p.c == width-1)
+    {throw new Exception("monster will go off the grid")}
+    else
+    {new Position(p.l,p.c+1)}
+  }
 
   /** renvoie un tableau de monsters susceptibles d'être touchés par une tour donnée*/
-  def get_targets (tower:Tower) : Array[Monster] = {new Array[Monster] (0)}
+  def get_targets (tower:Tower) : List[Monster] = {List[Monster] ()
+  // Map triée selon distance, puis liste
+}
 
   /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
   def new_tower (t:TowerType,p:Position) : Boolean = {true}
