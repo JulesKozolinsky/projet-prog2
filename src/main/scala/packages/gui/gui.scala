@@ -75,9 +75,10 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
   val button = this(new Position(1,1))
   val reactor = new Object with Reactor
+
   reactor.listenTo(button)
   reactor.reactions += {
-    case UIElementResized(_) => ()
+    case UIElementResized(_) => () //code exécuté quand les boutons de la grille sont redimensionnés
   }
 }
 
@@ -85,15 +86,19 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   * 
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
   */
-class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
-  hGap = 7
+class TowerChoice(files:Array[String]) extends BoxPanel(Orientation.Horizontal) {
+  //hGap = 7
+  /** Groupe de bouttons dans lequel un seul boutton peut être sélectionné à la fois*/
+  val buttonGroup = new ButtonGroup
   for(i<-0 to files.length - 1)
     {
-      contents += new Button(""){
+      buttonGroup.buttons += new ToggleButton(""){
         icon = new ImageIcon(getClass.getResource(files(i)))
         iconTextGap = 0
       }
     }
+  //on ajoute les bouttons au contenu du panel
+  contents ++= buttonGroup.buttons
 }
 
 /** Permet d'afficher une information sur le jeu avec une icône et un texte 
