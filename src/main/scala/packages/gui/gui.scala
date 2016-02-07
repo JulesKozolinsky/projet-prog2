@@ -32,6 +32,10 @@ class GamePanel extends BorderPanel {
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)
 
+  /** Permet d'actualiser les fonctions de l'interface à partir des informations données par la map.*/
+
+  def actualize() {}
+
 }
 
 /** Contient toutes les options et les informations sur le jeu
@@ -45,7 +49,7 @@ class GameOptions extends BorderPanel {
   /** Affichage argent restant */
   val money_info = new InfoGame("")
   /** Choix de la tour */
-  val tower_choice = new TowerChoice(Array("Tour1","Tour2"))
+  val tower_choice = new TowerChoice(Array("/choice_tower1.png","/choice_tower2.png"))
   add(new GridPanel(2,1){vGap = 10; contents += life_info;contents += money_info}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 }
@@ -85,7 +89,10 @@ class TowerChoice(files:Array[String]) extends GridPanel(1,files.length) {
   hGap = 7
   for(i<-0 to files.length - 1)
     {
-      contents += new Button(files(i))
+      contents += new Button(""){
+        icon = new ImageIcon(getClass.getResource(files(i)))
+        iconTextGap = 0
+      }
     }
 }
 
