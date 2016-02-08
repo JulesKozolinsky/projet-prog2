@@ -4,7 +4,9 @@ package gui
 import sugar._
 import swing._
 import javax.swing.ImageIcon
-import java.awt.Graphics
+
+
+
 /** Extension de la classe GridPanel permettant de modifier un élément grâce à sa position
   * 
   * Utilisation : var p = new Position(1,2)7
