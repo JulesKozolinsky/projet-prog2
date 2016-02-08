@@ -1,5 +1,4 @@
 package packages
-
 package gui
 
 import entities._
@@ -18,7 +17,9 @@ import java.awt.Color
 import java.awt.Image._ 
 import java.awt.Dimension._
 
-
+import scala.math
+import javax.swing.ImageIcon
+import java.awt.Dimension
 
 
 /******************************** Organisation de la fenêtre **************/
@@ -27,7 +28,7 @@ import java.awt.Dimension._
 class MainFrameGUI extends swing.MainFrame {
   //nom de la fenêtre principale
   title = "Tower defense"
-  maximize (); //la fenêtre est maximisée à l'ouverture
+  maximize () //la fenêtre est maximisée à l'ouverture
   val frame = new GamePanel
   contents = frame
   
@@ -40,18 +41,19 @@ class GamePanel extends BorderPanel {
   val game_opt = new GameOptions
   /** Grille du jeu */
   val game_grid = new GameGrid(9,20)
+
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)
 
   /** Permet d'actualiser les fonctions de l'interface à partir des informations données par la map.*/
-
   def actualize() {}
 
 }
 
+
 /** Contient toutes les options et les informations sur le jeu
   * 
-  * Exemple : information sur la vie et l'argent, options sur la tour à utiliser
+  * Exemples : information sur la vie et l'argent, options sur la tour à utiliser
   */
 class GameOptions extends BorderPanel {
   border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,0))
@@ -59,13 +61,19 @@ class GameOptions extends BorderPanel {
   val life_info = new InfoGame("")
   /** Affichage argent restant */
   val money_info = new InfoGame("")
+  /** Skins des tours */
+  //val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1,new Dimension(20,20)), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2,new Dimension(20,20)))
   /** Choix de la tour */
-  val tower_choice = new TowerChoice(Array("/choice_tower1.png","/choice_tower2.png"))
+  val tower_choice = new TowerChoice(tower_skins)
   add(new GridPanel(2,1){vGap = 10; contents += life_info;contents += money_info}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 }
 
+
+
 /******************************* Grille  du jeu **********************************/
+
+
 
 /** Contient la grille des cases du jeu
   * 
@@ -79,7 +87,9 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     {
       for(j<-0 to this.columns - 1)
         {
-          contents += new Button("Blub")
+          contents += new Button("") {
+            icon = tower_skins(0).grid_icon
+          }
         }
     }
   (this(new Position(1,2)) match {
@@ -105,39 +115,43 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   * @param choice_file Image affichée dans le menu de choix des tours
   * @param grid_file Image utilisée pour l'affichage de la tour dans la grille
   * @param tower_type_a Type de la tour 
+  * @param init_dim Dimension initiale de l'icône de la grille (dimensions des boutons de la grille au délarrage du jeu)
   */
-class TowerInfo(choice_file:String, grid_file_a:String, tower_type_a : TowerType){
+class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType, init_dim : Dimension){
   /** Icon du choix de la tour */
   val choice_icon =  new ImageIcon(getClass.getResource(choice_file))
+
   /** Nom du fichier de l'image pour la grille */
-  val grid_file = grid_file_a;
+  private val grid_file = grid_file_a
   
   /** Icone de la grille complète */
-  private val grid_icon_full  = new ImageIcon(getClass.getResource(grid_file));
-  /** Icone de la grille */
-  var grid_icon = zoom_icon(grid_icon_full,new Dimension(100,100));
+  private val grid_icon_full  = new ImageIcon(getClass.getResource(grid_file))
 
+  /** Icone de la grille */
+  var grid_icon = zoom_icon(grid_icon_full,init_dim)
   
+  /** Type de la tour */
   val tower_type = tower_type_a
 }
+
+
 
 /** Permet de choisir entre plusieurs tours
   * 
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
   */
-class TowerChoice(files:Array[String]) extends BoxPanel(Orientation.Horizontal) {
-  //hGap = 7
+class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Horizontal) {
   /** Groupe de bouttons dans lequel un seul boutton peut être sélectionné à la fois*/
-  val buttonGroup = new ButtonGroup
-  for(i<-0 to files.length - 1)
+  val button_group = new ButtonGroup
+  for(i<-0 to tower_skins.length - 1)
     {
-      buttonGroup.buttons += new ToggleButton(""){
-        icon = new ImageIcon(getClass.getResource(files(i)))
-        iconTextGap = 0
+      button_group.buttons += new ToggleButton(""){
+        icon = tower_skins(i).choice_icon
       }
     }
+  //TODO : button_group.select()
   //on ajoute les bouttons au contenu du panel
-  contents ++= buttonGroup.buttons
+  contents ++= button_group.buttons
 }
 
 /********************************** Info game *****************************/
@@ -152,8 +166,6 @@ class InfoGame(file : String) extends GridPanel(1,2){
   /** Icone représentant la donnée affichée*/
   
   val icone = new Label("",new ImageIcon(getClass.getResource("/little_heart.png")),Alignment(0))
-  var grid_icon = zoom_icon(new ImageIcon(getClass.getResource("/image1.jpg")),new Dimension(100,100));
-  //val image = (new ImageIcon(getClass.getResource("/little_heart.png"))).getImage
   /** Label affichant l'information */
   val info = new Label("100")
   contents += icone; contents += info
