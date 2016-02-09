@@ -61,8 +61,6 @@ class GameOptions extends BorderPanel {
   val life_info = new InfoGame("")
   /** Affichage argent restant */
   val money_info = new InfoGame("")
-  /** Skins des tours */
-  //val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1,new Dimension(20,20)), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2,new Dimension(20,20)))
   /** Choix de la tour */
   val tower_choice = new TowerChoice(tower_skins)
   add(new GridPanel(2,1){vGap = 10; contents += life_info;contents += money_info}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
@@ -102,7 +100,13 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
   reactor.listenTo(button)
   reactor.reactions += {
-    case UIElementResized(_) => () //code exécuté quand les boutons de la grille sont redimensionnés
+    //code exécuté quand les boutons de la grille sont redimensionnés
+    case UIElementResized(_) =>  
+      for(i <- 0 to tower_skins.size - 1)
+        {
+          tower_skins(i).resize_grid_icon(button.size)
+        }
+      
   }
 }
 
@@ -117,7 +121,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   * @param tower_type_a Type de la tour 
   * @param init_dim Dimension initiale de l'icône de la grille (dimensions des boutons de la grille au délarrage du jeu)
   */
-class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType, init_dim : Dimension){
+class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType){
   /** Icon du choix de la tour */
   val choice_icon =  new ImageIcon(getClass.getResource(choice_file))
 
@@ -128,10 +132,21 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
   private val grid_icon_full  = new ImageIcon(getClass.getResource(grid_file))
 
   /** Icone de la grille */
-  var grid_icon = zoom_icon(grid_icon_full,init_dim)
+  var grid_icon = grid_icon_full
   
   /** Type de la tour */
   val tower_type = tower_type_a
+
+  /** Permet de changer la taille de grid_icons
+    * 
+    * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer grid_icon_full
+    * @param new_dim Les dimensions de la nouvelle image
+    */
+  def resize_grid_icon(new_dim : Dimension)
+  {
+    //TODO changer grid_icon_full en image
+    grid_icon.setImage(zoom_image(grid_icon_full.getImage, new_dim))
+  }
 }
 
 
