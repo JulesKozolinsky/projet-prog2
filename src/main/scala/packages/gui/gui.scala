@@ -31,6 +31,7 @@ class MainFrameGUI extends swing.MainFrame {
   maximize () //la fenêtre est maximisée à l'ouverture
   val frame = new GamePanel
   contents = frame
+  size = new Dimension(800, 600)
   
 }
 
@@ -86,7 +87,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       for(j<-0 to this.columns - 1)
         {
           contents += new Button("") {
-            icon = tower_skins(0).grid_icon
+            icon = tower_skins(0).grid_icon_full
           }
         }
     }
@@ -129,7 +130,7 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
   private val grid_file = grid_file_a
   
   /** Icone de la grille complète */
-  private val grid_icon_full  = new ImageIcon(getClass.getResource(grid_file))
+   val grid_icon_full  = new ImageIcon(getClass.getResource(grid_file))
 
   /** Icone de la grille */
   var grid_icon = grid_icon_full

@@ -27,7 +27,8 @@ package object gui {
     val ratio:Float= (image.getWidth(null)).toFloat/ (image.getHeight(null));
     val new_width = math.min(dim.width,(ratio * dim.height).toInt);
     val new_height = (new_width / ratio).toInt
-    image.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_DEFAULT)
+    val img = image
+    img.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_DEFAULT)
   }
 }
 
