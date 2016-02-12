@@ -91,10 +91,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
           }
         }
     }
-  (this(new Position(1,2)) match {
-    case but : Button => but
-    case _  => throw new ClassCastException
-  }).text = "Changé"
 
   val button = this(new Position(1,1))  match {
     case but : Button => but
@@ -106,16 +102,13 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   reactor.reactions += {
     //code exécuté quand les boutons de la grille sont redimensionnés
     case UIElementResized(_) =>  
-      println("chang")
       for(i <- 0 to tower_skins.size - 1)
         {
           tower_skins(i).resize_grid_icon(button.size)
-          button.text = ""
+          
            
         }
-    case WindowDeiconified(_) =>
-      println ("window event")
-      
+      this.repaint //permet d'actualiser tous les boutons
   }
 }
 
@@ -136,12 +129,9 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
 
   /** Nom du fichier de l'image pour la grille */
   private val grid_file = grid_file_a
-  
-  /** Icone de la grille complète */
-  val grid_icon_full  = new ImageIcon(getClass.getResource(grid_file))
 
   /** Icone de la grille */
-  var grid_icon = grid_icon_full
+  var grid_icon = new ImageIcon(getClass.getResource(grid_file))
   
   /** Type de la tour */
   val tower_type = tower_type_a
@@ -153,8 +143,7 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
     */
   def resize_grid_icon(new_dim : Dimension)
   {
-    //TODO changer grid_icon_full en image
-    grid_icon.setImage(zoom_image(new ImageIcon(getClass.getResource(grid_file)).getImage, new_dim))
+    grid_icon.setImage(zoom_image((new ImageIcon(getClass.getResource(grid_file))).getImage, new_dim))
   }
 }
 

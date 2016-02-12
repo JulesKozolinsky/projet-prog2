@@ -26,18 +26,13 @@ package object gui {
     * @param dim Les dimensions de la nouvelle image
     */
   def zoom_image (image : Image ,dim : Dimension) = {
-    val ratio:Float= (image.getWidth(null)).toFloat/ (image.getHeight(null));
-    val new_width = math.min(dim.width,(ratio * dim.height).toInt);
-    val new_height = (new_width / ratio).toInt
-    val img = image
-    img.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_SMOOTH)
+    if(dim.width != 0 && dim.height != 0){
+      val ratio:Float= (image.getWidth(null)).toFloat/ (image.getHeight(null));
+      val new_width = math.min(dim.width,(ratio * dim.height).toInt);
+      val new_height = (new_width / ratio).toInt
+      image.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_SMOOTH)
+    } else
+      image
   }
-
-  /*def deepCopy( bi:Image) {
-    val cm = bi.getColorModel();
-    val isAlphaPremultiplied = cm.isAlphaPremultiplied();
-    val raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
-    new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-  }*/
 }
 
