@@ -67,8 +67,23 @@ object Map
   }
 
   /** renvoie un tableau de monsters susceptibles d'être touchés par une tour donnée*/
-  def get_targets (tower:Tower) : List[Monster] = {List[Monster] ()
-  // Map triée selon distance, puis liste
+  def get_targets (tower:Tower) : List[Monster] = {
+    // On calcule les cases à portée de la tour
+    var distance_of_case = List[Position]()
+    for ( l <- 0 to (height-1) ) {
+      for ( c <- 0 to (width-1) ) {
+          val coord = new Position(l,c)
+          val v = new Vector(tower.pos,coord)
+          if (v.norme <= tower.range)
+          {distance_of_case = coord::distance_of_case}
+        }
+      }
+      // Pour chaque case, on ajoute les monstres considérés à la liste
+      var answer = List[Monster]()
+      for ( x <- distance_of_case ) {
+        answer = ((monsters(x.l)(x.c)).toList):::answer
+      }
+      answer
 }
 
   /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
