@@ -87,7 +87,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       for(j<-0 to this.columns - 1)
         {
           contents += new Button("") {
-            icon = tower_skins(0).grid_icon_full
+            icon = tower_skins(0).grid_icon
           }
         }
     }
