@@ -17,7 +17,7 @@ object Map
   var ground = Array.ofDim[List[Tileable]](height,width)
 
   /** la carte towers représente les tours (une tour ou liste vide)*/
-  var towers = Array.ofDim[List[TowerType]](height,width)
+  var towers = Array.ofDim[List[Tower]](height,width)
 
   /** la carte monsters représente les montres, il peut y en avoir plusieurs sur une même case,
     * d'où l'ensemble (Set) de monstres par case
