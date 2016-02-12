@@ -62,8 +62,8 @@ class Round(file:String){
       {}
       else
       {
-        var tues = Map.towers(l)(c)
-        
+        var killed = Map.towers(l)(c)(0).apply
+        killed.foreach {rem_monster}
       }
 
     }

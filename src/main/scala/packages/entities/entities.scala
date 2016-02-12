@@ -30,7 +30,7 @@ abstract class Moveable () extends Actor
 
 /** Les différents types de tour  */
 
-abstract class TowerType
+abstract class TowerType {def get_instance (pos:Position) : Tower }
 case class Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
 case class Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
 
@@ -57,9 +57,9 @@ abstract class Tower () extends Actor
 
   /** le apply des tours est le fait de tirer sur un/des monstres ; 
     * apply renvoie la liste des monstres tués par la tour
-    * @param pot_targets est un tableau contenant toutes les cibles potentielles (que la tour a en visu) ; si le tableau est non vide et  : si pas de cible en vue la tour ne tire pas et on ne remet pas son wait_since à zéro, on n'appelle pas non plus apply
+    * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne reombe pas à 0
     */
-  def apply : List[Monster] = {
+  def apply () : List[Monster] = {
     var L : List[Monster] = List()
     if (this.wait_since == this.frequency)
     {

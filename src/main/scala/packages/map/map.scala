@@ -87,7 +87,15 @@ object Map
 }
 
   /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
-  def new_tower (t:TowerType,p:Position) : Boolean = {true}
+  def new_tower (t:TowerType,p:Position) : Boolean = {
+      if ( (towers(p.l)(p.c)).isEmpty ) {
+        var tower = t.get_instance(p)
+        towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
+        true
+       }
+      else
+      {false}
+    }
 
 }
 // get_targets (Tour (range,position)) Vector(2 pts) (norme)
