@@ -2,6 +2,7 @@ package packages
 
 import entities._
 import scala.math
+import java.awt.image._
 import java.awt.Image
 import java.awt.Dimension
 
@@ -14,7 +15,8 @@ package object gui {
     * 
     * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau
     */
-  val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2))
+  val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2Type))
+
 
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions
     * 
@@ -28,7 +30,14 @@ package object gui {
     val new_width = math.min(dim.width,(ratio * dim.height).toInt);
     val new_height = (new_width / ratio).toInt
     val img = image
-    img.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_DEFAULT)
+    img.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_SMOOTH)
   }
+
+  /*def deepCopy( bi:Image) {
+    val cm = bi.getColorModel();
+    val isAlphaPremultiplied = cm.isAlphaPremultiplied();
+    val raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
+    new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+  }*/
 }
 
