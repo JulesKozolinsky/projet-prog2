@@ -31,64 +31,54 @@ abstract class Moveable () extends Actor
 /** Les différents types de tour  */
 
 abstract class TowerType
-case class Tower1 extends TowerType
-case class Tower2 extends TowerType
+case class Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
+case class Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
 
-class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
+
+
+/** Classe abstraite des tours */
+abstract class Tower () extends Actor
 {
   /** la fréquence d'une tour est le nombre de tick entre deux tirs */
-  var frequency : Int = 10
+  val frequency : Int
 
-  /** la priorité d'une tour détermine la manière dont elle choisit le monstre sur lequel elle tire */
-  var priority : Int = 0
+  /** la priorité d'une tour est une fonction qui prend en entrée les monstres accessibles par la tour et renvoie la liste des monstres attaqués par la tour */
+  val priority : (List[Monster]) => List[Monster]
 
   /** la portée d'une tour détermine la distance maximale à laquelle elle peut tirer */
-  var range : Double = 3.
+  val range : Int 
 
   /** le prix d'une tour */
-  var price : Int = 35
+  val price : Int 
 
   /** la puissance de feu d'une tour */
-  var power : Int = 5
+  val power : Int 
 
-  /** la position où l'on place la tour */
-  var pos = new Position (ligne, colonne)
-
-  /** le compteur d'activité */
-  var wait_since = 0
-
-  taillpe match {
-    case Tower1() => {
-      this.frequency =  10
-      this.priority = 0
-      this.range = 3.
-      this.price = 20
-      this.power = 5
-    }
-    case Tower2() => {
-      this.frequency =  12
-      this.priority = 0
-      this.range = 3.
-      this.price = 35
-      this.power = 6
-    }
-  }
 
   /** le apply des tours est le fait de tirer sur un/des monstres ; 
     * apply renvoie la liste des monstres tués par la tour
     * @param pot_targets est un tableau contenant toutes les cibles potentielles (que la tour a en visu) ; si le tableau est non vide et  : si pas de cible en vue la tour ne tire pas et on ne remet pas son wait_since à zéro, on n'appelle pas non plus apply
     */
   def apply : List[Monster] = {
+    var L : List[Monster] = List()
     if (this.wait_since == this.frequency)
     {
-      var pot_targets =  Map.get_targets(this)
-      if (pot_targets.isEmpty)
+      var targets = this.priority ( Map.get_targets(this) )
+      if (targets.isEmpty)
       {
         this.wait_since = math.min(frequency,(1+this.wait_since))
       }
       else
       {
-        (pot_targets(0)).receive_damages (this.power)
+        targets.foreach ((m:Monster) =>
+          {
+            m.receive_damages (this.power)
+            if (m.life == 0)
+              {
+                L=m::L
+              }
+          })
+
         this.wait_since = 0
       }
     }
@@ -96,10 +86,33 @@ class Tower (taillpe : TowerType, ligne : Int, colonne : Int) extends Actor
     {
       this.wait_since = 1+this.wait_since
     }
-    List() // to do !! je n'ai pas renvoyé la liste
+    L
   }
 
 }
+
+
+class Tower1 (position:Position) extends Tower 
+  {
+    val frequency =  10
+    val priority = lazi _
+    val range = 3
+    val price = 20
+    val power = 5
+    var pos = position
+    var wait_since = 0
+  }
+
+class Tower2 (position:Position) extends Tower
+  {
+    val frequency =  8
+    val priority = lazi _
+    val range = 3
+    val price = 35
+    val power = 6
+    var pos = position
+    var wait_since = 0
+  }
 
 
 /** Les Living sont parmi les Moveable ceux qui sont dotés de vie (monstres, éventuellement héros) */
