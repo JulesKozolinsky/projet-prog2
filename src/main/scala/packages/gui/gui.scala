@@ -110,6 +110,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         }
       this.repaint //permet d'actualiser tous les boutons
   }
+
+  def add_tower(pos : Position)
+  {
+
+  }
 }
 
 
@@ -154,17 +159,37 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
   */
 class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Horizontal) {
+  
+  /** Valeur par défaut de tower_choice. Le bouton est sélectionné automatiquement au début*/
+  val default_skin_button = 
+    if(tower_skins.size > 0){
+      new ToggleButton(""){
+        icon = tower_skins(0).choice_icon
+      }
+    }else
+      throw new IllegalArgumentException("Il faut renseigner au moins un skin.")
+
   /** Groupe de bouttons dans lequel un seul boutton peut être sélectionné à la fois*/
-  val button_group = new ButtonGroup
-  for(i<-0 to tower_skins.length - 1)
+  val button_group = new ButtonGroup(default_skin_button)
+  set_default_options()
+  for(i<-1 to tower_skins.length - 1)
     {
       button_group.buttons += new ToggleButton(""){
         icon = tower_skins(i).choice_icon
       }
     }
-  //TODO : button_group.select()
-  //on ajoute les bouttons au contenu du panel
   contents ++= button_group.buttons
+
+
+  /** Permet de remettre le choix par défaut.
+    * 
+    *  Cette méthode pourrait être appliquée à chaque niveau.
+    */
+  def set_default_options ()
+  {
+    button_group.select(default_skin_button)
+    current_skin = 0
+  }
 }
 
 /********************************** Info game *****************************/

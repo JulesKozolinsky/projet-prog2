@@ -13,9 +13,13 @@ package object gui {
 
   /** Tableau contenant les skins de tous les types de tour 
     * 
-    * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau
+    * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau.
+    * Attention, ce tableau ne peut pas être vide.
     */
   val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2Type))
+
+  /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
+  var current_skin = 0
 
 
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions
