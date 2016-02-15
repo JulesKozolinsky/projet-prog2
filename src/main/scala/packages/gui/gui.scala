@@ -88,7 +88,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         {
           contents += new Button(""){
             action = new Action(""){
+              background = new Color(0,0,0,0)
+              rolloverEnabled = false
+              
               def apply(){
+                contentAreaFilled = false
                 add_tower(new Position(i,j),tower_skins(current_skin))
               }
             }
@@ -96,17 +100,16 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         }
     }
 
-  val button = get_button(new Position(0,0)) //bouton témoin de la taille des boutons de la grille
+  /** Permet de réagir au clics de l'utilisateur */
   val reactor = new Object with Reactor
-
   /* gestion des changements de taille de la fenêtre */
-  reactor.listenTo(button)
+  reactor.listenTo(get_button(new Position(0,0)))
   reactor.reactions += {
     //code exécuté quand les boutons de la grille sont redimensionnés
     case UIElementResized(_) =>  
       for(i <- 0 to tower_skins.size - 1)
         {
-          tower_skins(i).resize_grid_icon(button.size) 
+          tower_skins(i).resize_grid_icon(get_button(new Position(0,0)).size) 
         }
       this.repaint //permet d'actualiser tous les boutons
   }
