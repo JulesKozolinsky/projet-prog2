@@ -86,32 +86,64 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     {
       for(j<-0 to this.columns - 1)
         {
-          contents += new Button("") {
-            icon = tower_skins(0).grid_icon
+          contents += new Button(""){
+            action = new Action(""){
+              def apply(){
+                add_tower(new Position(i,j),tower_skins(current_skin))
+              }
+            }
           }
         }
     }
 
-  val button = this(new Position(1,1))  match {
-    case but : Button => but
-    case _  => throw new ClassCastException
-  }
+  val button = get_button(new Position(0,0)) //bouton témoin de la taille des boutons de la grille
   val reactor = new Object with Reactor
 
+  /* gestion des changements de taille de la fenêtre */
   reactor.listenTo(button)
   reactor.reactions += {
     //code exécuté quand les boutons de la grille sont redimensionnés
     case UIElementResized(_) =>  
       for(i <- 0 to tower_skins.size - 1)
         {
-          tower_skins(i).resize_grid_icon(button.size)
-          
-           
+          tower_skins(i).resize_grid_icon(button.size) 
         }
       this.repaint //permet d'actualiser tous les boutons
   }
 
-  def add_tower(pos : Position)
+
+  /** Ajoute une tour sur la map 
+    * 
+    * @param t Type de la tour ajoutée.
+    */
+  def add_tower(pos:Position , skin : TowerSkin)
+  {
+    /*if(Map.new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
+      {
+        show_tilable(pos,skin)
+      }*/
+    show_tilable(pos,skin) //TODO : delete this line when Jules' bug is fixed
+  }
+
+  /** Récupère un bouton à une position donnée */
+  def get_button(pos:Position):Button = 
+  {
+    this(pos)  match {
+      case but : Button => (but)
+      case _  => throw new ClassCastException
+    }
+  }
+
+
+  /**Affiche un tileble avec le skin spécifié au bouton à la position pos */
+  def show_tilable(pos : Position, skin : TowerSkin)
+  {
+    val to_modify = get_button(pos)
+    to_modify.icon = skin.grid_icon
+    to_modify.repaint
+  }
+
+  def actualize()
   {
 
   }
@@ -164,18 +196,25 @@ class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Hor
   val default_skin_button = 
     if(tower_skins.size > 0){
       new ToggleButton(""){
-        icon = tower_skins(0).choice_icon
+        action = new Action(""){ 
+          icon = tower_skins(0).choice_icon
+          def apply(){current_skin = 0}
+        }
       }
     }else
       throw new IllegalArgumentException("Il faut renseigner au moins un skin.")
 
   /** Groupe de bouttons dans lequel un seul boutton peut être sélectionné à la fois*/
-  val button_group = new ButtonGroup(default_skin_button)
+  val button_group = new ButtonGroup(default_skin_button){}
   set_default_options()
   for(i<-1 to tower_skins.length - 1)
     {
       button_group.buttons += new ToggleButton(""){
-        icon = tower_skins(i).choice_icon
+        
+        action = new Action(""){ //lorsqu'on clique sur un bouton de choix de la tour
+          icon = tower_skins(i).choice_icon
+          def apply(){current_skin = i}
+        }
       }
     }
   contents ++= button_group.buttons

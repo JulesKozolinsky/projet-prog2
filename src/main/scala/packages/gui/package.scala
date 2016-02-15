@@ -22,6 +22,7 @@ package object gui {
   var current_skin = 0
 
 
+
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions
     * 
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer l'image de départ.
