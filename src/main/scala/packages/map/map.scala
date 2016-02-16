@@ -14,15 +14,15 @@ object Map
   val width : Int = 21
 
   /** la carte ground représente les obstacles, i.e. ce qui ne bouge a priori pas */
-  var ground = Array.ofDim[List[Tileable]](height,width)
+  var ground = initialize_matrix_ground(height,width)
 
   /** la carte towers représente les tours (une tour ou liste vide)*/
-  var towers = Array.ofDim[List[Tower]](height,width)
+  var towers = initialize_matrix_towers(height,width)
 
   /** la carte monsters représente les montres, il peut y en avoir plusieurs sur une même case,
     * d'où l'ensemble (Set) de monstres par case
     */
-  var monsters = Array.ofDim[scala.collection.mutable.Set[Monster]](height,width)
+  var monsters = initialize_matrix_monsters(height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
   var path : List[Position] = {compute_path()}
@@ -89,18 +89,12 @@ object Map
   /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
   def new_tower (t:TowerType,p:Position) : Boolean = {
       if ( (towers(p.l)(p.c)).isEmpty ) {
-        var tower = t.get_instance(p)
-        towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
+          var tower = t.get_instance(p)
+          towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
         true
        }
       else
       {false}
     }
 
-  // debug
-//  val t_test = new TowerType
-  //val p_test = new Position(1,1)
-//  val n_test = new_tower (t_test,p_test)
-
 }
-// get_targets (Tour (range,position)) Vector(2 pts) (norme)
