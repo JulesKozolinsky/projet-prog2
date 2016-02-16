@@ -97,5 +97,10 @@ object Map
       {false}
     }
 
+  // debug
+//  val t_test = new TowerType
+  //val p_test = new Position(1,1)
+//  val n_test = new_tower (t_test,p_test)
+
 }
 // get_targets (Tour (range,position)) Vector(2 pts) (norme)

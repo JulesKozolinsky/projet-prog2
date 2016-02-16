@@ -14,7 +14,7 @@ import javax.swing.border.Border //permet d'ajouter des bordures aux composantes
 import javax.swing.BorderFactory
 import javax.swing.ImageIcon
 import java.awt.Color
-import java.awt.Image._ 
+import java.awt.Image._
 import java.awt.Dimension._
 
 import scala.math
@@ -32,7 +32,7 @@ class MainFrameGUI extends swing.MainFrame {
   val frame = new GamePanel
   contents = frame
   size = new Dimension(800, 600)
-  
+
 }
 
 /** Contient la grille et les options du jeu
@@ -53,7 +53,7 @@ class GamePanel extends BorderPanel {
 
 
 /** Contient toutes les options et les informations sur le jeu
-  * 
+  *
   * Exemples : information sur la vie et l'argent, options sur la tour à utiliser
   */
 class GameOptions extends BorderPanel {
@@ -75,13 +75,13 @@ class GameOptions extends BorderPanel {
 
 
 /** Contient la grille des cases du jeu
-  * 
+  *
   * On suppose qu'il y a au minimum une ligne et une colonne
   * @param nb_lines Nombre de lignes dans la grille
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
-  
+
   for(i<-0 to this.rows - 1) //rows et columns sont héritées de GridPanel
     {
       for(j<-0 to this.columns - 1)
@@ -90,7 +90,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
             action = new Action(""){
               background = new Color(0,0,0,0)
               rolloverEnabled = false
-              
+
               def apply(){
                 contentAreaFilled = false
                 add_tower(new Position(i,j),tower_skins(current_skin))
@@ -106,30 +106,30 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   reactor.listenTo(get_button(new Position(0,0)))
   reactor.reactions += {
     //code exécuté quand les boutons de la grille sont redimensionnés
-    case UIElementResized(_) =>  
+    case UIElementResized(_) =>
       for(i <- 0 to tower_skins.size - 1)
         {
-          tower_skins(i).resize_grid_icon(get_button(new Position(0,0)).size) 
+          tower_skins(i).resize_grid_icon(get_button(new Position(0,0)).size)
         }
       this.repaint //permet d'actualiser tous les boutons
   }
 
 
-  /** Ajoute une tour sur la map 
-    * 
+  /** Ajoute une tour sur la map
+    *
     * @param t Type de la tour ajoutée.
     */
   def add_tower(pos:Position , skin : TowerSkin)
   {
-    /*if(Map.new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
+    if(Map.new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
       {
         show_tilable(pos,skin)
-      }*/
-    show_tilable(pos,skin) //TODO : delete this line when Jules' bug is fixed
+      }
+    //show_tilable(pos,skin) //TODO : delete this line when Jules' bug is fixed
   }
 
   /** Récupère un bouton à une position donnée */
-  def get_button(pos:Position):Button = 
+  def get_button(pos:Position):Button =
   {
     this(pos)  match {
       case but : Button => (but)
@@ -155,12 +155,12 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
 /* ********************* Tower choice **********************/
 /** Cette classe permet de stocker des informations consernant l'affichage d'une tour dans l'interface
-  * 
-  * L'icone de choix de la tour reste constante tout au long du jeu. 
+  *
+  * L'icone de choix de la tour reste constante tout au long du jeu.
   * En revanche, on garde en mémoire le nom du fichier pour la grille afin de pouvoir adapter le taille de l'image de tour à la taille des cases de la grille.
   * @param choice_file Image affichée dans le menu de choix des tours
   * @param grid_file Image utilisée pour l'affichage de la tour dans la grille
-  * @param tower_type_a Type de la tour 
+  * @param tower_type_a Type de la tour
   * @param init_dim Dimension initiale de l'icône de la grille (dimensions des boutons de la grille au délarrage du jeu)
   */
 class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType){
@@ -172,12 +172,12 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
 
   /** Icone de la grille */
   var grid_icon = new ImageIcon(getClass.getResource(grid_file))
-  
+
   /** Type de la tour */
   val tower_type = tower_type_a
 
   /** Permet de changer la taille de grid_icons
-    * 
+    *
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer grid_icon_full
     * @param new_dim Les dimensions de la nouvelle image
     */
@@ -190,16 +190,16 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
 
 
 /** Permet de choisir entre plusieurs tours
-  * 
+  *
   * @param : Tableau contenant le nom des fichiers correspondant aux icônes des différentes tours.
   */
 class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Horizontal) {
-  
+
   /** Valeur par défaut de tower_choice. Le bouton est sélectionné automatiquement au début*/
-  val default_skin_button = 
+  val default_skin_button =
     if(tower_skins.size > 0){
       new ToggleButton(""){
-        action = new Action(""){ 
+        action = new Action(""){
           icon = tower_skins(0).choice_icon
           def apply(){current_skin = 0}
         }
@@ -213,7 +213,7 @@ class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Hor
   for(i<-1 to tower_skins.length - 1)
     {
       button_group.buttons += new ToggleButton(""){
-        
+
         action = new Action(""){ //lorsqu'on clique sur un bouton de choix de la tour
           icon = tower_skins(i).choice_icon
           def apply(){current_skin = i}
@@ -224,7 +224,7 @@ class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Hor
 
 
   /** Permet de remettre le choix par défaut.
-    * 
+    *
     *  Cette méthode pourrait être appliquée à chaque niveau.
     */
   def set_default_options ()
@@ -235,8 +235,8 @@ class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Hor
 }
 
 /********************************** Info game *****************************/
-/** Permet d'afficher une information sur le jeu avec une icône et un texte 
-  * 
+/** Permet d'afficher une information sur le jeu avec une icône et un texte
+  *
   * Exemples : nombre de vies, argent restant
   * @param file Fichier contenant une icône
   */
@@ -244,11 +244,10 @@ class InfoGame(file : String) extends GridPanel(1,2){
   /** text contient le nombre de vies par exemple*/
   var text = "100"
   /** Icone représentant la donnée affichée*/
-  
+
   val icone = new Label("",new ImageIcon(getClass.getResource("/little_heart.png")),Alignment(0))
   /** Label affichant l'information */
   val info = new Label("100")
   contents += icone; contents += info
 
 }
-
