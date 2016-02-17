@@ -25,7 +25,7 @@ object Map
   var monsters = initialize_matrix_monsters(height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
-  var path : List[Position] = {compute_path()}
+  var path : List[Position] = {compute_path ()}
 
   /** là où sont stockées les images associées aux tours*/
   var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
@@ -89,12 +89,16 @@ object Map
   /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
   def new_tower (t:TowerType,p:Position) : Boolean = {
       if ( (towers(p.l)(p.c)).isEmpty ) {
-          var tower = t.get_instance(p)
-          towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
-        true
+          if (p.l == height/2) {
+            false
+          }
+          else {
+            var tower = t.get_instance(p)
+            towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
+            true}
        }
       else
-      {false}
+        {false}
     }
 
 }

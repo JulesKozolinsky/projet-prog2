@@ -121,11 +121,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     */
   def add_tower(pos:Position , skin : TowerSkin)
   {
-    /*if(Map.new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
+    if(Map.new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
       {
         show_tilable(pos,skin)
-      }*/
-    show_tilable(pos,skin) //TODO : delete this line when Jules' bug is fixed
+      }
+    // show_tilable(pos,skin) //TODO : delete this line when Jules' bug is fixed
   }
 
   /** Récupère un bouton à une position donnée */

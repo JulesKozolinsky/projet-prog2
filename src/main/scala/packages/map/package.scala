@@ -1,6 +1,7 @@
 package packages
 
 import entities._
+import sugar._
 
 /** Contient la carte du jeu surlaquelle évoluent les Tileable (i.e. les monstres, les tours, mais aussi des obstacles) */
 package object map
@@ -13,8 +14,6 @@ package object map
     }
     matrix
   }
-
-
 
   /** initialise la matrice towers */
   def initialize_matrix_towers (n:Int,p:Int) = {
@@ -33,5 +32,7 @@ package object map
     }
     matrix
   }
-
+  /** renvoie true si p1 et p2 représentent la même Position */
+  def same_position (p1:Position,p2:Position) : Boolean =
+    { p1.l == p2.l & p1.c == p2.c}
 }
