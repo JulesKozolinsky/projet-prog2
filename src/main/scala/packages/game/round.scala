@@ -3,15 +3,16 @@ package game
 
 import map._
 import entities._
+import sugar._
 
 
 /** Permet de créer un Timer
-  * 
+  *
   * Usage : Timer(100){println("hey")} crée un timer qui affichera "hey" toutes les 100 millisecondes.
   */
 object Timer {
-  /** 
-    * 
+  /**
+    *
     * @param interval Interval entre les ticks
     * @param repeats true si le Timer doit se répéter à l'infini, false sinon. La valeur par défaut est true
     * @param op La fonction à appliquer à chaque tick
@@ -30,7 +31,7 @@ object Timer {
 
 
 /** Gestion d'un round (vague d'attaquant).
-  * 
+  *
   * Pendant le round, le joueur ne peut pas ajouter de tour.
   * Il regarde les tours défendre le passage contre une vague de monstres
   * @param file Chaîne de caractères définissant le nom du fichier Json correspondant à la vague de monstres que l'on veut créer
@@ -49,8 +50,8 @@ class Round(file:String){
     Map.remove_monster(monster,monster.pos)
   }
 
-  /** Actualise l'état de l'objet. 
-    * 
+  /** Actualise l'état de l'objet.
+    *
     *  Cette méthode doit être appelée à chaque tick
     */
   def actualize (): Unit = {
@@ -58,13 +59,14 @@ class Round(file:String){
     var c = 0
     for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1)
     {
-      if ( (Map.towers(l)(c)).isEmpty )
-      {}
-      else
+      val p = new Position(l,c)
+      if (Map.is_tower (p))
       {
-        var killed = Map.towers(l)(c)(0).apply
+        var killed = (Map.get_tower (p)).apply
         killed.foreach {rem_monster}
       }
+      else
+      {}
 
     }
 
@@ -73,7 +75,7 @@ class Round(file:String){
 
 
   /** Permet de savoir quand le round est terminé
-    * 
+    *
     *  @return true si le round est fini, false sinon.
     */
   def is_finished () : Boolean = {true}
