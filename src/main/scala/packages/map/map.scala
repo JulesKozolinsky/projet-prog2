@@ -3,6 +3,7 @@ package map
 
 import entities._
 import sugar._
+import dijkstra._
 
 /** Crée l'object Map, qui gère le déplacement des monstres */
 object Map
@@ -44,7 +45,9 @@ object Map
     * renvoie la liste des positions et renvoie la liste vide dans le cas où aucune solution n'a
     * été trouvée
     */
-  private def compute_path (p:Position) : List[Position] = {
+  private def compute_path2 (p:Position) : List[Position] = {
+
+
     List[Position]()
   }
 
