@@ -66,7 +66,7 @@ object Map
       }
     }
     // calcule le plus court chemin avec dijkstra
-    //compute_dijkstra(g)
+    //val (distance, path) =
 
     List[Position]()
   }
