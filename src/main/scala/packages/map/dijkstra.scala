@@ -3,6 +3,7 @@ package dijkstra
 
 import scala.collection.mutable._
 import graph._
+import sugar._
 
 class Dijkstra[G <: WeightedGraph](graph: G) {
   type Node = G#Node
@@ -91,7 +92,7 @@ object Dijkstra {
    *      7         15
    *
    */
-  def main(args: Array[String]): Unit = {
+  def compute_dijkstra(g: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node): Unit = {
     // 1. Construct graph
     val g = new WeightedGraph(1)
     val n1 = g.addNode
@@ -101,6 +102,7 @@ object Dijkstra {
     val n5 = g.addNode
     val n6 = g.addNode
     n1.connectWith(n2).setWeight(7)
+    n2.connectWith(n1).setWeight(7)
     n1.connectWith(n3).setWeight(9)
     n1.connectWith(n6).setWeight(14)
     n2.connectWith(n3).setWeight(10)
@@ -116,7 +118,7 @@ object Dijkstra {
     // 2.1. Halt when target becomes settled
     dijkstra.stopCondition = (S, D, P) => !S.contains(target)
     val (distance, path) = dijkstra.compute(start, target)
-
+    //return path
     // 3. Display the result
     printResult[g.type](start, target, distance, path)
   }

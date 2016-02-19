@@ -3,6 +3,7 @@ package map
 
 import entities._
 import sugar._
+import graph._
 import dijkstra._
 
 /** Crée l'object Map, qui gère le déplacement des monstres */
@@ -46,7 +47,26 @@ object Map
     * été trouvée
     */
   private def compute_path2 (p:Position) : List[Position] = {
-
+    // définie le graphe sur lequel les monstres peuvent bouger
+    val g = new WeightedGraph(1)
+    // définie une matrice où les noeuds sont stockés
+    var m = Array.ofDim[g.Node](height,width)
+    for ( l <- 0 to (height-1) ; c <- 0 to (width-1) ) {
+      m(l)(c) = g.addNode
+    }
+    // crée les arêtes du graphe
+    for ( l <- 0 to (height-1) ; c <- 0 to (width-1) ) {
+      if (towers(l)(c).isEmpty) {
+        if ( (l != height-1) & (towers(l+1)(c)).isEmpty) {
+          (m(l)(c)).connectWith(m(l+1)(c))
+        }
+        if ( (c != width-1) & (towers(l)(c+1)).isEmpty) {
+          (m(l)(c)).connectWith(m(l)(c+1))
+        }
+      }
+    }
+    // calcule le plus court chemin avec dijkstra
+    //compute_dijkstra(g)
 
     List[Position]()
   }
