@@ -57,7 +57,7 @@ abstract class Tower () extends Actor
 
   /** le apply des tours est le fait de tirer sur un/des monstres ; 
     * apply renvoie la liste des monstres tués par la tour
-    * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne reombe pas à 0
+    * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne retombe pas à 0
     */
   def apply () : List[Monster] = {
     var L : List[Monster] = List()
@@ -156,7 +156,7 @@ class Monster (taillpe : MonsterType) extends Living
     }
   }
 
-  /** le apply du monstre renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
+  /** le apply du monstre le fait bouger s'il est temsp et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
     var x = false
     if (this.wait_since == this.slowness)

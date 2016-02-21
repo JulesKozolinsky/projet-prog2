@@ -57,6 +57,8 @@ class Round(file:String){
   def actualize (): Unit = {
     var l = 0
     var c = 0
+
+  /* cette première boucle parcourt la map, trouve les tours et les fait tirer  */
     for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1)
     {
       val p = new Position(l,c)
@@ -69,8 +71,8 @@ class Round(file:String){
       {}
 
     }
-
-
+    monsters.foreach { (m:Monster) => if (m.apply) {lives = lives-1} }    
+    is_finished ()
   }
 
 
@@ -78,5 +80,5 @@ class Round(file:String){
     *
     *  @return true si le round est fini, false sinon.
     */
-  def is_finished () : Boolean = {true}
+  def is_finished () : Boolean = {(monsters.isEmpty) || (lives == 0)}
 }
