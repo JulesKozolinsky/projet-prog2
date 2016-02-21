@@ -11,7 +11,29 @@ import java.awt.Dimension
   */
 package object gui {
 
-  /** Tableau contenant les skins de tous les types de tour 
+  /** Permet de créer un Timer
+    *
+    * Usage : Timer(100){println("hey")} crée un timer qui affichera "hey" toutes les 100 millisecondes.
+    */
+  object Timer {
+    /**
+      *
+      * @param interval Interval entre les ticks
+      * @param repeats true si le Timer doit se répéter à l'infini, false sinon. La valeur par défaut est true
+      * @param op La fonction à appliquer à chaque tick
+      */
+    def apply(interval: Int, repeats: Boolean = true)(op: => Unit) {
+      val timeOut = new javax.swing.AbstractAction() {
+        def actionPerformed(e : java.awt.event.ActionEvent) = op
+      }
+      /** Timer de java*/
+      val t = new javax.swing.Timer(interval, timeOut)
+      t.setRepeats(repeats)
+      t.start()
+    }
+  }
+
+  /** Tableau contenant les skins de tous les types de tour
     * 
     * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.

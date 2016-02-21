@@ -64,9 +64,22 @@ class GameOptions extends BorderPanel {
   val money_info = new InfoGame("/little_money.png","100")
   /** Choix de la tour */
   val tower_choice = new TowerChoice(tower_skins)
+  /** Démarrage d'un round */
+  val round_button = new Button(""){
+    action = new Action(""){
+      //background = new Color(0,0,0,0)
+      //rolloverEnabled = false
+      icon  = new ImageIcon(getClass.getResource("/play_round_little.png"))
+
+      def apply(){
+        //contentAreaFilled = false
+        //add_tower(new Position(i,j),tower_skins(current_skin))
+      }
+    }
+  }
   /** Argent et vie */
   val infos = new GridPanel(2,1){vGap = 10; contents += life_info;contents += money_info}
-  add(infos, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
+  add(new GridPanel(1,2){contents += infos; contents += round_button}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 }
 
@@ -249,9 +262,10 @@ class InfoGame(file : String, text : String) extends GridPanel(1,2){
   val icone = new Label("",new ImageIcon(getClass.getResource(file)),Alignment(0))
   /** Label affichant l'information */
   val info = new Label(text)
-  hGap = 5
+  //hGap = 5
   contents += icone; contents += info
 
+  /** Change la valeur */
   def set_text(text : String)
   {
     info.text = text
