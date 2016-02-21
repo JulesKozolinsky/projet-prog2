@@ -59,12 +59,14 @@ class GamePanel extends BorderPanel {
 class GameOptions extends BorderPanel {
   border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,0))
   /** Affichage du nombre de vies */
-  val life_info = new InfoGame("")
+  val life_info = new InfoGame("/little_heart.png","10")
   /** Affichage argent restant */
-  val money_info = new InfoGame("")
+  val money_info = new InfoGame("/little_money.png","100")
   /** Choix de la tour */
   val tower_choice = new TowerChoice(tower_skins)
-  add(new GridPanel(2,1){vGap = 10; contents += life_info;contents += money_info}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
+  /** Argent et vie */
+  val infos = new GridPanel(2,1){vGap = 10; contents += life_info;contents += money_info}
+  add(infos, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 }
 
@@ -240,14 +242,19 @@ class TowerChoice(tower_skins:Array[TowerSkin]) extends BoxPanel(Orientation.Hor
   * Exemples : nombre de vies, argent restant
   * @param file Fichier contenant une icône
   */
-class InfoGame(file : String) extends GridPanel(1,2){
-  /** text contient le nombre de vies par exemple*/
-  var text = "100"
+class InfoGame(file : String, text : String) extends GridPanel(1,2){
+
   /** Icone représentant la donnée affichée*/
 
-  val icone = new Label("",new ImageIcon(getClass.getResource("/little_heart.png")),Alignment(0))
+  val icone = new Label("",new ImageIcon(getClass.getResource(file)),Alignment(0))
   /** Label affichant l'information */
-  val info = new Label("100")
+  val info = new Label(text)
+  hGap = 5
   contents += icone; contents += info
+
+  def set_text(text : String)
+  {
+    info.text = text
+  }
 
 }
