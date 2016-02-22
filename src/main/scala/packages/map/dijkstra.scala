@@ -75,7 +75,7 @@ class Dijkstra[G <: WeightedGraph](graph: G) {
   }
 }
 
-object Dijkstra {
+object Dijkstra_algo {
   /**
    * Test case:
    *    ____________(5)
@@ -92,9 +92,9 @@ object Dijkstra {
    *      7         15
    *
    */
-  def compute_dijkstra(g: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node): Unit = {
+  def compute_dijkstra(g_map: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node): Unit = {
     // 1. Construct graph
-    val g = new WeightedGraph(1)
+    val g = g_map//new WeightedGraph(1)
     val n1 = g.addNode
     val n2 = g.addNode
     val n3 = g.addNode
@@ -114,13 +114,13 @@ object Dijkstra {
 
     // 2. Set start, target, stop-condition and compute the path
     val (start, target) = (n1, n5)
-    val dijkstra = new Dijkstra[g.type](g)
+    val dijkstra2 = new Dijkstra[g.type](g)
     // 2.1. Halt when target becomes settled
-    dijkstra.stopCondition = (S, D, P) => !S.contains(target)
-    val (distance, path) = dijkstra.compute(start, target)
+    dijkstra2.stopCondition = (S, D, P) => !S.contains(target)
+    val (distance, path) = dijkstra2.compute(start, target)
     //return path
     // 3. Display the result
-    printResult[g.type](start, target, distance, path)
+    //printResult[g.type](start, target, distance, path)
   }
 
   def printResult[G <: Graph](start: G#Node, target: G#Node,
