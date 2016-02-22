@@ -6,29 +6,6 @@ import entities._
 import sugar._
 
 
-/** Permet de créer un Timer
-  *
-  * Usage : Timer(100){println("hey")} crée un timer qui affichera "hey" toutes les 100 millisecondes.
-  */
-object Timer {
-  /**
-    *
-    * @param interval Interval entre les ticks
-    * @param repeats true si le Timer doit se répéter à l'infini, false sinon. La valeur par défaut est true
-    * @param op La fonction à appliquer à chaque tick
-    */
-  def apply(interval: Int, repeats: Boolean = true)(op: => Unit) {
-    val timeOut = new javax.swing.AbstractAction() {
-      def actionPerformed(e : java.awt.event.ActionEvent) = op
-    }
-    /** Timer de java*/
-    val t = new javax.swing.Timer(interval, timeOut)
-    t.setRepeats(repeats)
-    t.start()
-  }
-}
-
-
 
 /** Gestion d'un round (vague d'attaquant).
   *
@@ -71,6 +48,8 @@ class Round(file:String){
       {}
 
     }
+
+  /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
     monsters.foreach { (m:Monster) => if (m.apply) {lives = lives-1} }    
     is_finished ()
   }

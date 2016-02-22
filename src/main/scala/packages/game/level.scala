@@ -2,6 +2,9 @@ package packages
 package game
 
 import sugar._
+import entities._
+import map._
+
 
 /** Crée un nouveau niveau
   * 
@@ -36,10 +39,24 @@ class Level(file:String)
     */
   def start_round() = {}
 
+
   /** Crée une nouvelle tour
     * 
+    * Renvoie un booléen, le même que Map.new_tower
     * Devra prendre en paramètre un TowerType et une position
     */
-  def create_new_tower() = {}
-
+  def create_new_tower(t:TowerType,p:Position) : Boolean = {
+    var tower_try = t.get_instance(new Position(-1,-1))
+    var cost = tower_try.price
+    if (!(cost > money))
+      {
+        if (Map.new_tower(t,p)) 
+         {
+            money = money - cost
+            true
+         }
+        else {false}
+      }
+    else {false}
+  }
 }

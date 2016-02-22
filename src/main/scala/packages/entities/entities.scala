@@ -137,7 +137,6 @@ class Monster (taillpe : MonsterType) extends Living
 {
   /** butin obtenu lors de la mort du monstre */
   var gold = 6
-
   var slowness = 12
   var pos = new Position (4,0)
   var life = 40
@@ -156,7 +155,7 @@ class Monster (taillpe : MonsterType) extends Living
     }
   }
 
-  /** le apply du monstre le fait bouger s'il est temsp et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
+  /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
     var x = false
     if (this.wait_since == this.slowness)
