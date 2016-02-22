@@ -24,7 +24,7 @@ abstract class Actor() extends Tileable
 abstract class Moveable () extends Actor
 {
   /** la lenteur d'un monstre est le nombre de tick entre deux déplacements */
-  var slowness : Int
+  val slowness : Int
 }
 
 
@@ -127,43 +127,30 @@ abstract class Living () extends Moveable
 
 
 
-abstract class MonsterType
-case class Monster1 extends MonsterType
-case class Monster2 extends MonsterType
+abstract class MonsterType {def get_instance () : Monster }
+case class Monster1Type extends MonsterType {def get_instance () = new Monster1()}
+case class Monster2Type extends MonsterType {def get_instance () = new Monster2()}
+
 
 
 /** Les Monstres sont les ennemis */
-class Monster (taillpe : MonsterType) extends Living
+abstract class Monster () extends Living
 {
   /** butin obtenu lors de la mort du monstre */
-  var gold = 6
-  var slowness = 12
-  var pos = new Position (4,0)
-  var life = 40
-  var wait_since = 0
-  var monster_type = 1
+  val gold : Int
+  
+  val monster_type :Int
 
-  taillpe match {
-    case Monster1() => {
-      var gold = 6
-      var slowness = 12
-      var life = 40
-      var monster_type = 1
-    }
-    case Monster2() => {
-      var gold = 8
-      var slowness = 12
-      var life = 50
-      var monster_type = 2
-    }
-  }
+  var life : Int
+  var wait_since :Int
+
 
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
     var x = false
     if (this.wait_since == this.slowness)
     {
-      if ((this.pos).c == (Map.height-1))
+      if ((this.pos).c == (Map.width-1))
       {
         x = true
       }
@@ -182,3 +169,27 @@ class Monster (taillpe : MonsterType) extends Living
   }
 
 }
+
+
+class Monster1 () extends Monster {
+  val gold = 6
+  val slowness = 12
+  var wait_since = 0
+  var pos = new Position (0,(Map.height - 1)/2)
+  var life = 40
+  val monster_type = 1
+}
+
+class Monster2 () extends Monster {
+  val gold = 8
+  val slowness = 10
+  var wait_since = 0
+  var pos = new Position (0,(Map.height - 1)/2)
+  var life = 50
+  val monster_type = 2
+}
+
+
+
+
+
