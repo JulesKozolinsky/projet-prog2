@@ -141,17 +141,20 @@ class Monster (taillpe : MonsterType) extends Living
   var pos = new Position (4,0)
   var life = 40
   var wait_since = 0
+  var monster_type = 1
 
   taillpe match {
     case Monster1() => {
       var gold = 6
       var slowness = 12
       var life = 40
+      var monster_type = 1
     }
     case Monster2() => {
       var gold = 8
       var slowness = 12
       var life = 50
+      var monster_type = 2
     }
   }
 
