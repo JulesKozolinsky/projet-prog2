@@ -16,10 +16,12 @@ import map._
 class Level(file:String)
 {
   /** Argent du joueur */
-  var money = 100
+  //var money = 100
+  //TODO supprimer ces commentaires
+  //Les valeurs life et money sont dans le package object
 
   /** Nombre de vies restantes */
-  var life = 10
+  //var life = 10
 
   /** L'identifiant du round dans lequel on se trouve.*/
   var current_round = 0
@@ -38,6 +40,12 @@ class Level(file:String)
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
   def start_round() = {}
+
+  /** Renvoie le round courrant TODO (Alix) : à garder ? */
+  def get_current_round():Round = 
+    {
+      rounds(current_round)
+    }
 
 
   /** Crée une nouvelle tour

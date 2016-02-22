@@ -8,4 +8,10 @@ package packages
 package object game {
   /** Période du tick en millisecondes */
   val tick = 100
+
+  /** Argent du joueur */
+  var money = 100
+
+  /** Nombre de vies restantes */
+  var life = 10
 }

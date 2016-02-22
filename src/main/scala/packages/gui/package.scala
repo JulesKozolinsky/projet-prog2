@@ -1,5 +1,6 @@
 package packages
 
+import packages.game._
 import entities._
 import scala.math
 import java.awt.image._
@@ -11,6 +12,10 @@ import java.awt.Dimension
   */
 package object gui {
 
+  //def actualize_gui
+  var current_level = new Level("")
+  var current_round = new Round("")
+
   /** Permet de créer un Timer
     *
     * Usage : Timer(100){println("hey")} crée un timer qui affichera "hey" toutes les 100 millisecondes.
@@ -20,7 +25,7 @@ package object gui {
       *
       * @param interval Interval entre les ticks
       * @param repeats true si le Timer doit se répéter à l'infini, false sinon. La valeur par défaut est true
-      * @param op La fonction à appliquer à chaque tick
+      * @param op La fonction à appliqcuer à chaque tick
       */
     def apply(interval: Int, repeats: Boolean = true)(op: => Unit) {
       val timeOut = new javax.swing.AbstractAction() {
