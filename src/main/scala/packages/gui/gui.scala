@@ -65,9 +65,9 @@ class GamePanel extends BorderPanel {
 class GameOptions extends BorderPanel {
   border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,0))
   /** Affichage du nombre de vies */
-  val life_info = new InfoGame("/little_heart.png","10")
+  val life_info = new InfoGame("/little_heart.png",game.life.toString)
   /** Affichage argent restant */
-  val money_info = new InfoGame("/little_money.png","100")
+  val money_info = new InfoGame("/little_money.png",game.money.toString)
   /** Choix de la tour */
   val tower_choice = new TowerChoice
   /** Démarrage d'un round */
@@ -83,7 +83,7 @@ class GameOptions extends BorderPanel {
   }
 
   /** Argent et vie */
-  val infos = new BoxPanel(Orientation.Vertical){/*vGap = 10;*/ contents += life_info;contents += money_info}
+  val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
 
   add(new GridPanel(1,2){hGap = 25; contents += infos; contents += round_button}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
@@ -91,8 +91,8 @@ class GameOptions extends BorderPanel {
 
   def actualize()
   {
-    life_info.set_text(life.toString)
-    money_info.set_text(money.toString)
+    life_info.set_text(game.life.toString)
+    money_info.set_text(game.money.toString)
   }
 }
 
@@ -179,6 +179,15 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   {
 
   }
+}
+
+class MonsterCell(wave : Set[Tuple2[Tileable,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
+{
+  var left_monsters = wave
+  while(! left_monsters.isEmpty)
+    {
+
+    }
 }
 
 
