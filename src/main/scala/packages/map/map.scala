@@ -148,4 +148,14 @@ object Map
         }
     }
 
+    /** Renvoie l'ensemble des monsters situés à la position (l,c) */
+    def get_monsters (p:Position) : scala.collection.mutable.Set[Monster] = {
+      monsters(p.l)(p.c)
+    }
+
+    /** Ajoute un monster sur la carte en position (height/2,0) */
+    def new_monster (m:Monster) : Unit = {
+      monsters(height/2)(0) = (monsters(height/2)(0)).+(m)
+    }
+
 }
