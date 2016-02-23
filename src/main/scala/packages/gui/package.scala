@@ -8,13 +8,13 @@ import java.awt.Image
 import java.awt.Dimension
 
 /** Contient des classes permettant de générer l'interface graphique du jeu
-  * 
+  *
   */
 package object gui {
 
   //def actualize_gui
   var current_level = new Level("")
-  var current_round = new Round("")
+  var current_round = new Round(List[Tuple2[scala.collection.mutable.Set[Tuple2[Monster,Int]],Int]]())
 
   /** Permet de créer un Timer
     *
@@ -39,7 +39,7 @@ package object gui {
   }
 
   /** Tableau contenant les skins de tous les types de tour
-    * 
+    *
     * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.
     */
@@ -51,9 +51,9 @@ package object gui {
 
 
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions
-    * 
+    *
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer l'image de départ.
-    * 
+    *
     * @param image L'image de départ
     * @param dim Les dimensions de la nouvelle image
     */
@@ -67,4 +67,3 @@ package object gui {
       image
   }
 }
-
