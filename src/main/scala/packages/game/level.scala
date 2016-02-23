@@ -4,6 +4,7 @@ package game
 import sugar._
 import entities._
 import map._
+import parser._
 
 
 /** Crée un nouveau niveau
@@ -24,20 +25,19 @@ class Level(file:String)
 
   /** Permet de charger depuis le fichier XML l'ensemble des Rounds dont on a besoin, à l'aide du parser */
   def load_rounds() : Unit = {
-    
+    rounds = Parser.parse(file)
   }
 
   /** Démarre le round courrant
     *
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
-  def start_round() = {}
-
-  /** Renvoie le round courrant TODO (Alix) : à garder ? */
-  def get_current_round():Round =
-    {
-      rounds(current_round)
-    }
+  def start_round():Round = {
+    current_round = current_round + 1
+    var r = rounds.head
+    rounds = rounds.tail
+    r
+  }
 
 
   /** Crée une nouvelle tour
