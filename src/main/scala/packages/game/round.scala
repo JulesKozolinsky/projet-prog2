@@ -21,6 +21,8 @@ class Round(file:String){
   /** Ensemble des monstres en vie */
   var monsters = Set[Monster] ()
 
+  /** Les différentes vagues d'attaquants */
+  var waves : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)]  () 
 
   def rem_monster (monster:Monster) : Unit = {
     monsters = monsters - monster
