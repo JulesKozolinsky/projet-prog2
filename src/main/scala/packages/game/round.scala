@@ -32,6 +32,12 @@ class Round(wave:List[Tuple2[scala.collection.mutable.Set[Tuple2[Monster,Int]],I
     Map.remove_monster(monster,monster.pos)
   }
 
+  /** Fonction auxiliaire utilisée pour les vagues */
+  def add_monsters_waves (t:MonsterType,n:Int) : Unit = {
+    var k = 1
+    for (k <- 1 to n) {var m = t.get_instance() ; Map.new_monster (m) ; monsters = monsters + m}
+  }
+
   /** Actualise l'état de l'objet.
     *
     *  Cette méthode doit être appelée à chaque tick
@@ -41,9 +47,13 @@ class Round(wave:List[Tuple2[scala.collection.mutable.Set[Tuple2[Monster,Int]],I
     var c = 0
 
   /* ici on ajoute dans le set de monstres une éventuelle nouvelle vague */
-  if (!waves.isEmpty)
+  if (!waves.isEmpty) // pour pas bugger sur la commande suivante
     {
-//     if waves.hd
+     if (waves.head._2 == tick) // s'il est temps
+       {
+	 for (x <- waves.head._1) {add_monsters_waves(x._1,x._2)}
+         waves = waves.tail
+       }
     }
 
 
