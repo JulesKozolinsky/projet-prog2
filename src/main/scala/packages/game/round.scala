@@ -24,19 +24,22 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Ensemble des monstres en vie */
   var monsters = Set[Monster] ()
 
-  /** Fonction d'aide au tri : prend une liste et un élément de la liste et renvoie le plus petit élément de la liste ainsi que la liste privée de cet élément */
-  def find_min (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , m:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) {
-    if (l.isEmpty) {}
-    else {if (l.head._2 < m._2) { } 
-          else  {}
+  /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée */
+  def insertion (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , x:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) : List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] = {
+    if (l.isEmpty) {List(x)}
+    else {if (l.head._2 < x._2) {(l.head) :: (insertion (l.tail,x))}
+          else  {if (l.head._2 == x._2) {l} // cas pathologique qui n'est pas censé arriver
+		 else {x :: l}
+                }
          }
   }
 
-  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par séléction vu le faible nombre de vagues qui vont arriver) */
+  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par insertion vu le faible nombre de vagues qui vont arriver) */
   def sort_tupple_list (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) = {
     var l_sorted = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] ()
-    l //que ça compile sans être dégueux
-    
+    var l_not_sorted = l
+    for (k <- 1 to l.size) {l_sorted = insertion (l_sorted,l_not_sorted.head) ; l_not_sorted = l_not_sorted.tail}
+    l_sorted
   }
 
   /** Les différentes vagues d'attaquants */
