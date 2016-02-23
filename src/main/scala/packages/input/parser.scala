@@ -8,7 +8,7 @@ import game._
 /** Crée l'objet Parser qui parse du XML en scala */
 object Parser
 {
-  /** Parse le XML *
+  /**Parse le XML */
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
     var file_level = scala.xml.XML.loadFile(file + ".xml")
@@ -20,13 +20,13 @@ object Parser
       //Pour chaque round, on regarde tous les monstres
       (round \ "monster").foreach { monster =>
         val date = (monster \ "@date").text.toInt
-        var m = new Monster1() //TODO
+        var m = 
         // on est obligé de regarde monstre par monster lequel on souhaite ajouter
         if (monster \ "name" == "Monster1") {
-          var m = new Monster1()
+          new Monster1()
         }
         if (monster \ "name" == "Monster2") {
-          var m = new Monster2()
+          new Monster2()
         }
         // on regarde la date du monster pour l'ajouter dans la liste
         var founded = false
@@ -39,7 +39,8 @@ object Parser
         }
         // La date n'est pas encore présente dans la liste, on la rajoute donc
         if (!founded) {
-          round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m,0)),date))::round_list
+          round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m match {case x:Monster => x
+            case _ => throw new ClassCastException},0)),date))::round_list
         }
       }
       // on cree notre Round
@@ -50,7 +51,7 @@ object Parser
     // retourne la liste des rounds dans le bon ordre
     list_of_rounds.reverse
 
-  }*/
+  }
 }
 //(MonsterType*INT set)*int list
 //List[Tuple2[Set[Tuple2[Monster,Int]],Int]]
