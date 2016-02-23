@@ -73,7 +73,7 @@ class GameOptions extends BorderPanel {
   /** Démarrage d'un round */
   val round_button = new Button(""){
     action = new Action(""){
-      
+      println(getClass.getResource("/play_round_little.png").toString)
       icon  = new ImageIcon(getClass.getResource("/play_round_little.png"))
 
       def apply(){

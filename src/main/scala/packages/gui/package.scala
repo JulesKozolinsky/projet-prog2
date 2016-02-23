@@ -13,7 +13,7 @@ import java.awt.Dimension
 package object gui {
 
   //def actualize_gui
-  var current_level = new Level("")
+  var current_level = new Level("/test1.xml")
   var current_round = new Round(List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]())
 
   /** Permet de créer un Timer
