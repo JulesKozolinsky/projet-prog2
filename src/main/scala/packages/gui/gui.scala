@@ -25,13 +25,16 @@ import java.awt.Dimension
 /******************************** Organisation de la fenêtre **************/
 /** Main Frame de la GUI
   */
-class MainFrameGUI extends swing.MainFrame {
+object MainFrameGUI extends swing.MainFrame {
   //nom de la fenêtre principale
   title = "Tower defense"
   maximize () //la fenêtre est maximisée à l'ouverture
   val frame = new GamePanel
   contents = frame
   size = new Dimension(800, 600)
+  def actualize() {
+    frame.actualize()
+  }
 
 }
 
@@ -41,13 +44,16 @@ class GamePanel extends BorderPanel {
   /** Options et informations sur le jeu*/
   val game_opt = new GameOptions
   /** Grille du jeu */
-  val game_grid = new GameGrid(9,20)
+  val game_grid = new GameGrid(Map.height,Map.width)
 
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)
 
   /** Permet d'actualiser les fonctions de l'interface à partir des informations données par la map.*/
-  def actualize() {}
+  def actualize() {
+    game_opt.actualize()
+    game_grid.actualize()
+  }
 
 }
 
@@ -59,9 +65,9 @@ class GamePanel extends BorderPanel {
 class GameOptions extends BorderPanel {
   border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,0))
   /** Affichage du nombre de vies */
-  val life_info = new InfoGame("/little_heart.png","10")
+  val life_info = new InfoGame("/little_heart.png",game.life.toString)
   /** Affichage argent restant */
-  val money_info = new InfoGame("/little_money.png","100")
+  val money_info = new InfoGame("/little_money.png",game.money.toString)
   /** Choix de la tour */
   val tower_choice = new TowerChoice
   /** Démarrage d'un round */
@@ -75,10 +81,19 @@ class GameOptions extends BorderPanel {
       }
     }
   }
+
   /** Argent et vie */
-  val infos = new BoxPanel(Orientation.Vertical){/*vGap = 10;*/ contents += life_info;contents += money_info}
+  val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
+
   add(new GridPanel(1,2){hGap = 25; contents += infos; contents += round_button}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
+
+
+  def actualize()
+  {
+    life_info.set_text(game.life.toString)
+    money_info.set_text(game.money.toString)
+  }
 }
 
 
@@ -103,10 +118,12 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
             action = new Action(""){
               background = new Color(0,0,0,0)
               rolloverEnabled = false
+              contentAreaFilled = false
 
               def apply(){
-                contentAreaFilled = false
+                
                 add_tower(new Position(i,j),tower_skins(current_skin))
+                MainFrameGUI.actualize()
               }
             }
           }
@@ -134,7 +151,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     */
   def add_tower(pos:Position , skin : TowerSkin)
   {
-    if(Map.new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
+    if(current_level.create_new_tower(skin.tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
       {
         show_tilable(pos,skin)
       }
@@ -162,6 +179,15 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   {
 
   }
+}
+
+class MonsterCell(wave : Set[Tuple2[Tileable,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
+{
+  var left_monsters = wave
+  while(! left_monsters.isEmpty)
+    {
+
+    }
 }
 
 

@@ -13,7 +13,7 @@ object Map
   val height : Int = 9
 
   /** largeur de la carte */
-  val width : Int = 21
+  val width : Int = 20
 
   /** la carte ground représente les obstacles, i.e. ce qui ne bouge a priori pas */
   private var ground = initialize_matrix_ground(height,width)
@@ -135,7 +135,7 @@ object Map
 
     /** Renvoie vrai si aucune tour ne se trouve sur la case indiquée */
     def is_tower (p:Position) : Boolean = {
-      !(towers(p.l)(p.c)).isEmpty
+      (towers(p.l)(p.c)).isEmpty
     }
 
     /** Renvoie la tour située à la position (l,c) */

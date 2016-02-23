@@ -1,0 +1,16 @@
+<level>
+  <round number="1">
+    <monster name = "Monster1" date = "4" />
+    <monster name = "Monster2" date = "5" />
+    <monster name = "Monster1" date = "10" />
+    <monster name = "Monster1" date = "10" />
+    <monster name = "Monster2" date = "10" />
+  </round>
+  <round number="2">
+    <monster name = "Monster1" date = "4" />
+    <monster name = "Monster2" date = "5" />
+    <monster name = "Monster2" date = "8" />
+    <monster name = "Monster1" date = "7" />
+    <monster name = "Monster2" date = "12" />
+  </round>
+</level>
