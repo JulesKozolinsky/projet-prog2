@@ -4,6 +4,8 @@ package entities
 import sugar._
 import map._
 
+abstract class TileableType () {}
+
 /** Les Tileable sont l'ensembles de éléments susceptibles d'apparaître sur la map : tours, monstres, cailloux, arbres, alliés éventuels... */
 abstract class Tileable ()
 {
@@ -30,7 +32,7 @@ abstract class Moveable () extends Actor
 
 /** Les différents types de tour  */
 
-abstract class TowerType {def get_instance (pos:Position) : Tower }
+abstract class TowerType extends TileableType {def get_instance (pos:Position) : Tower }
 case class Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
 case class Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
 
@@ -127,7 +129,7 @@ abstract class Living () extends Moveable
 
 
 
-abstract class MonsterType {def get_instance () : Monster }
+abstract class MonsterType extends TileableType {def get_instance () : Monster }
 case class Monster1Type extends MonsterType {def get_instance () = new Monster1()}
 case class Monster2Type extends MonsterType {def get_instance () = new Monster2()}
 

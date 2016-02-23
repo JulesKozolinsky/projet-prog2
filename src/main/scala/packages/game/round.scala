@@ -25,7 +25,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   var monsters = Set[Monster] ()
 
   /** Les différentes vagues d'attaquants */
-  var waves /*: List[(Set[(MonsterType,Int)],Int)]*/ = wave // List[(Set[(MonsterType,Int)],Int)]  () // à modifier bien sûr
+  var waves = wave
 
   def rem_monster (monster:Monster) : Unit = {
     monsters = monsters - monster
