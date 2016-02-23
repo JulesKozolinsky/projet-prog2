@@ -140,11 +140,9 @@ abstract class Monster () extends Living
 {
   /** butin obtenu lors de la mort du monstre */
   val gold : Int
-  
-  val monster_type :Int
 
   var life : Int
-  var wait_since :Int
+  var wait_since : Int
 
 
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
@@ -179,7 +177,7 @@ class Monster1 () extends Monster {
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 40
-  val monster_type = 1
+  val monster_type = Monster1Type
 }
 
 class Monster2 () extends Monster {
@@ -188,7 +186,7 @@ class Monster2 () extends Monster {
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 50
-  val monster_type = 2
+  val monster_type = Monster2Type
 }
 
 

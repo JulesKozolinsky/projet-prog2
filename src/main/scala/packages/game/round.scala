@@ -24,8 +24,23 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Ensemble des monstres en vie */
   var monsters = Set[Monster] ()
 
+  /** Fonction d'aide au tri : prend une liste et un élément de la liste et renvoie le plus petit élément de la liste ainsi que la liste privée de cet élément */
+  def find_min (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , m:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) {
+    if (l.isEmpty) {}
+    else {if (l.head._2 < m._2) { } 
+          else  {}
+         }
+  }
+
+  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par séléction vu le faible nombre de vagues qui vont arriver) */
+  def sort_tupple_list (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) = {
+    var l_sorted = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] ()
+    l //que ça compile sans être dégueux
+    
+  }
+
   /** Les différentes vagues d'attaquants */
-  var waves = wave
+  var waves = sort_tupple_list (wave)
 
   def rem_monster (monster:Monster) : Unit = {
     monsters = monsters - monster
