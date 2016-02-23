@@ -16,7 +16,7 @@ object Parser
 
     // On énumère chaque round et on ajoute chacun à la liste list_of_rounds
     (file_level \ "round").foreach { round =>
-      var round_list = List[Tuple2[scala.collection.mutable.Set[Tuple2[MonsterType,Int]],Int]]()
+      var round_list = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]()
 
       // On énumère chaque monster et on ajoute chacun au bon couple
       (round \ "monster").foreach { monster =>
@@ -38,7 +38,7 @@ object Parser
         var founded_date = false
         // on parcourt round_list
         var round_list_rest = round_list
-        round_list = List[Tuple2[scala.collection.mutable.Set[Tuple2[MonsterType,Int]],Int]]()
+        round_list = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]()
         while (!round_list_rest.isEmpty) {
           // x est un couple x._1 est un set, x._2 la date associée
           var x = round_list_rest.head
@@ -51,7 +51,7 @@ object Parser
             var founded_monster = false
             // On parcout le set
             var monster_set_rest = x._1
-            var monster_set = scala.collection.mutable.Set[Tuple2[MonsterType,Int]]()
+            var monster_set = Set[Tuple2[MonsterType,Int]]()
             while (!monster_set_rest.isEmpty) {
             //for (y <- x._1)
               var y = monster_set_rest.head
@@ -78,7 +78,7 @@ object Parser
 
         // La date n'est pas encore présente dans la liste, on la rajoute donc
         if (!founded_date) {
-          round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m match {case x:MonsterType => x
+          round_list = (new Tuple2(Set(new Tuple2(m match {case x:MonsterType => x
           case _ => throw new ClassCastException },1)),date))::round_list
 
         }
