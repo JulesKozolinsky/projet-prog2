@@ -16,7 +16,7 @@ object Parser
 
     // On énumère chaque round et on ajoute chacun à la liste list
     (file_level \ "round").foreach { round =>
-      var round_list = List[Tuple2[scala.collection.mutable.Set[Tuple2[Any,Int]],Int]]()
+      var round_list = List[Tuple2[scala.collection.mutable.Set[Tuple2[Monster,Int]],Int]]()
 
       //Pour chaque round, on regarde tous les monstres
       (round \ "monster").foreach { monster =>
@@ -55,10 +55,10 @@ object Parser
         // La date n'est pas encore présente dans la liste, on la rajoute donc
 
         if (!founded_date) {
-          round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m,1)),date))::round_list
+      //    round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m,1)),date))::round_list
 
-      //    round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m match {case x:Monster => x
-      //     case _ => throw new ClassCastException},0)),date))::round_list
+        round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m match {case x:Monster => x
+          case _ => throw new ClassCastException},0)),date))::round_list
 
         }
       }
