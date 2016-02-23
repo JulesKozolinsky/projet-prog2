@@ -12,7 +12,7 @@ object Parser
   /** Parse le XML */
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
-    var file_level = scala.xml.XML.loadFile(file + ".xml")
+    var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
 
     // On énumère chaque round et on ajoute chacun à la liste list_of_rounds
     (file_level \ "round").foreach { round =>
