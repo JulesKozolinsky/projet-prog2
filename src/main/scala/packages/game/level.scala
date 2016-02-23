@@ -21,12 +21,7 @@ class Level(file:String)
   var current_round = 0
 
   /** Array contenant le rounds qui composent le niveau.*/
-  var rounds = List[Round]()
-
-  /** Permet de charger depuis le fichier XML l'ensemble des Rounds dont on a besoin, à l'aide du parser */
-  def load_rounds() : Unit = {
-    rounds = Parser.parse(file)
-  }
+  var rounds = Parser.parse(file)
 
   /** Démarre le round courrant
     *
