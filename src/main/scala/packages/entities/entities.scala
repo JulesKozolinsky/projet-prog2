@@ -175,7 +175,7 @@ class Monster1 () extends Monster {
   val gold = 6
   val slowness = 12
   var wait_since = 0
-  var pos = new Position (0,(Map.height - 1)/2)
+  var pos = new Position (Map.height / 2,0)
   var life = 40
   val monster_type = 1
 }
@@ -184,7 +184,7 @@ class Monster2 () extends Monster {
   val gold = 8
   val slowness = 10
   var wait_since = 0
-  var pos = new Position (0,(Map.height - 1)/2)
+  var pos = new Position (Map.height / 2,0)
   var life = 50
   val monster_type = 2
 }
