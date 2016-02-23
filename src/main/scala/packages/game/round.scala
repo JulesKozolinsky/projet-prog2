@@ -13,7 +13,7 @@ import sugar._
   * Il regarde les tours défendre le passage contre une vague de monstres
   * @param wave : List[Tuple2[Set[Tuple2[Monster,Int]],Int]]
   */
-class Round(wave:List[Tuple2[scala.collection.mutable.Set[Tuple2[MonsterType,Int]],Int]]) {
+class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
 
   /** Nombre de vies restantes, à initialiser avec Level.life et à renvoyer à Level en fin de round */
   var lives = 0
