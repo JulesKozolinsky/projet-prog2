@@ -8,7 +8,11 @@ import game._
 /** Crée l'objet Parser qui parse du XML en scala */
 object Parser
 {
+<<<<<<< HEAD
   /** Parse le XML */
+=======
+  /**Parse le XML */
+>>>>>>> 8cc147550c364449bd3d410b98fc792548aba6f7
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
     var file_level = scala.xml.XML.loadFile(file + ".xml")
@@ -52,8 +56,13 @@ object Parser
           }
         }
         // La date n'est pas encore présente dans la liste, on la rajoute donc
+
         if (!founded_date) {
           round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m,1)),date))::round_list
+
+          //round_list = (new Tuple2(scala.collection.mutable.Set(new Tuple2(m match {case x:Monster => x
+          //  case _ => throw new ClassCastException},0)),date))::round_list
+
         }
       }
       // on cree notre Round
