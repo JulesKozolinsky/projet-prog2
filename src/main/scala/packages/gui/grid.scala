@@ -20,14 +20,16 @@ import scala.swing.event._
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
 
   contents += new TowerCell(new Position(0,0))
+  resize_tower_icons // initialisation de la taille des tours
   for(i<-0 to this.rows - 1) //rows et columns sont héritées de GridPanel
   {
     for(j<-0 to this.columns - 1)
     {
       if (i != 0 && j != 0)
-        contents += new MonsterCell(Set[Tuple2[Tileable,Int]]((new Monster1,1)))
+        contents += new MonsterCell(Set[Tuple2[Tileable,Int]]((new Monster1,1),(new Monster1,1),(new Monster1,1),(new Monster1,1)))
     }
   }
+  
 
 
   /** Permet de réagir au clics de l'utilisateur */
@@ -37,15 +39,19 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   reactor.reactions += {
     //code exécuté quand les boutons de la grille sont redimensionnés
     case UIElementResized(_) =>
-      for(i <- 0 to tower_skins.size - 1)
-      {
-        tower_skins(i).resize(get_button(new Position(0,0)).size)
-      }
+      resize_tower_icons
       this.repaint //permet d'actualiser tous les boutons
   }
 
+  /** Permet de modifier la dimension de toutes les tower_icons */
+  private def resize_tower_icons()
+  {
+    for(i <- 0 to tower_skins.size - 1)
+      {
+        tower_skins(i).resize(get_button(new Position(0,0)).size, 1)
+      }
+  }
 
-  
 
   /** Récupère un bouton à une position donnée */
   def get_button(pos:Position):Button =
@@ -73,7 +79,7 @@ class TowerCell(pos:Position) extends Button("")
     def apply(){
       if(current_level.create_new_tower(tower_skins(current_skin).tower_type,pos)) // on doit vérifié que la map autorise une création de tour à cet endroit
         {
-          icon = tower_skins(current_skin).icon
+          icon = get_icon(tower_skins(current_skin),1)
           repaint
         }
       MainFrameGUI.actualize()
@@ -87,7 +93,19 @@ class MonsterCell(wave : Set[Tuple2[Tileable,Int]]) extends GridPanel(Math.sqrt(
   var left_monsters = wave
   contents += new Label("100")
   {
-    icon = tower_skins(0).icon
+    icon = get_icon(tower_skins(0),1)
+  }
+ contents += new Label("100")
+  {
+    icon = get_icon(tower_skins(0),1)
+  }
+ contents += new Label("100")
+  {
+    icon =get_icon(tower_skins(0),1)
+  }
+ contents += new Label("100")
+  {
+    icon = get_icon(tower_skins(0),1)
   }
   /*while(! left_monsters.isEmpty)
    {

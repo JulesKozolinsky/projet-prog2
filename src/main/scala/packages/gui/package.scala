@@ -6,7 +6,7 @@ import scala.math
 import java.awt.image._
 import java.awt.Image
 import java.awt.Dimension
-
+import javax.swing.ImageIcon
 /** Contient des classes permettant de générer l'interface graphique du jeu
   *
   */
@@ -48,6 +48,13 @@ package object gui {
   /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
   var current_skin = 0
 
+  def get_icon(skin:Skin,scale : Int):ImageIcon = 
+  {
+    skin(scale) match {
+      case Some(ic) => ic
+      case None => throw new IllegalArgumentException("La redimension 1 n'est pas définie pour les tours.") // ne doit jamais arriver
+    }
+  }
 
 
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions

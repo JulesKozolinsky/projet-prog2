@@ -73,7 +73,6 @@ class GameOptions extends BorderPanel {
   /** Démarrage d'un round */
   val round_button = new Button(""){
     action = new Action(""){
-      println(getClass.getResource("/play_round_little.png").toString)
       icon  = new ImageIcon(getClass.getResource("/play_round_little.png"))
 
       def apply(){
@@ -101,23 +100,64 @@ class GameOptions extends BorderPanel {
 /* ************************ Skin *****************************/
 /** Cette classe permet de stocker des informations concernant l'affichage d'un élément de l'interface
   *
-  * On garde le fichier en mémoire parce que c'est le seul moyen de faire le zoom que j'ai trouvé *
+  * On garde le fichier en mémoire parce que c'est le seul moyen de faire le zoom que j'ai trouvé 
+  * Plusieurs tailles de l'image sont conservées : 
+  * 0 correspondant à la taille de l'image initiale
+  * 1 est la taille d'une cellule de la grille
+  * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
   * @param a_file Image associée au skin
   */
 class Skin(a_file:String)
 {
   private val file = a_file
-  /**L'icone correspondant au skin */
-  var icon = new ImageIcon(getClass.getResource(file))
+
+  /** Tableau contenant différentes tailles pour l'icone 
+    * 
+    * 0 correspondant à la taille de l'image initiale
+    * 1 est la taille d'une cellule de la grille
+    * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
+    */
+  private var icons = Array[Option[ImageIcon]](Some(icon0))
+
+  /** Permet d'obtenir l'image dans sa dimension d'origine */
+  private def icon0(): ImageIcon = {
+    new ImageIcon(getClass.getResource(file))
+  }
+
+  def apply(scale:Int):Option[ImageIcon] =  {
+    if(scale < icons.size)
+      icons(scale)
+    else
+      None
+  }
+
+  /** Permet de réinitialiser le tableau d'icones */
+  def init()  {
+    icons = Array[Option[ImageIcon]](Some(icon0()))
+  }  
 
   /** Permet de changer la taille de l'icone
     *
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant la déformer
     * @param new_dim Les dimensions de la nouvelle image
+    * @param scale Échelle redimensionnée 
     */
-  def resize(new_dim : Dimension)
+  def resize(new_dim : Dimension, scale : Int)
   {
-    icon.setImage(zoom_image((new ImageIcon(getClass.getResource(file))).getImage, new_dim))
+    if(scale < icons.size){ //si l'image peut déjà se trouver dans le tableau
+      icons(scale) = icons(scale) match {
+        case None => Some(new ImageIcon(zoom_image(icon0.getImage,new_dim)))
+        case Some(ic) => ic.setImage(zoom_image(icon0.getImage,new_dim))
+          Some(ic)
+          
+      }
+    } 
+    else
+      {
+        while(icons.size < scale)
+          icons = icons.:+(None)//:+ append
+        icons = icons.:+ (Some(new ImageIcon(zoom_image(icon0.getImage,new_dim))))
+      }
   }
 
 }
