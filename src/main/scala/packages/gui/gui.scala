@@ -105,36 +105,44 @@ class GameOptions extends BorderPanel {
   * 0 correspondant à la taille de l'image initiale
   * 1 est la taille d'une cellule de la grille
   * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
+  * Utilisation de l'évaluation paresseuse : on ne crée une image que si on en a besoin. De plus, lorsque toutes les images doivent changer de taille, il faut le préciser à l'objet
   * @param a_file Image associée au skin
   */
 class Skin(a_file:String)
 {
   private val file = a_file
 
-  /** Tableau contenant différentes tailles pour l'icone 
+  /** Tableau contenant différentes tailles pour l'icone
     * 
     * 0 correspondant à la taille de l'image initiale
     * 1 est la taille d'une cellule de la grille
     * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
     */
   private var icons = Array[Option[ImageIcon]](Some(icon0))
+  private var up_to_date = Array[Boolean](true)
 
   /** Permet d'obtenir l'image dans sa dimension d'origine */
   private def icon0(): ImageIcon = {
     new ImageIcon(getClass.getResource(file))
   }
 
-  def apply(scale:Int):Option[ImageIcon] =  {
-    if(scale < icons.size)
-      icons(scale)
-    else
-      None
-  }
+  def apply(scale:Int, dim:Dimension/* = new Dimension(0,0)*/):ImageIcon =  {
+    resize(scale,dim)
+    icons(scale) match {
+      case Some(ic) => ic
+      case None => throw new IllegalArgumentException("La fonction resize a échoué.") // ne doit jamais arriver
+  }}
 
   /** Permet de réinitialiser le tableau d'icones */
   def init()  {
     icons = Array[Option[ImageIcon]](Some(icon0()))
-  }  
+  }
+
+  def resize_all(){
+    for(i <- 1 to icons.size - 1){
+      up_to_date(i) = false
+    }
+  }
 
   /** Permet de changer la taille de l'icone
     *
@@ -142,21 +150,27 @@ class Skin(a_file:String)
     * @param new_dim Les dimensions de la nouvelle image
     * @param scale Échelle redimensionnée 
     */
-  def resize(new_dim : Dimension, scale : Int)
+  def resize( scale : Int , new_dim : Dimension)
   {
     if(scale < icons.size){ //si l'image peut déjà se trouver dans le tableau
-      icons(scale) = icons(scale) match {
-        case None => Some(new ImageIcon(zoom_image(icon0.getImage,new_dim)))
-        case Some(ic) => ic.setImage(zoom_image(icon0.getImage,new_dim))
-          Some(ic)
-          
-      }
-    } 
-    else
+      if(!up_to_date(scale)){
+        up_to_date(scale) = true
+        icons(scale) = icons(scale) match {
+          case None => Some(new ImageIcon(zoom_image(icon0.getImage,new_dim)))
+          case Some(ic) => ic.setImage(zoom_image(icon0.getImage,new_dim))
+            Some(ic)
+        }
+      }}
+      else
       {
         while(icons.size < scale)
-          icons = icons.:+(None)//:+ append
+        {
+          icons = icons.:+(None) //:+ append
+          up_to_date = up_to_date.:+(false)
+        }
+        
         icons = icons.:+ (Some(new ImageIcon(zoom_image(icon0.getImage,new_dim))))
+        up_to_date = up_to_date.:+(true)
       }
   }
 
