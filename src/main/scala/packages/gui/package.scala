@@ -48,7 +48,7 @@ package object gui {
   /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
   var current_skin = 0
 
- /* def get_icon(skin:Skin,scale : Int):ImageIcon = 
+ /* def get_icon(skin:Skin,scale : Int):ImageIcon =
   {
     skin(scale) match {
       case Some(ic) => ic

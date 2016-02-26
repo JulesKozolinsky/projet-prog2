@@ -12,8 +12,29 @@ object Parser
   /** Parse le XML */
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
-    var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
+  //  var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
 
+    var m : MonsterType = new Monster1Type
+    var r1 = List(new Tuple2(Set(new Tuple2(m,1)),4))
+    m = new Monster2Type
+    r1  = (new Tuple2(Set(new Tuple2(m,1)),5))::r1
+    m = new Monster1Type
+    var n : MonsterType = new Monster2Type
+    r1 = (new Tuple2(Set(new Tuple2(m,2),new Tuple2(n,1)),10))::r1
+
+    m = new Monster1Type
+    var r2 = List(new Tuple2(Set(new Tuple2(m,1)),4))
+    m = new Monster2Type
+    r2 = (new Tuple2(Set(new Tuple2(m,1)),5))::r2
+    m = new Monster2Type
+    r2 = (new Tuple2(Set(new Tuple2(m,1)),8))::r2
+    m = new Monster1Type
+    r2 = (new Tuple2(Set(new Tuple2(m,1)),7))::r2
+    m = new Monster2Type
+    r2 = (new Tuple2(Set(new Tuple2(m,1)),12))::r2
+
+    list_of_rounds = List(new Round(r1.reverse),new Round(r2.reverse))
+    /*
     // On énumère chaque round et on ajoute chacun à la liste list_of_rounds
     (file_level \ "round").foreach { round =>
       var round_list = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]()
@@ -84,10 +105,10 @@ object Parser
         }
       }
       // on cree notre Round
-      val r = new Round(round_list)
+      val r = new Round(round_list.reverse)
       // on ajoute notre round à la liste des rounds
       list_of_rounds = r::list_of_rounds
-    }
+    } */
     // retourne la liste des rounds dans le bon ordre
     list_of_rounds.reverse
 
