@@ -45,6 +45,8 @@ package object gui {
     */
   val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2Type))
 
+  val monster_skins = Array(new Skin("/monster.png"))
+
   /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
   var current_skin = 0
 

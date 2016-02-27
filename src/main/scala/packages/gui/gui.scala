@@ -119,6 +119,8 @@ class Skin(a_file:String)
     * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
     */
   private var icons = Array[Option[ImageIcon]](Some(icon0))
+
+  /**Permet de savoir si l'image est bien à jour ou non. */
   private var up_to_date = Array[Boolean](true)
 
   /** Permet d'obtenir l'image dans sa dimension d'origine */
