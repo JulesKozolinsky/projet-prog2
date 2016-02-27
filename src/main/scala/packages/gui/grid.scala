@@ -25,8 +25,9 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   {
     for(j<-0 to this.columns - 1)
     {
- 
-      contents += new MonsterCell(Set[Tuple2[Tileable,Int]]((new Monster1,1),(new Monster1,1),(new Monster1,1),(new Monster1,1)))
+      val set =  Set[Tuple2[MonsterType,Int]]((new Monster1Type,1),(new Monster2Type,2))
+      println(set.head)
+      contents +=new MonsterCell(set)      
       //new TowerCell(new Position(i,j))
     }
   }
@@ -49,8 +50,8 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   {
     for(i <- 0 to tower_skins.size - 1)
       tower_skins(i).resize_all  
-    for(i <- 0 to monster_skins.size - 1)
-      monster_skins(i).resize_all
+    for(i <- 0 to monster_skins_array.size - 1)
+      monster_skins_array(i).resize_all
   }
 
 
@@ -80,7 +81,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 class TowerCell(pos:Position) extends Button("")
 {
   var skin : Option[Skin] = None
-  println(size)
   action = new Action(""){
     background = new Color(0,0,0,0)
     rolloverEnabled = false
@@ -108,15 +108,28 @@ class TowerCell(pos:Position) extends Button("")
 }
 
 /** Cellule de la grille contenant des monstres */
-class MonsterCell(wave : Set[Tuple2[Tileable,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
 {
-  var left_monsters = wave
   var scale = Math.sqrt(wave.size).toInt
-  contents += new Label()
-  {
-    icon = monster_skins(0)(scale,new Dimension(0,0))
-  }
- contents += new Label()
+
+ // { // ici on met {} dans le vide pour que left monsters ne soit pas un attribut
+    var left_monsters = wave
+  //println(wave.size)
+  
+    while(! left_monsters.isEmpty)
+    {
+      var new_monster = left_monsters.head
+      contents += new Label()
+      {
+        icon = monster_skins(new_monster._1)(scale,new Dimension(0,0))
+      }
+      left_monsters = left_monsters.tail
+    }
+//}
+  
+  
+  
+ /*contents += new Label()
   {
     icon = monster_skins(0)(scale,new Dimension(0,0))//get_icon(tower_skins(0),1)
   }
@@ -127,19 +140,16 @@ class MonsterCell(wave : Set[Tuple2[Tileable,Int]]) extends GridPanel(Math.sqrt(
  contents += new Label()
   {
     icon = monster_skins(0)(scale,new Dimension(0,0))//get_icon(tower_skins(0),1)
-  }
+  }*/
 
 
   override def repaint () 
   {
-
-    monster_skins(0).resize(scale,contents(0).size)
+    for(i<-0 to monster_skins_array.size - 1)
+      monster_skins_array(i).resize(scale,contents(0).size)
     for(i<-0 to contents.size - 1){
       contents(i).repaint
     }
   }
-  /*while(! left_monsters.isEmpty)
-   {
-
-   }*/
+  
 }

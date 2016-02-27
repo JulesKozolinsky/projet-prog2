@@ -45,7 +45,15 @@ package object gui {
     */
   val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2Type))
 
-  val monster_skins = Array(new Skin("/monster.png"))
+
+  val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"))
+  def monster_skins(t:MonsterType) : Skin = 
+    {
+      t match {
+        case Monster1Type() => monster_skins_array(0)
+        case Monster2Type() => monster_skins_array(1)
+      }
+    }
 
   /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
   var current_skin = 0
