@@ -13,5 +13,5 @@ package object game {
   var money = 100000
 
   /** Nombre de vies restantes */
-  var life = 10
+  var life = 30
 }

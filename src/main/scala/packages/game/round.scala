@@ -15,9 +15,6 @@ import sugar._
   */
 class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
 
-  /** Nombre de vies restantes, à initialiser avec Level.life et à renvoyer à Level en fin de round */
-  var lives = 0
-
   /** Nombre de tick depuis le début du round */
   var compteur_tick = 0
 
@@ -91,7 +88,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     }
 
   /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
-    monsters.foreach { (m:Monster) => if (m.apply) {lives = lives-1} }
+    monsters.foreach { (m:Monster) => if (m.apply) {life = life-1} }
 
     compteur_tick = compteur_tick + 1
     is_finished ()
@@ -102,5 +99,5 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     *
     *  @return true si le round est fini, false sinon.
     */
-  def is_finished () : Boolean = {(monsters.isEmpty && waves.isEmpty) || (lives == 0)}
+  def is_finished () : Boolean = {(monsters.isEmpty && waves.isEmpty) || (life == 0)}
 }
