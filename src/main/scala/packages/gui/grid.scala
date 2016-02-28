@@ -77,7 +77,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         if(monsters.size == 0 ){  
           contents(l*columns + c) = new TowerCell(pos)
           MainFrameGUI.frame.game_grid.revalidate
-          MainFrameGUI.visible = true
+          MainFrameGUI.visible = true // WTFFF si on l'enlève, énorme bug.
           if(Map.is_tower(pos)){
             (contents(l*columns + c) match {
               case t:TowerCell => t

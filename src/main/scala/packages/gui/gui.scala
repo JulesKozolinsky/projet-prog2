@@ -12,7 +12,7 @@ import scala.swing.event._
 import javax.swing.Icon
 import javax.swing.border.Border //permet d'ajouter des bordures aux composantes afin qu'elles ne soient pas toutes collées
 import javax.swing.BorderFactory
-import javax.swing.ImageIcon                             
+import javax.swing.ImageIcon
 import java.awt.Color
 import java.awt.Image._
 import java.awt.Dimension._
@@ -20,6 +20,9 @@ import java.awt.Dimension._
 import scala.math
 import javax.swing.ImageIcon
 import java.awt.Dimension
+import java.awt.event.ActionListener
+import java.awt.event.ActionEvent
+import javax.swing.Timer
 
 
 /******************************** Organisation de la fenêtre **************/
@@ -33,9 +36,25 @@ object MainFrameGUI extends swing.MainFrame {
   contents = frame
   size = new Dimension(800, 600)
   def actualize() {
+    if(!current_level.actualize)
+      stop_round
     frame.actualize()
   }
 
+  val taskPerformer = new ActionListener() {
+    def actionPerformed(evt:ActionEvent) {
+      actualize
+    }
+  }
+  val timer = new Timer(tick, taskPerformer)
+  def start_round(){
+    timer.start
+    current_level.start_round
+  }
+
+  def stop_round(){
+    timer.stop
+  }
 }
 
 /** Contient la grille et les options du jeu
@@ -76,7 +95,7 @@ class GameOptions extends BorderPanel {
       icon  = new ImageIcon(getClass.getResource("/play_round_little.png"))
 
       def apply(){
-        //TODO
+        MainFrameGUI.start_round
       }
     }
   }
@@ -133,7 +152,7 @@ class Skin(a_file:String)
     icons(scale) match {
       case Some(ic) => ic
       case None => throw new IllegalArgumentException("La fonction resize a échoué.") // ne doit jamais arriver
-  }}
+    }}
 
   /** Permet de réinitialiser le tableau d'icones */
   def init()  {
