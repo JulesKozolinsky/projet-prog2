@@ -62,7 +62,11 @@ class Level(file:String)
     else {false}
   }
 
-  /** Actualise des choses */
+  /** Transmet à level l'état du round en cours
+     * 
+     * Doit être lancée à chaque tick
+     * @return true tant que le  round n'est pas terminé, false quand il est temps de se préparer pour un nouveau round
+     */
   def actualize () : Boolean = {
     if ((rounds.head).actualize) 
       {
