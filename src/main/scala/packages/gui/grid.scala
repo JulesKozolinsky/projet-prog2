@@ -78,7 +78,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
           val new_tower = new TowerCell(pos)
           if(Map.is_tower(pos)){
             //new_tower.build_tower(new Tower1Type)//TODO
-            Map.get_tower(pos).tower_type
+            //Map.get_tower(pos).tower_type
           }
           contents(l*rows + c) = new_tower
         }else{
@@ -101,8 +101,8 @@ class TowerCell(pos:Position) extends Button("")
 
 
     def apply(){
-      if(current_level.create_new_tower(current_tower_type,pos))
-        build_tower(current_tower_type)
+      //if(current_level.create_new_tower(current_tower_type,pos))
+       // build_tower(current_tower_type)
        MainFrameGUI.actualize()
     }
   }
