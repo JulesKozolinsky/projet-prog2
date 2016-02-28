@@ -102,7 +102,7 @@ class TowerCell(pos:Position) extends Button("")
     def apply(){
       if(current_level.create_new_tower(current_tower_type,pos))
         build_tower(current_tower_type)
-      // TODO MainFrameGUI.actualize()
+       MainFrameGUI.actualize()
     }
   }
 

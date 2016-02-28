@@ -12,7 +12,7 @@ import scala.swing.event._
 import javax.swing.Icon
 import javax.swing.border.Border //permet d'ajouter des bordures aux composantes afin qu'elles ne soient pas toutes collées
 import javax.swing.BorderFactory
-import javax.swing.ImageIcon
+import javax.swing.ImageIcon                             
 import java.awt.Color
 import java.awt.Image._
 import java.awt.Dimension._
