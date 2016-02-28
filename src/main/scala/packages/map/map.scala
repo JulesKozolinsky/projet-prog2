@@ -120,7 +120,7 @@ object Map
 
   /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
   def new_tower (t:TowerType,p:Position) : Boolean = {
-      if ( (towers(p.l)(p.c)).isEmpty ) {
+      if ( is_tower (p) ) {
           if (p.l == height/2) {
             false
           }
@@ -133,25 +133,24 @@ object Map
         {false}
     }
 
-    /** Renvoie vrai si aucune tour ne se trouve sur la case indiquée */
+    /** Renvoie vrai si une tour se trouve sur la case indiquée */
     def is_tower (p:Position) : Boolean = {
-      (towers(p.l)(p.c)).isEmpty
+      if ( (p.l >= 0) && (p.l <= (height-1)) && (p.c >= 0) && (p.c <= (width-1)) ) {
+        (!towers(p.l)(p.c)).isEmpty
+      }
+      else {
+        throw new IllegalArgumentException("wrong position : out of bounds ")
+      }
     }
 
     /** Renvoie la tour située à la position (l,c) */
     def get_tower (p:Position) : Tower = {
-      if ( (p.l >= 0) && (p.l <= (height-1)) && (p.c >= 0) && (p.c <= (width-1)) )
-      {
         if (is_tower (p)) {
           (towers(p.l)(p.c)).head
         }
         else {
           throw new IllegalArgumentException("There is no tower here")
         }
-      }
-      else {
-          throw new IllegalArgumentException("wrong position : out of bounds ")
-      }
     }
 
     /** Renvoie l'ensemble des monsters situés à la position (l,c) */
