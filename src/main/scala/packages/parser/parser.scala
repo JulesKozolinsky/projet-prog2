@@ -17,17 +17,17 @@ object Parser
     var m2 : MonsterType = new Monster2Type
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    r1 = (new Tuple2(Set(new Tuple2(m1,4)),4))::r1
-    r1 = (new Tuple2(Set(new Tuple2(m2,2)),5))::r1
-    r1 = (new Tuple2(Set(new Tuple2(m1,2),new Tuple2(m2,1)),10))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m1,5)),4))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m2,0)),5))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m1,0),new Tuple2(m2,0)),10))::r1
 
     var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    r2 = (new Tuple2(Set(new Tuple2(m1,1)),4))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m1,1)),5))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m1,1)),8))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m2,5)),7))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m1,1)),12))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,0)),4))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,0)),6))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,0)),8))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m2,0)),7))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,10)),20))::r2
 
     list_of_rounds = List(new Round(r1),new Round(r2))
 
