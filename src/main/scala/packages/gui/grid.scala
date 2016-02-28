@@ -79,9 +79,9 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
           if(Map.is_tower(pos)){
             new_tower.build_tower(Map.get_tower(pos).tower_type)
           }
-          contents(l*rows + c) = new_tower
+          contents(l*columns + c) = new_tower
         }else{
-          contents(l*rows + c) = new MonsterCell(Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2)))//TODO (monsters)
+          contents(l*columns + c) = new MonsterCell(Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2)))//TODO (monsters)
         }
       }}
   }
@@ -100,9 +100,12 @@ class TowerCell(pos:Position) extends Button("")
 
 
     def apply(){
+      println("blub1")
       current_level.create_new_tower(current_tower_type,pos)
+println("blub2")
        // build_tower(current_tower_type)
        MainFrameGUI.actualize()
+      println("blub3")
     }
   }
 
