@@ -118,20 +118,6 @@ object Map
       answer
 }
 
-  /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
-  def new_tower (t:TowerType,p:Position) : Boolean = {
-      if ( is_tower (p) )
-        {false}
-      else {
-        if (p.l == height/2) {
-              false
-            }
-            else {
-              var tower = t.get_instance(p)
-              towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
-              true}
-         }
-    }
 
     /** Renvoie vrai si une tour se trouve sur la case indiquée */
     def is_tower (p:Position) : Boolean = {
@@ -142,6 +128,21 @@ object Map
         throw new IllegalArgumentException("wrong position : out of bounds ")
       }
     }
+
+    /** Renvoie vrai et crée une nouvelle tour si possible, sinon renvoie faux*/
+    def new_tower (t:TowerType,p:Position) : Boolean = {
+        if ( is_tower (p) )
+          {false}
+        else {
+          if (p.l == height/2) {
+                false
+              }
+              else {
+                var tower = t.get_instance(p)
+                towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
+                true}
+           }
+      }
 
     /** Renvoie la tour située à la position (l,c) */
     def get_tower (p:Position) : Tower = {
