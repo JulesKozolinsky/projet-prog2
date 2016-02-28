@@ -60,5 +60,8 @@ class Level(file:String)
     else {false}
   }
 
-  /** */
+  /** Actualise des choses */
+  def actualize () : Unit = {
+
+  }
 }

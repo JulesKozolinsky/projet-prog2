@@ -61,7 +61,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     *
     *  Cette méthode doit être appelée à chaque tick
     */
-  def actualize (): Unit = {
+  def actualize (): Boolean = {
     var l = 0
     var c = 0
 
