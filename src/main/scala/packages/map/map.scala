@@ -140,12 +140,18 @@ object Map
 
     /** Renvoie la tour située à la position (l,c) */
     def get_tower (p:Position) : Tower = {
-      if (is_tower (p)) {
-        towers(p.l)(p.c)(0)
+      if ( (p.l >= 0) && (p.l <= (height-1)) && (p.c >= 0) && (p.c <= (width-1)) )
+      {
+        if (is_tower (p)) {
+          (towers(p.l)(p.c)).head
         }
+        else {
+          throw new IllegalArgumentException("There is no tower here")
+        }
+      }
       else {
-        throw new IllegalArgumentException("There is no tower here")
-        }
+          throw new IllegalArgumentException("wrong position : out of bounds ")
+      }
     }
 
     /** Renvoie l'ensemble des monsters situés à la position (l,c) */

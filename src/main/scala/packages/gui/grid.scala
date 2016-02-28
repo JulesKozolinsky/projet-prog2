@@ -25,7 +25,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       contents += new TowerCell(new Position(i,j))
     }
   }
-  
+
 
 
   /** Permet de réagir au clics de l'utilisateur */
@@ -97,7 +97,7 @@ class TowerCell(pos:Position) extends Button("")
     background = new Color(0,0,0,0)
     rolloverEnabled = false
     contentAreaFilled = false
-    
+
 
     def apply(){
       if(current_level.create_new_tower(current_tower_type,pos))
@@ -107,7 +107,7 @@ class TowerCell(pos:Position) extends Button("")
   }
 
   override def repaint(){
-    
+
     skin match {
       case Some(s) => s.resize(1,size);
       case None => ()
@@ -130,7 +130,7 @@ class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(w
 
 
   var left_monsters = wave
-  
+
   while(! left_monsters.isEmpty)
   {
     var new_monster = left_monsters.head
@@ -140,8 +140,8 @@ class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(w
     }
     left_monsters = left_monsters.tail
   }
-  
-  
+
+
 
 
   override def repaint ()
@@ -152,5 +152,5 @@ class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(w
       contents(i).repaint
     }
   }
-  
+
 }

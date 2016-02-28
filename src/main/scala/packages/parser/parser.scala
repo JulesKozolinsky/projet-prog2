@@ -12,7 +12,6 @@ object Parser
   /** Parse le XML */
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
-  //  var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
 
     var m : MonsterType = new Monster1Type
     var r1 = List(new Tuple2(Set(new Tuple2(m,1)),4))
@@ -33,7 +32,10 @@ object Parser
     m = new Monster2Type
     r2 = (new Tuple2(Set(new Tuple2(m,1)),12))::r2
 
-    list_of_rounds = List(new Round(r1.reverse),new Round(r2.reverse))
+    list_of_rounds = List(new Round(r2.reverse),new Round(r1.reverse))
+
+
+    //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
     /*
     // On énumère chaque round et on ajoute chacun à la liste list_of_rounds
     (file_level \ "round").foreach { round =>
