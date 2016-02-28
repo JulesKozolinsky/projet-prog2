@@ -43,7 +43,13 @@ package object gui {
     * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.
     */
-  val tower_skins = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2Type))
+  val tower_skins_array = Array(new TowerSkin("/choice_tower1.png", "/tower1.png",new Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png",new Tower2Type))
+  def tower_skins(t:TowerType) : Skin = {
+    t match {
+      case Tower1Type() => tower_skins_array(0)
+      case Tower2Type() => tower_skins_array(1)
+    }
+  }
 
 
   val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"))
@@ -56,7 +62,7 @@ package object gui {
     }
 
   /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
-  var current_skin = 0
+  var current_tower_type = tower_skins_array(0).tower_type
 
  /* def get_icon(skin:Skin,scale : Int):ImageIcon =
   {

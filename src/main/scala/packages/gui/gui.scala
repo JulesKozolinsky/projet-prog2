@@ -207,11 +207,11 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
 
   /** Valeur par défaut de tower_choice. Le bouton est sélectionné automatiquement au début*/
   val default_skin_button =
-    if(tower_skins.size > 0){
+    if(tower_skins_array.size > 0){
       new ToggleButton(""){
         action = new Action(""){
-          icon = tower_skins(0).choice_icon
-          def apply(){current_skin = 0}
+          icon = tower_skins_array(0).choice_icon
+          def apply(){current_tower_type = tower_skins_array(0).tower_type}
         }
       }
     }else
@@ -220,13 +220,13 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
   /** Groupe de bouttons dans lequel un seul boutton peut être sélectionné à la fois*/
   val button_group = new ButtonGroup(default_skin_button){}
   set_default_options()
-  for(i<-1 to tower_skins.length - 1)
+  for(i<-1 to tower_skins_array.size - 1)
   {
     button_group.buttons += new ToggleButton(""){
 
       action = new Action(""){ //lorsqu'on clique sur un bouton de choix de la tour
-        icon = tower_skins(i).choice_icon
-        def apply(){current_skin = i}
+        icon = tower_skins_array(i).choice_icon
+        def apply(){current_tower_type = tower_skins_array(i).tower_type}
       }
     }
   }
@@ -240,7 +240,7 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
   def set_default_options ()
   {
     button_group.select(default_skin_button)
-    current_skin = 0
+    current_tower_type = tower_skins_array(0).tower_type
   }
 }
 

@@ -44,6 +44,9 @@ abstract class Tower () extends Actor
   /** la fréquence d'une tour est le nombre de tick entre deux tirs */
   val frequency : Int
 
+  /** Type de la tour */
+  val tower_type : TowerType
+
   /** la priorité d'une tour est une fonction qui prend en entrée les monstres accessibles par la tour et renvoie la liste des monstres attaqués par la tour */
   val priority : (List[Monster]) => List[Monster]
 
@@ -96,6 +99,7 @@ abstract class Tower () extends Actor
 
 class Tower1 (position:Position) extends Tower 
   {
+    val tower_type = new Tower1Type
     val frequency =  10
     val priority = lazi _
     val range = 3
@@ -107,6 +111,7 @@ class Tower1 (position:Position) extends Tower
 
 class Tower2 (position:Position) extends Tower
   {
+    val tower_type = new Tower2Type
     val frequency =  8
     val priority = lazi _
     val range = 3
@@ -144,6 +149,7 @@ abstract class Monster () extends Living
   var life : Int
   var wait_since : Int
 
+  val monster_type : MonsterType
 
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
@@ -177,7 +183,7 @@ class Monster1 () extends Monster {
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 40
-  val monster_type = Monster1Type
+  val monster_type = new Monster1Type
 }
 
 class Monster2 () extends Monster {
@@ -186,7 +192,7 @@ class Monster2 () extends Monster {
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 50
-  val monster_type = Monster2Type
+  val monster_type = new Monster2Type
 }
 
 
