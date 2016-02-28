@@ -72,24 +72,6 @@ object Map
   }
 
 
-  /** Supprime le monstre monster de la 1ere position et l'ajoute sur la deuxieme */
-  def move_monster (monster:Monster,p1:Position,p2:Position) : Unit = {
-    remove_monster (monster,p1)
-    add_monster (monster,p2)
-  }
-
-  /** supprime le monstre à la position p de la carte monsters */
-  def remove_monster (monster:Monster,p:Position) : Unit = {
-    if ( !( (monsters(p.l)(p.c)).remove(monster) ))
-    {throw new Exception("monster is not in this box")}
-  }
-
-  /** ajoute un monstre à la position p de la carte monsters */
-  def add_monster (monster:Monster,p:Position) : Unit = {
-    if ( !( (monsters(p.l)(p.c)).add(monster) ))
-    {throw new Exception("monster is already in this box")}
-  }
-
   /** Donne la case suivante d'un monster à partir du chemin*/
   def next_case (p:Position) : Position = {
     if (p.c == width-1)
@@ -97,26 +79,6 @@ object Map
     else
     {new Position(p.l,p.c+1)}
   }
-
-  /** renvoie un tableau de monsters susceptibles d'être touchés par une tour donnée*/
-  def get_targets (tower:Tower) : List[Monster] = {
-    // On calcule les cases à portée de la tour
-    var distance_of_case = List[Position]()
-    for ( l <- 0 to (height-1) ) {
-      for ( c <- 0 to (width-1) ) {
-          val coord = new Position(l,c)
-          val v = new Vector(tower.pos,coord)
-          if (v.norme <= tower.range)
-          {distance_of_case = coord::distance_of_case}
-        }
-      }
-      // Pour chaque case, on ajoute les monstres considérés à la liste
-      var answer = List[Monster]()
-      for ( x <- distance_of_case ) {
-        answer = ((monsters(x.l)(x.c)).toList):::answer
-      }
-      answer
-}
 
 
     /** Renvoie vrai si une tour se trouve sur la case indiquée */
@@ -153,6 +115,46 @@ object Map
           throw new IllegalArgumentException("There is no tower here")
         }
     }
+
+    /** renvoie un tableau de monsters susceptibles d'être touchés par une tour donnée*/
+    def get_targets (tower:Tower) : List[Monster] = {
+      // On calcule les cases à portée de la tour
+      var distance_of_case = List[Position]()
+      for ( l <- 0 to (height-1) ) {
+        for ( c <- 0 to (width-1) ) {
+            val coord = new Position(l,c)
+            val v = new Vector(tower.pos,coord)
+            if (v.norme <= tower.range)
+            {distance_of_case = coord::distance_of_case}
+          }
+        }
+        // Pour chaque case, on ajoute les monstres considérés à la liste
+        var answer = List[Monster]()
+        for ( x <- distance_of_case ) {
+          answer = ((monsters(x.l)(x.c)).toList):::answer
+        }
+        answer
+  }
+
+
+    /** Supprime le monstre monster de la 1ere position et l'ajoute sur la deuxieme */
+    def move_monster (monster:Monster,p1:Position,p2:Position) : Unit = {
+      remove_monster (monster,p1)
+      add_monster (monster,p2)
+    }
+
+    /** supprime le monstre à la position p de la carte monsters */
+    def remove_monster (monster:Monster,p:Position) : Unit = {
+      if ( !( (monsters(p.l)(p.c)).remove(monster) ))
+      {throw new Exception("monster is not in this box")}
+    }
+
+    /** ajoute un monstre à la position p de la carte monsters */
+    def add_monster (monster:Monster,p:Position) : Unit = {
+      if ( !( (monsters(p.l)(p.c)).add(monster) ))
+      {throw new Exception("monster is already in this box")}
+    }
+
 
     /** Renvoie l'ensemble des monsters situés à la position (l,c) */
     def get_monsters (p:Position) : scala.collection.mutable.Set[Monster] = {
