@@ -21,7 +21,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Nombre de tick depuis le début du round */
   var tick = 0
 
-  /** Ensemble des monstres en vie */
+  /** Ensemble des monstres en vie et présents sur la map */
   var monsters = Set[Monster] ()
 
   /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée */
@@ -42,9 +42,10 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     l_sorted
   }
 
-  /** Les différentes vagues d'attaquants */
+  /** Les différentes vagues d'attaquants qui vont entrer à un moment donné sur la map durant le round */
   var waves = sort_tupple_list (wave)
 
+  /** Fonction qui retire un monstre de monsters */
   def rem_monster (monster:Monster) : Unit = {
     monsters = monsters - monster
     Map.remove_monster(monster,monster.pos)
@@ -92,8 +93,8 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
     monsters.foreach { (m:Monster) => if (m.apply) {lives = lives-1} }
 
-    is_finished ()
     tick = tick + 1
+    is_finished ()
   }
 
 
