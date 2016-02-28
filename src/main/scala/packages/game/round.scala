@@ -93,13 +93,8 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
     monsters.foreach { (m:Monster) => if (m.apply) {lives = lives-1} }
 
-<<<<<<< HEAD
-    tick = tick + 1
-    is_finished ()
-=======
-    is_finished ()
     compteur_tick = compteur_tick + 1
->>>>>>> ea700b3bcda9c78b79bccc21076fe7b1bd3a055f
+    is_finished ()
   }
 
 
