@@ -13,26 +13,23 @@ object Parser
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
 
-    var m : MonsterType = new Monster1Type
-    var r1 = List(new Tuple2(Set(new Tuple2(m,1)),4))
-    m = new Monster2Type
-    r1  = (new Tuple2(Set(new Tuple2(m,1)),5))::r1
-    m = new Monster1Type
-    var n : MonsterType = new Monster2Type
-    r1 = (new Tuple2(Set(new Tuple2(m,2),new Tuple2(n,1)),10))::r1
+    var m1 : MonsterType = new Monster1Type
+    var m2 : MonsterType = new Monster2Type
+    var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    m = new Monster1Type
-    var r2 = List(new Tuple2(Set(new Tuple2(m,1)),4))
-    m = new Monster2Type
-    r2 = (new Tuple2(Set(new Tuple2(m,1)),5))::r2
-    m = new Monster2Type
-    r2 = (new Tuple2(Set(new Tuple2(m,1)),8))::r2
-    m = new Monster1Type
-    r2 = (new Tuple2(Set(new Tuple2(m,1)),7))::r2
-    m = new Monster2Type
-    r2 = (new Tuple2(Set(new Tuple2(m,1)),12))::r2
+    r1 = (new Tuple2(Set(new Tuple2(m1,4)),4))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m2,2)),5))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m1,2),new Tuple2(m2,1)),10))::r1
 
-    list_of_rounds = List(new Round(r2.reverse),new Round(r1.reverse))
+    var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
+
+    r2 = (new Tuple2(Set(new Tuple2(m1,1)),4))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,1)),5))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,1)),8))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m2,5)),7))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,1)),12))::r2
+
+    list_of_rounds = List(new Round(r1),new Round(r2))
 
 
     //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
