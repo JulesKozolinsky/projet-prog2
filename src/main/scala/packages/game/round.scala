@@ -19,7 +19,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   var lives = 0
 
   /** Nombre de tick depuis le début du round */
-  var tick = 0
+  var compteur_tick = 0
 
   /** Ensemble des monstres en vie et présents sur la map */
   var monsters = Set[Monster] ()
@@ -68,7 +68,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /* ici on ajoute dans le set de monstres une éventuelle nouvelle vague */
   if (!waves.isEmpty) // pour pas bugger sur la commande suivante
     {
-     if (waves.head._2 == tick) // s'il est temps
+     if (waves.head._2*1000/tick == compteur_tick) // s'il est temps
        {
 	 for (x <- waves.head._1) {add_monsters_waves(x._1,x._2)}
          waves = waves.tail
@@ -93,8 +93,13 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
     monsters.foreach { (m:Monster) => if (m.apply) {lives = lives-1} }
 
+<<<<<<< HEAD
     tick = tick + 1
     is_finished ()
+=======
+    is_finished ()
+    compteur_tick = compteur_tick + 1
+>>>>>>> ea700b3bcda9c78b79bccc21076fe7b1bd3a055f
   }
 
 
