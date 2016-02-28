@@ -18,14 +18,11 @@ import scala.swing.event._
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
-
-
-  //resize_tower_icons // initialisation de la taille des tours
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
     for(j<-0 to columns - 1) {
-      val set =  Set[Tuple2[MonsterType,Int]]((new Monster1Type,1),(new Monster2Type,2))
-      //contents +=new MonsterCell(set)      
-     contents += new TowerCell(new Position(i,j))
+      val set =  Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2))
+      //contents += new MonsterCell(set)
+      contents += new TowerCell(new Position(i,j))
     }
   }
   
@@ -33,7 +30,8 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
   /** Permet de réagir au clics de l'utilisateur */
   val reactor = new Object with Reactor
-  /* gestion des changements de taille de la fenêtre */
+
+  // gestion des changements de taille de la fenêtre
   reactor.listenTo(MainFrameGUI)
   reactor.reactions += {
     //code exécuté quand la fenetre est redimensionnée
@@ -46,7 +44,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   private def resize_icons()
   {
     for(i <- 0 to tower_skins_array.size - 1)
-      tower_skins_array(i).resize_all  
+      tower_skins_array(i).resize_all
     for(i <- 0 to monster_skins_array.size - 1)
       monster_skins_array(i).resize_all
   }
@@ -61,6 +59,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     }
   }
 
+  /** Appelle le repaint des boutons contenus dans la grille*/
   override def repaint(){
     for(i<- 0 to contents.size-1){
       contents(i).repaint
@@ -68,6 +67,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     super.repaint
   }
 
+  /** Actualise la grille en fonction de l'état de la Map.*/
   def actualize()
   {
     for(l<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
@@ -77,11 +77,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         if(monsters.size == 0 ){
           val new_tower = new TowerCell(pos)
           if(Map.is_tower(pos)){
-            new_tower.build_tower(Map.get_tower(pos).tower_type)
+            new_tower.build_tower(new Tower1Type)//TODO Map.get_tower(pos).tower_type)
           }
           contents(l*rows + c) = new_tower
         }else{
-          contents(l*rows + c) = new MonsterCell(Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2)))//(monsters)
+          contents(l*rows + c) = new MonsterCell(Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2)))//TODO (monsters)
         }
       }}
   }
@@ -92,7 +92,7 @@ class TowerCell(pos:Position) extends Button("")
 {
   var skin : Option[Skin] = None
   var is_tower  = false
-  var tower_type = new Tower1Type   
+  var tower_type = new Tower1Type
   action = new Action(""){
     background = new Color(0,0,0,0)
     rolloverEnabled = false
@@ -100,30 +100,25 @@ class TowerCell(pos:Position) extends Button("")
     
 
     def apply(){
-      
-      current_level.create_new_tower(current_tower_type,pos)/*{ // on doit vérifié que la map autorise une création de tour à cet endroit
-        
-        skin = Some(tower_skins(current_tower_type))
-        icon = tower_skins(current_tower_type)(1,size)
-        repaint
-      }*/
-      MainFrameGUI.actualize()
+      if(current_level.create_new_tower(current_tower_type,pos))
+        build_tower(current_tower_type)
+      // TODO MainFrameGUI.actualize()
     }
   }
 
   override def repaint(){
     
-      skin match {
-        case Some(s) => s.resize(1,size);
-        case None => ()
-      }
-      super.repaint
+    skin match {
+      case Some(s) => s.resize(1,size);
+      case None => ()
     }
+    super.repaint
+  }
 
   /** Permet de construire une tour sur la case */
   def build_tower(t:TowerType){
     skin = Some(tower_skins(t))
-    icon = tower_skins(t)(1,size) //on récupère le skin de scale 1 et on en profite pour vérifier qu'il est bien à la bonne taille.
+    icon = tower_skins(t)(1,size) //on récupère le skin de scale 1 et on le crée s'il n'existe pas
       repaint
   }
 }
@@ -134,22 +129,22 @@ class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(w
   var scale = Math.sqrt(wave.size).toInt
 
 
-    var left_monsters = wave
+  var left_monsters = wave
   
-    while(! left_monsters.isEmpty)
+  while(! left_monsters.isEmpty)
+  {
+    var new_monster = left_monsters.head
+    contents += new Label()
     {
-      var new_monster = left_monsters.head
-      contents += new Label()
-      {
-        icon = monster_skins(new_monster._1.monster_type)(scale,new Dimension(0,0))
-      }
-      left_monsters = left_monsters.tail
+      icon = monster_skins(new_monster._1.monster_type)(scale,new Dimension(0,0))
     }
+    left_monsters = left_monsters.tail
+  }
   
   
 
 
-  override def repaint () 
+  override def repaint ()
   {
     for(i<-0 to monster_skins_array.size - 1)
       monster_skins_array(i).resize(scale,contents(0).size)

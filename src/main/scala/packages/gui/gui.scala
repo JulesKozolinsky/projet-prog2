@@ -128,7 +128,7 @@ class Skin(a_file:String)
     new ImageIcon(getClass.getResource(file))
   }
 
-  def apply(scale:Int, dim:Dimension/* = new Dimension(0,0)*/):ImageIcon =  {
+  def apply(scale:Int, dim:Dimension):ImageIcon =  {
     resize(scale,dim)
     icons(scale) match {
       case Some(ic) => ic
@@ -257,7 +257,6 @@ class InfoGame(file : String, text : String) extends GridPanel(1,2){
   val icone = new Label("",new ImageIcon(getClass.getResource(file)),Alignment(0))
   /** Label affichant l'information */
   val info = new Label(text)
-  //hGap = 5
   contents += icone; contents += info
 
   /** Change la valeur */
