@@ -17,6 +17,8 @@ import parser._
 class Level(file:String)
 {
 
+  
+
   /** L'identifiant du round dans lequel on se trouve.*/
   var current_round = 0
 
@@ -61,7 +63,17 @@ class Level(file:String)
   }
 
   /** Actualise des choses */
-  def actualize () : Unit = {
-
+  def actualize () : Boolean = {
+    if ((rounds.head).actualize) 
+      {
+      if (life == 0) {throw new Exception("You failed : monsters killed you \n Game Over")}
+      else
+        {if ((rounds.tails).isEmpty) {throw new Exception ("You killed everyone ! Congratulation !!")} 
+         else {start_round() ; false}
+        }
+      }
+    else {true}
   }
+
+
 }
