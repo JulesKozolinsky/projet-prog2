@@ -11,6 +11,7 @@ import javax.swing.ImageIcon
   *
   */
 package object gui {
+  val tick = 100
 
   //def actualize_gui
   var current_level = new Level("/test1.xml")
@@ -20,7 +21,7 @@ package object gui {
     *
     * Usage : Timer(100){println("hey")} crée un timer qui affichera "hey" toutes les 100 millisecondes.
     */
-  object Timer {
+ /* object Timer {
     /**
       *
       * @param interval Interval entre les ticks
@@ -36,7 +37,7 @@ package object gui {
       t.setRepeats(repeats)
       t.start()
     }
-  }
+  }*/
 
   /** Tableau contenant les skins de tous les types de tour
     *
