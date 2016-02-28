@@ -136,7 +136,7 @@ object Map
     /** Renvoie vrai si une tour se trouve sur la case indiquée */
     def is_tower (p:Position) : Boolean = {
       if ( (p.l >= 0) && (p.l <= (height-1)) && (p.c >= 0) && (p.c <= (width-1)) ) {
-        (!towers(p.l)(p.c)).isEmpty
+        !(towers(p.l)(p.c)).isEmpty
       }
       else {
         throw new IllegalArgumentException("wrong position : out of bounds ")
