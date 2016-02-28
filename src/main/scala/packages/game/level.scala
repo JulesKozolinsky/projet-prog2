@@ -17,7 +17,8 @@ import parser._
 class Level(file:String)
 {
 
-  
+  /** Booléen indiquant si on se trouve en cours de round ou non */  
+  var in_a_round = false
 
   /** L'identifiant du round dans lequel on se trouve.*/
   var current_round = 0
@@ -48,6 +49,8 @@ class Level(file:String)
     * Devra prendre en paramètre un TowerType et une position
     */
   def create_new_tower(t:TowerType,p:Position) : Boolean = {
+    if (!in_a_round) {false}
+    else {
     var tower_try = t.get_instance(new Position(-1,-1))
     var cost = tower_try.price
     if (!(cost > money))
@@ -61,6 +64,7 @@ class Level(file:String)
       }
     else {false}
   }
+  }
 
   /** Transmet à level l'état du round en cours
      * 
@@ -68,12 +72,13 @@ class Level(file:String)
      * @return true tant que le  round n'est pas terminé, false quand il est temps de se préparer pour un nouveau round
      */
   def actualize () : Boolean = {
+    in_a_round = true
     if ((rounds.head).actualize) 
       {
       if (life == 0) {throw new Exception("You failed : monsters killed you \n Game Over")}
       else
         {if ((rounds.tails).isEmpty) {throw new Exception ("You killed everyone ! Congratulation !!")} 
-         else {start_round() ; false}
+         else {start_round() ; in_a_round = false ; false}
         }
       }
     else {true}
