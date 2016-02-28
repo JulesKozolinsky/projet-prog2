@@ -77,8 +77,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         if(monsters.size == 0 ){
           val new_tower = new TowerCell(pos)
           if(Map.is_tower(pos)){
-            //new_tower.build_tower(new Tower1Type)//TODO
-            //Map.get_tower(pos).tower_type
+            new_tower.build_tower(Map.get_tower(pos).tower_type)
           }
           contents(l*rows + c) = new_tower
         }else{
