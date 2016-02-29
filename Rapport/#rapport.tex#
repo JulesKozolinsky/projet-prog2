@@ -21,7 +21,8 @@ Nous avons subdivisé notre code en différents packages traitant de différents
 \subsection{Entities}
 Cette partie contient les définition des objets qui vont évoluer sur la map.\\
 Ils sont subdivisés en classes comme montré ci-haut.\\
-Les classes indiquées sont toutes abstraites, on trouve en feuilles des arbres des classes instanciables (Tower1, Tower2, Monster5, Tower1Type, Monster6Type...).
+Les classes apparaissant plus haut sont toutes abstraites, on trouve en feuilles des arbres des classes instanciables (Tower1, Tower2, Monster5, Tower1Type, Monster6Type...).\\
+
 \subsection{Game}
 \subsubsection{Round}
 \subsubsection{Level}
