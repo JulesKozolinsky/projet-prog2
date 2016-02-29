@@ -94,6 +94,7 @@ object MainFrameGUI extends swing.MainFrame {
         
         println(frame.size)
         icon =  new ImageIcon(zoom_image((new ImageIcon(getClass.getResource("/game_over.jpg"))).getImage(),size))
+        //println(icon.getImage.getWidth(NULL))
     }}
     repaint
 
@@ -104,7 +105,7 @@ object MainFrameGUI extends swing.MainFrame {
     frame = new GamePanel
     contents = frame
     current_level = new Level("/test1.xml")
-    visible = true
+    //visible = true
     actualize
     repaint
   }
