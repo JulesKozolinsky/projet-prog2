@@ -32,12 +32,16 @@ package object gui {
   }
 
 
-  val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"))
+  val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"),new Skin("/monster3.png"),new Skin("/monster4.png"),new Skin("/monster5.png"),new Skin("/monster6.png"))
   def monster_skins(t:MonsterType) : Skin = 
     {
       t match {
         case Monster1Type => monster_skins_array(0)
         case Monster2Type => monster_skins_array(1)
+        case Monster3Type => monster_skins_array(2)
+        case Monster4Type => monster_skins_array(3)
+        case Monster5Type => monster_skins_array(4)
+        case Monster6Type => monster_skins_array(5)
       }
     }
 

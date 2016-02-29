@@ -15,15 +15,20 @@ object Parser
 
     var m1 : MonsterType = Monster1Type
     var m2 : MonsterType = Monster2Type
+    var m3 : MonsterType = Monster3Type
+    var m4 : MonsterType = Monster4Type
+    var m5 : MonsterType = Monster5Type
+    var m6 : MonsterType = Monster6Type
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    r1 = (new Tuple2(Set(new Tuple2(m1,1)),1))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m1,1), new Tuple2(m2,1), new Tuple2(m3,1), new Tuple2(m4,1), new Tuple2(m5,1), new Tuple2(m6,1) ),1))::r1
     r1 = (new Tuple2(Set(new Tuple2(m2,1)),2))::r1
     r1 = (new Tuple2(Set(new Tuple2(m1,0),new Tuple2(m2,0)),10))::r1
 
     var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
     r2 = (new Tuple2(Set(new Tuple2(m1,0)),4))::r2
+
     r2 = (new Tuple2(Set(new Tuple2(m1,0)),6))::r2
     r2 = (new Tuple2(Set(new Tuple2(m1,0)),8))::r2
     r2 = (new Tuple2(Set(new Tuple2(m2,0)),7))::r2
