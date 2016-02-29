@@ -83,7 +83,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
             }).build_tower(Map.get_tower(pos).tower_type)
           }
         }else{
-          contents(l*columns + c) = new MonsterCell(Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2)))//TODO (monsters)
+          contents(l*columns + c) = new MonsterCell(monsters)
           MainFrameGUI.visible = true
           (contents(l*columns + c) match {
             case m:MonsterCell => m
@@ -129,14 +129,13 @@ class TowerCell(pos:Position) extends Button("")
 }
 
 /** Cellule de la grille contenant des monstres */
-class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
 {
   var scale = Math.sqrt(wave.size).toInt
   val monsters = wave 
   for(i<-0 to monsters.size - 1){
     contents += new Label()
     }
-  //initialize
 
   /** Initialisation des images de monstre
     * 
@@ -150,7 +149,7 @@ class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(w
       (contents(i) match {
         case l:Label => l
         case _ => throw new ClassCastException
-      }).icon = monster_skins(new_monster._1.monster_type)(scale,contents(0).size)
+      }).icon = monster_skins(new_monster._1)(scale,contents(0).size)
       left_monsters = left_monsters.tail
       i+= 1
     }
