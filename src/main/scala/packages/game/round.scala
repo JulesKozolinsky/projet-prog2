@@ -88,7 +88,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       if (Map.is_tower (p))
       {
         var killed = (Map.get_tower (p)).apply
-        killed.foreach {rem_monster}
+        for (m <- killed) {money = money + m.gold ; rem_monster(m)}
       }
       else
       {}

@@ -36,12 +36,12 @@ class Level(file:String)
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
   def start_round():Unit = {
-    if (!rounds.isEmpty) {
-      in_a_round = true
-    }
-    else {
-      throw new Exception ("There are no more rounds")
-    }
+      if (!rounds.isEmpty) {
+        in_a_round = true
+      }
+      else {
+        throw new Exception ("There are no more rounds")
+      }
   }
 
   /** Arrête le round courant
@@ -91,12 +91,14 @@ class Level(file:String)
   def actualize () : Boolean = {
     if (in_a_round) {
       if ((rounds.head).actualize) {
+        println("round terminé ! ")
         stop_round()
         if (life == 0) {
           has_lost = true
         }
         else {
           if (rounds.isEmpty) {
+              println ("coucou")
               has_won = true
           }
           else {}//le round est terminé, mais il reste des rounds à jouer
