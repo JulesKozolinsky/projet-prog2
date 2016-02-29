@@ -36,7 +36,6 @@ class Level(file:String)
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
   def start_round():Unit = {
-    println("salut")
     if (!rounds.isEmpty) {
       in_a_round = true
     }
@@ -66,11 +65,9 @@ class Level(file:String)
     */
   def create_new_tower(t:TowerType,p:Position) : Boolean = {
     if (in_a_round) {
-      println("coucou")
       false
     }
     else {
-      println("coucouJules")
       var tower_try = t.get_instance(new Position(-1,-1))
       var cost = tower_try.price
       if (!(cost > money))
