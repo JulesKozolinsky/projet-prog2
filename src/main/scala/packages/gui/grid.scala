@@ -129,9 +129,9 @@ class TowerCell(pos:Position) extends Button("")
 }
 
 /** Cellule de la grille contenant des monstres */
-class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
 {
-  var scale = Math.sqrt(wave.size).toInt
+  var scale = Math.sqrt(wave.size).ceil.toInt
   val monsters = wave 
   for(i<-0 to monsters.size - 1){
     contents += new Label()

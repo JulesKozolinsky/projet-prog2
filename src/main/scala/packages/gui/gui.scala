@@ -56,12 +56,16 @@ object MainFrameGUI extends swing.MainFrame {
     timer.stop
   }
 
-  //Permet à la fenêtre de se fermer (si on ne faity pas ça, elle se rouvre
+  
   val reactor = new Object with Reactor
   reactor.listenTo(this)
   reactor.reactions += {
-    case WindowClosing(_) =>
+    case WindowClosing(_) => //Permet à la fenêtre de se fermer (si on ne faity pas ça, elle se rouvre
       stop_round
+    case WindowDeactivated(_) => //Pause automatique lorsque le focus n'est plus sur la fenêtre
+      timer.stop
+    case WindowActivated(_) =>
+      timer.start
   }
 
 }

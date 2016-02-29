@@ -137,6 +137,10 @@ abstract class Living () extends Moveable
 abstract class MonsterType extends TileableType {def get_instance () : Monster }
 case object Monster1Type extends MonsterType {def get_instance () = new Monster1()}
 case object Monster2Type extends MonsterType {def get_instance () = new Monster2()}
+case object Monster3Type extends MonsterType {def get_instance () = new Monster3()} 
+case object Monster4Type extends MonsterType {def get_instance () = new Monster4()}
+case object Monster5Type extends MonsterType {def get_instance () = new Monster5()}
+case object Monster6Type extends MonsterType {def get_instance () = new Monster6()}
 
 
 
@@ -194,8 +198,35 @@ class Monster2 () extends Monster {
   var life = 50
   val monster_type = Monster2Type
 }
-
-
-
-
-
+class Monster3 () extends Monster {
+  val gold = 8
+  val slowness = 10
+  var wait_since = 0
+  var pos = new Position (Map.height / 2,0)
+  var life = 50
+  val monster_type = Monster3Type
+}
+class Monster4 () extends Monster {
+  val gold = 8
+  val slowness = 10
+  var wait_since = 0
+  var pos = new Position (Map.height / 2,0)
+  var life = 50
+  val monster_type = Monster4Type
+}
+class Monster5 () extends Monster {
+  val gold = 8
+  val slowness = 10
+  var wait_since = 0
+  var pos = new Position (Map.height / 2,0)
+  var life = 50
+  val monster_type = Monster5Type
+}
+class Monster6 () extends Monster {
+  val gold = 8
+  val slowness = 10
+  var wait_since = 0
+  var pos = new Position (Map.height / 2,0)
+  var life = 50
+  val monster_type = Monster6Type
+}
