@@ -30,21 +30,13 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   val reactor = new Object with Reactor
 
   // gestion des changements de taille de la fenêtre
-  reactor.listenTo(MainFrameGUI)
+  /*reactor.listenTo(MainFrameGUI)
   reactor.reactions += {
     //code exécuté quand la fenetre est redimensionnée
     case UIElementResized(_) =>
       resize_icons
       repaint //permet d'actualiser tous les boutons
-  }
-
-  /** Permet de modifier la dimension de toutes les tower_icons */
-  private def resize_icons() {
-    for(i <- 0 to tower_skins_array.size - 1)
-      tower_skins_array(i).resize_all
-    for(i <- 0 to monster_skins_array.size - 1)
-      monster_skins_array(i).resize_all
-  }
+  }*/
 
 
   /** Récupère un bouton à une position donnée */
@@ -66,6 +58,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   /** Actualise la grille en fonction de l'état de la Map.*/
   def actualize()
   {
+    //resize_icons
     for(l<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
       for(c<-0 to columns - 1) {
         val pos = new Position(l,c)

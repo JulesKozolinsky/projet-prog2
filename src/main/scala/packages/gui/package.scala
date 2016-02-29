@@ -33,6 +33,7 @@ package object gui {
 
   /** Permet de modifier la dimension de toutes les tower_icons */
   def resize_icons() {
+    println("resized")
     for(i <- 0 to tower_skins_array.size - 1)
       tower_skins_array(i).resize_all
     for(i <- 0 to monster_skins_array.size - 1)
