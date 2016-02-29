@@ -67,7 +67,7 @@ class Round(file:String){
       }
 
     }
-
+    monsters.foreach {}
 
   }
 
