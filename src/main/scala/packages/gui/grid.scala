@@ -76,7 +76,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         val monsters = Map.get_monsters(pos)
         if(monsters.size == 0 ){  
           contents(l*columns + c) = new TowerCell(pos)
-          MainFrameGUI.frame.game_grid.revalidate
+          //MainFrameGUI.frame.game_grid.revalidate
           MainFrameGUI.visible = true // WTFFF si on l'enlève, énorme bug.
           if(Map.is_tower(pos)){
             (contents(l*columns + c) match {
@@ -86,6 +86,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
           }
         }else{
           contents(l*columns + c) = new MonsterCell(Set[Tuple2[Monster,Int]]((new Monster1,1),(new Monster2,2)))//TODO (monsters)
+          MainFrameGUI.visible = true
+          (contents(l*columns + c) match {
+            case m:MonsterCell => m
+            case _ => throw new ClassCastException
+          }).initialize_icons
         }
       }}
     repaint
@@ -131,21 +136,31 @@ class TowerCell(pos:Position) extends Button("")
 class MonsterCell(wave : Set[Tuple2[Monster,Int]]) extends GridPanel(Math.sqrt(wave.size).toInt,Math.sqrt(wave.size).toInt)
 {
   var scale = Math.sqrt(wave.size).toInt
-
-
-  var left_monsters = wave
-
-  while(! left_monsters.isEmpty)
-  {
-    var new_monster = left_monsters.head
+  val monsters = wave 
+  for(i<-0 to monsters.size - 1){
     contents += new Label()
-    {
-      icon = monster_skins(new_monster._1.monster_type)(scale,new Dimension(0,0))
     }
-    left_monsters = left_monsters.tail
+  //initialize
+
+  /** Initialisation des images de monstre
+    * 
+    * L'initialisation n'est pas dans le constructeur car celle-ci doit avoir après un MainFrameGUI.visible
+    *  pour que les taille de label et de case soient à jour*/
+  def initialize_icons() {
+    var left_monsters = monsters
+    var i = 0
+    while(! left_monsters.isEmpty) {
+      var new_monster = left_monsters.head
+      (contents(i) match {
+        case l:Label => l
+        case _ => throw new ClassCastException
+      }).icon = monster_skins(new_monster._1.monster_type)(scale,contents(0).size)
+      left_monsters = left_monsters.tail
+      i+= 1
+    }
+    repaint
   }
-
-
+  
 
 
   override def repaint ()
