@@ -21,9 +21,9 @@ object Parser
     var m6 : MonsterType = Monster6Type
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    r1 = (new Tuple2(Set(new Tuple2(m1,1), new Tuple2(m2,1), new Tuple2(m3,1), new Tuple2(m4,1), new Tuple2(m5,1), new Tuple2(m6,1) ),1))::r1
-    r1 = (new Tuple2(Set(new Tuple2(m2,1)),2))::r1
-    r1 = (new Tuple2(Set(new Tuple2(m1,0),new Tuple2(m2,0)),10))::r1
+    r1 = (Set(new Tuple2(m1,1)),1)::r1//, new Tuple2(m2,1), new Tuple2(m3,1), new Tuple2(m4,1), new Tuple2(m5,1), new Tuple2(m6,1) ),1))::r1
+   // r1 = (new Tuple2(Set(new Tuple2(m2,1)),2))::r1
+   // r1 = (new Tuple2(Set(new Tuple2(m1,0),new Tuple2(m2,0)),10))::r1
 
     var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
@@ -34,7 +34,7 @@ object Parser
     //r2 = (new Tuple2(Set(new Tuple2(m2,0)),7))::r2
     //r2 = (new Tuple2(Set(new Tuple2(m1,0)),20))::r2
 
-    list_of_rounds = List(new Round(r2),new Round(r1))
+    list_of_rounds = List(new Round(r1))
 
 
     //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
