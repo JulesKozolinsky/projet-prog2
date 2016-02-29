@@ -6,8 +6,6 @@ package packages
   */
 
 package object game {
-  /** Période du tick en millisecondes */
-  val tick = 100
 
   /** Argent du joueur */
   var money = 100000

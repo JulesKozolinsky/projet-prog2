@@ -55,7 +55,7 @@ object MainFrameGUI extends swing.MainFrame {
       actualize
     }
   }
-  val timer = new Timer(tick, taskPerformer)
+  var timer = new Timer(tick, taskPerformer)
   def start_round(){
     timer.start
     current_level.start_round
@@ -72,10 +72,10 @@ object MainFrameGUI extends swing.MainFrame {
     case WindowClosing(_) => //Permet à la fenêtre de se fermer (si on ne fait pas ça, elle se rouvre)
       stop_round
     case WindowDeactivated(_) => //Pause automatique lorsque le focus n'est plus sur la fenêtre
-      if(current_level.in_a_round)
+      if(current_level.in_a_round && !paused)
         timer.stop
     case WindowActivated(_) =>
-      if(current_level.in_a_round)
+      if(current_level.in_a_round && !paused)
         timer.start
   }
 
@@ -94,7 +94,6 @@ object MainFrameGUI extends swing.MainFrame {
 
         println(frame.size)
         icon =  new ImageIcon(zoom_image((new ImageIcon(getClass.getResource("/game_over.jpg"))).getImage(),size))
-        //println(icon.getImage.getWidth(NULL))
     }}
     repaint
 
@@ -105,7 +104,7 @@ object MainFrameGUI extends swing.MainFrame {
     frame = new GamePanel
     contents = frame
     current_level = new Level("/test1.xml")
-    //visible = true
+    visible = true
     actualize
     repaint
   }
@@ -170,12 +169,13 @@ class GameOptions extends BorderPanel {
       }
     }
   }
-  var forward_button = new Button(""){
+  var next_button = new Button(""){
     action = new Action(""){
       icon  = new ImageIcon(getClass.getResource("/next-button.png"))
 
       def apply() {
-
+        MainFrameGUI.timer.setDelay(tick/4)
+        println("ok")
       }
     }
   }
@@ -185,7 +185,7 @@ class GameOptions extends BorderPanel {
       icon  = new ImageIcon(getClass.getResource("/back-button.png"))
 
       def apply() {
-
+        MainFrameGUI.timer.setDelay(tick*4)
       }
     }
   }
@@ -193,7 +193,8 @@ class GameOptions extends BorderPanel {
   /** Argent et vie */
   val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
 
-  add(new GridPanel(1,2){hGap = 25; contents += infos; contents += round_button; }, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
+  add(new GridPanel(1,2){hGap = 25; contents += infos; contents += back_button ; contents += round_button;
+    contents += next_button;}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 
 

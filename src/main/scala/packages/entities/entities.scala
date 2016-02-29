@@ -51,16 +51,16 @@ abstract class Tower () extends Actor
   val priority : (List[Monster]) => List[Monster]
 
   /** la portée d'une tour détermine la distance maximale à laquelle elle peut tirer */
-  val range : Int 
+  val range : Int
 
   /** le prix d'une tour */
-  val price : Int 
+  val price : Int
 
   /** la puissance de feu d'une tour */
-  val power : Int 
+  val power : Int
 
 
-  /** le apply des tours est le fait de tirer sur un/des monstres ; 
+  /** le apply des tours est le fait de tirer sur un/des monstres ;
     * apply renvoie la liste des monstres tués par la tour
     * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne retombe pas à 0
     */
@@ -97,7 +97,7 @@ abstract class Tower () extends Actor
 }
 
 
-class Tower1 (position:Position) extends Tower 
+class Tower1 (position:Position) extends Tower
   {
     val tower_type = Tower1Type
     val frequency =  10
@@ -137,7 +137,7 @@ abstract class Living () extends Moveable
 abstract class MonsterType extends TileableType {def get_instance () : Monster }
 case object Monster1Type extends MonsterType {def get_instance () = new Monster1()}
 case object Monster2Type extends MonsterType {def get_instance () = new Monster2()}
-case object Monster3Type extends MonsterType {def get_instance () = new Monster3()} 
+case object Monster3Type extends MonsterType {def get_instance () = new Monster3()}
 case object Monster4Type extends MonsterType {def get_instance () = new Monster4()}
 case object Monster5Type extends MonsterType {def get_instance () = new Monster5()}
 case object Monster6Type extends MonsterType {def get_instance () = new Monster6()}
@@ -183,7 +183,7 @@ abstract class Monster () extends Living
 
 class Monster1 () extends Monster {
   val gold = 6
-  val slowness = 12
+  val slowness = 5
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 40

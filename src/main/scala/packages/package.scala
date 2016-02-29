@@ -1,3 +1,3 @@
 package object packages{
-  val tick = 100
+  var tick = 100
 }
