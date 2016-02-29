@@ -47,7 +47,11 @@ object MainFrameGUI extends swing.MainFrame {
     if(!current_level.actualize){
       stop_round
       if(current_level.has_won)
-        game_won2()
+        {
+          game_won
+          game_won2()
+        }
+        
       if(current_level.has_lost)
         game_won2()
     }
@@ -98,7 +102,7 @@ object MainFrameGUI extends swing.MainFrame {
     //visible = true
   }
   def game_over(){
-    contents = new Button("Gagné"){
+    contents = new Button(){
       action = new Action(""){
       def apply (){
         start_game
@@ -133,6 +137,7 @@ object MainFrameGUI extends swing.MainFrame {
     Map.initialize()
     current_level = new Level("/test1.xml")
     visible = true
+    actualize
     resize_icons
     repaint
   }
