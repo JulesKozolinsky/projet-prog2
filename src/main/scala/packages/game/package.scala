@@ -7,9 +7,15 @@ package packages
 
 package object game {
 
-  /** Argent du joueur */
-  var money = 100000
+  /** Argent du joueur par défaut */
+  var money_default = 1000
 
-  /** Nombre de vies restantes */
-  var life = 30
+  /** Nombre de vies au début */
+  var life_default = 10
+
+  /** Argent du jouer restant */
+  var money = money_default
+
+  /** Nombre de vies du joeur */
+  var life = life_default
 }

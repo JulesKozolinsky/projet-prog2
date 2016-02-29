@@ -90,11 +90,13 @@ object MainFrameGUI extends swing.MainFrame {
   def game_won(){
     contents = new Button("Gagné"){
       action = new Action(""){
-      def apply (){start_game}
-
-        println(frame.size)
-        icon =  new ImageIcon(zoom_image((new ImageIcon(getClass.getResource("/game_over.jpg"))).getImage(),size))
+      def apply (){
+        start_game
+        maximize()
+      }
+      icon =  new ImageIcon(zoom_image((new ImageIcon(getClass.getResource("/game_over.jpg"))).getImage(),java.awt.Toolkit.getDefaultToolkit().getScreenSize()))
     }}
+    maximize
     repaint
 
     //visible = true
@@ -104,6 +106,8 @@ object MainFrameGUI extends swing.MainFrame {
     frame = new GamePanel
     maximize ()
     contents = frame
+    life = life_default
+    money = money_default
     Map.initialize()
     current_level = new Level("/test1.xml")
     visible = true
