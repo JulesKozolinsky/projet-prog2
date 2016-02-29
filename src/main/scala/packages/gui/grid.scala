@@ -41,8 +41,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   }
 
   /** Permet de modifier la dimension de toutes les tower_icons */
-  private def resize_icons()
-  {
+  private def resize_icons() {
     for(i <- 0 to tower_skins_array.size - 1)
       tower_skins_array(i).resize_all
     for(i <- 0 to monster_skins_array.size - 1)
@@ -51,8 +50,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
 
   /** Récupère un bouton à une position donnée */
-  def get_button(pos:Position):Button =
-  {
+  def get_button(pos:Position):Button = {
     this(pos)  match {
       case but : Button => (but)
       case _  => throw new ClassCastException
@@ -101,8 +99,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 class TowerCell(pos:Position) extends Button("")
 {
   var skin : Option[Skin] = None
-  var is_tower  = false
-  var tower_type = new Tower1Type
   action = new Action(""){
     background = new Color(0,0,0,0)
     rolloverEnabled = false

@@ -13,8 +13,8 @@ object Parser
   def parse (file:String) : List[Round] = {
     var list_of_rounds = List[Round]()
 
-    var m1 : MonsterType = new Monster1Type
-    var m2 : MonsterType = new Monster2Type
+    var m1 : MonsterType = Monster1Type
+    var m2 : MonsterType = Monster2Type
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
     r1 = (new Tuple2(Set(new Tuple2(m1,5)),4))::r1

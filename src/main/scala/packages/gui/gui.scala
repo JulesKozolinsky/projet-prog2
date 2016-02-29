@@ -56,13 +56,11 @@ object MainFrameGUI extends swing.MainFrame {
     timer.stop
   }
 
+  //Permet à la fenêtre de se fermer (si on ne faity pas ça, elle se rouvre
   val reactor = new Object with Reactor
-   // gestion des changements de taille de la fenêtre
   reactor.listenTo(this)
   reactor.reactions += {
-    //code exécuté quand la fenetre est redimensionnée
     case WindowClosing(_) =>
-println("hey")
       stop_round
   }
 
