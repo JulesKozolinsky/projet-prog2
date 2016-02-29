@@ -49,7 +49,7 @@ object MainFrameGUI extends swing.MainFrame {
       if(current_level.has_won)
         game_won2()
       if(current_level.has_lost)
-        game_over
+        game_won2()
     }
 
     frame.actualize()
@@ -115,7 +115,8 @@ object MainFrameGUI extends swing.MainFrame {
   def game_won2(){
     if(Desktop.isDesktopSupported())
     {
-      Desktop.getDesktop().browse(new URI("https://www.facebook.com/konbinifr/videos/10154053721899276/"));
+	val url : String = "https://www.youtube.com/embed/XMdoGqcnBoo?autoplay=1"
+      Desktop.getDesktop().browse(new URI(url));
     }
   }
 
