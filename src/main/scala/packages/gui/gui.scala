@@ -33,11 +33,18 @@ object MainFrameGUI extends swing.MainFrame {
   title = "Tower defense"
   maximize () //la fenêtre est maximisée à l'ouverture
   val frame = new GamePanel
+  //game_over
   contents = frame
   size = new Dimension(800, 600)
   def actualize() {
-    if(!current_level.actualize)
+    if(!current_level.actualize){
       stop_round
+      if(current_level.has_won)
+        game_won
+      if(current_level.has_lost)
+        game_over
+    }
+      
     frame.actualize()
   }
 
@@ -63,14 +70,28 @@ object MainFrameGUI extends swing.MainFrame {
     case WindowClosing(_) => //Permet à la fenêtre de se fermer (si on ne faity pas ça, elle se rouvre
       stop_round
     case WindowDeactivated(_) => //Pause automatique lorsque le focus n'est plus sur la fenêtre
-      timer.stop
+      if(current_level.in_a_round)
+        timer.stop
     case WindowActivated(_) =>
-      timer.start
+      if(current_level.in_a_round)
+        timer.start
   }
 
-  def game_over()
-  {
+  def game_over(){
+    contents = new Button("Perdu")
+    repaint
+    //visible = true
+  }
+  def game_won(){
+    contents = new Button("Gagné")
+    repaint
 
+    //visible = true
+  }
+
+  def restart_game(){
+    contents = new GamePanel
+    current_level = new Level("/test1.xml")
   }
 
 }
