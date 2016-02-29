@@ -12,5 +12,5 @@ import swing._
   * Ici la définition de top sert de fonction main.
   */
 object MainApp extends SimpleSwingApplication{
-  def top = new MainFrameGUI
+  def top = MainFrameGUI
 }

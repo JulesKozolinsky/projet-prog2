@@ -2,3 +2,5 @@ target/
 intro.pdf
 *~
 project/
+rapport.aux
+rapport.log

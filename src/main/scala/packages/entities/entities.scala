@@ -4,6 +4,8 @@ package entities
 import sugar._
 import map._
 
+abstract class TileableType () {}
+
 /** Les Tileable sont l'ensembles de éléments susceptibles d'apparaître sur la map : tours, monstres, cailloux, arbres, alliés éventuels... */
 abstract class Tileable ()
 {
@@ -24,15 +26,15 @@ abstract class Actor() extends Tileable
 abstract class Moveable () extends Actor
 {
   /** la lenteur d'un monstre est le nombre de tick entre deux déplacements */
-  var slowness : Int
+  val slowness : Int
 }
 
 
 /** Les différents types de tour  */
 
-abstract class TowerType {def get_instance (pos:Position) : Tower }
-case class Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
-case class Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
+abstract class TowerType extends TileableType { def get_instance (pos:Position) : Tower}
+case object Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
+case object Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
 
 
 
@@ -41,6 +43,9 @@ abstract class Tower () extends Actor
 {
   /** la fréquence d'une tour est le nombre de tick entre deux tirs */
   val frequency : Int
+
+  /** Type de la tour */
+  val tower_type : TowerType
 
   /** la priorité d'une tour est une fonction qui prend en entrée les monstres accessibles par la tour et renvoie la liste des monstres attaqués par la tour */
   val priority : (List[Monster]) => List[Monster]
@@ -57,7 +62,7 @@ abstract class Tower () extends Actor
 
   /** le apply des tours est le fait de tirer sur un/des monstres ; 
     * apply renvoie la liste des monstres tués par la tour
-    * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne reombe pas à 0
+    * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne retombe pas à 0
     */
   def apply () : List[Monster] = {
     var L : List[Monster] = List()
@@ -94,6 +99,7 @@ abstract class Tower () extends Actor
 
 class Tower1 (position:Position) extends Tower 
   {
+    val tower_type = Tower1Type
     val frequency =  10
     val priority = lazi _
     val range = 3
@@ -105,6 +111,7 @@ class Tower1 (position:Position) extends Tower
 
 class Tower2 (position:Position) extends Tower
   {
+    val tower_type = Tower2Type
     val frequency =  8
     val priority = lazi _
     val range = 3
@@ -127,41 +134,29 @@ abstract class Living () extends Moveable
 
 
 
-abstract class MonsterType
-case class Monster1 extends MonsterType
-case class Monster2 extends MonsterType
+abstract class MonsterType extends TileableType {def get_instance () : Monster }
+case object Monster1Type extends MonsterType {def get_instance () = new Monster1()}
+case object Monster2Type extends MonsterType {def get_instance () = new Monster2()}
+
 
 
 /** Les Monstres sont les ennemis */
-class Monster (taillpe : MonsterType) extends Living
+abstract class Monster () extends Living
 {
   /** butin obtenu lors de la mort du monstre */
-  var gold = 6
+  val gold : Int
 
-  var slowness = 12
-  var pos = new Position (4,0)
-  var life = 40
-  var wait_since = 0
+  var life : Int
+  var wait_since : Int
 
-  taillpe match {
-    case Monster1() => {
-      var gold = 6
-      var slowness = 12
-      var life = 40
-    }
-    case Monster2() => {
-      var gold = 8
-      var slowness = 12
-      var life = 50
-    }
-  }
+  val monster_type : MonsterType
 
-  /** le apply du monstre renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
+  /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
     var x = false
     if (this.wait_since == this.slowness)
     {
-      if ((this.pos).c == (Map.height-1))
+      if ((this.pos).c == (Map.width-1))
       {
         x = true
       }
@@ -180,3 +175,27 @@ class Monster (taillpe : MonsterType) extends Living
   }
 
 }
+
+
+class Monster1 () extends Monster {
+  val gold = 6
+  val slowness = 12
+  var wait_since = 0
+  var pos = new Position (Map.height / 2,0)
+  var life = 40
+  val monster_type = Monster1Type
+}
+
+class Monster2 () extends Monster {
+  val gold = 8
+  val slowness = 10
+  var wait_since = 0
+  var pos = new Position (Map.height / 2,0)
+  var life = 50
+  val monster_type = Monster2Type
+}
+
+
+
+
+
