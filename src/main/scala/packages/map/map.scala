@@ -194,4 +194,10 @@ object Map
       monsters(height/2)(0) = (monsters(height/2)(0)).+(m)
     }
 
+    /** Réinitialise les cartes */
+    def initialize():Unit = {
+      ground = initialize_matrix_ground(height,width)
+      towers = initialize_matrix_towers(height,width)
+      monsters = initialize_matrix_monsters(height,width)
+    }
 }

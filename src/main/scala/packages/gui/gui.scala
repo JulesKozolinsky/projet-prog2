@@ -33,7 +33,7 @@ object MainFrameGUI extends swing.MainFrame {
   title = "Tower defense"
   maximize () //la fenêtre est maximisée à l'ouverture
   var frame = new GamePanel
-  
+
   size = new Dimension(800, 600)
 
   start_game
@@ -91,7 +91,7 @@ object MainFrameGUI extends swing.MainFrame {
     contents = new Button("Gagné"){
       action = new Action(""){
       def apply (){start_game}
-        
+
         println(frame.size)
         icon =  new ImageIcon(zoom_image((new ImageIcon(getClass.getResource("/game_over.jpg"))).getImage(),size))
     }}
@@ -146,26 +146,45 @@ class GameOptions extends BorderPanel {
   /** Démarrage d'un round */
   var round_button = new Button(""){
     action = new Action(""){
-      icon  = new ImageIcon(getClass.getResource("/play_round_little.png"))
+      icon  = new ImageIcon(getClass.getResource("/play-button.png"))
 
       def apply(){
         if (!current_level.in_a_round) {
           MainFrameGUI.start_round
-          icon = new ImageIcon(getClass.getResource("/pause_round_little.png"))
+          icon = new ImageIcon(getClass.getResource("/pause-button.png"))
         }
         else {
           if (paused) {
             paused = false
             MainFrameGUI.timer.start
-            icon = new ImageIcon(getClass.getResource("/pause_round_little.png"))
+            icon = new ImageIcon(getClass.getResource("/pause-button.png"))
           }
           else {
             paused = true
             MainFrameGUI.timer.stop
-            icon = new ImageIcon(getClass.getResource("/play_round_little.png"))
+            icon = new ImageIcon(getClass.getResource("/play-button.png"))
           }
 
         }
+      }
+    }
+  }
+  var forward_button = new Button(""){
+    action = new Action(""){
+      icon  = new ImageIcon(getClass.getResource("/next-button.png"))
+
+      def apply() {
+
+      }
+    }
+  }
+
+  var back_button = new Button(""){
+    action = new Action(""){
+      icon  = new ImageIcon(getClass.getResource("/back-button.png"))
+
+      def apply() {
+
       }
     }
   }
