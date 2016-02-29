@@ -32,9 +32,9 @@ abstract class Moveable () extends Actor
 
 /** Les différents types de tour  */
 
-abstract class TowerType extends TileableType {def get_instance (pos:Position) : Tower }
-case class Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
-case class Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
+abstract class TowerType extends TileableType { def get_instance (pos:Position) : Tower}
+case object Tower1Type extends TowerType {def get_instance (pos:Position) = new Tower1(pos)}
+case object Tower2Type extends TowerType {def get_instance (pos:Position) = new Tower2(pos)}
 
 
 
@@ -99,7 +99,7 @@ abstract class Tower () extends Actor
 
 class Tower1 (position:Position) extends Tower 
   {
-    val tower_type = new Tower1Type
+    val tower_type = Tower1Type
     val frequency =  10
     val priority = lazi _
     val range = 3
@@ -111,7 +111,7 @@ class Tower1 (position:Position) extends Tower
 
 class Tower2 (position:Position) extends Tower
   {
-    val tower_type = new Tower2Type
+    val tower_type = Tower2Type
     val frequency =  8
     val priority = lazi _
     val range = 3
@@ -135,8 +135,8 @@ abstract class Living () extends Moveable
 
 
 abstract class MonsterType extends TileableType {def get_instance () : Monster }
-case class Monster1Type extends MonsterType {def get_instance () = new Monster1()}
-case class Monster2Type extends MonsterType {def get_instance () = new Monster2()}
+case object Monster1Type extends MonsterType {def get_instance () = new Monster1()}
+case object Monster2Type extends MonsterType {def get_instance () = new Monster2()}
 
 
 
@@ -183,7 +183,7 @@ class Monster1 () extends Monster {
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 40
-  val monster_type = new Monster1Type
+  val monster_type = Monster1Type
 }
 
 class Monster2 () extends Monster {
@@ -192,7 +192,7 @@ class Monster2 () extends Monster {
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
   var life = 50
-  val monster_type = new Monster2Type
+  val monster_type = Monster2Type
 }
 
 
