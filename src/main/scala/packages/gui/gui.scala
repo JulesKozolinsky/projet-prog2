@@ -46,14 +46,16 @@ object MainFrameGUI extends swing.MainFrame {
   def actualize() {
     if(!current_level.actualize){
       stop_round
-      if(current_level.has_won)
+       if(current_level.has_won)
         {
           game_won
-          game_won2()
         }
         
       if(current_level.has_lost)
-        game_won2()
+      {
+        game_over
+        game_over2
+      }
     }
 
     frame.actualize()
@@ -116,7 +118,7 @@ object MainFrameGUI extends swing.MainFrame {
     //visible = true
   }
 
-  def game_won2(){
+  def game_over2(){ //popopo
     if(Desktop.isDesktopSupported())
     {
 	val url : String = "https://www.youtube.com/embed/XMdoGqcnBoo?autoplay=1"
