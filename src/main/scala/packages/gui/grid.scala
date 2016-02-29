@@ -20,7 +20,7 @@ import scala.swing.event._
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
     for(j<-0 to columns - 1) {
-      contents += new Label()
+      contents += new Label
     }
   }
 

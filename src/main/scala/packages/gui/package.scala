@@ -11,7 +11,6 @@ import javax.swing.ImageIcon
   *
   */
 package object gui {
-  val tick = 100
 
   //def actualize_gui
   var current_level = new Level("/test1.xml")
@@ -32,6 +31,15 @@ package object gui {
     }
   }
 
+  /** Permet de modifier la dimension de toutes les tower_icons */
+  def resize_icons() {
+    for(i <- 0 to tower_skins_array.size - 1)
+      tower_skins_array(i).resize_all
+    for(i <- 0 to monster_skins_array.size - 1)
+      monster_skins_array(i).resize_all
+  }
+
+
 
   val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"),new Skin("/monster3.png"),new Skin("/monster4.png"),new Skin("/monster5.png"),new Skin("/monster6.png"))
   def monster_skins(t:MonsterType) : Skin =
@@ -45,6 +53,8 @@ package object gui {
         case Monster6Type => monster_skins_array(5)
       }
     }
+
+
 
   /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
   var current_tower_type = tower_skins_array(0).tower_type
