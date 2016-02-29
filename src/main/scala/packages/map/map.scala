@@ -157,8 +157,36 @@ object Map
 
 
     /** Renvoie l'ensemble des monsters situés à la position (l,c) */
-    def get_monsters (p:Position) : scala.collection.mutable.Set[Monster] = {
-      monsters(p.l)(p.c)
+    def get_monsters (p:Position) : Set[Tuple2[MonsterType,Int]] = {
+      // On parcourt le set "map_set"
+      var map_set = monsters(p.l)(p.c) //Set[Monster]
+      var monster_set = Set[Tuple2[MonsterType,Int]]()
+      while (!map_set.isEmpty) {
+        var m = (map_set.head).monster_type //m est le type du monstre
+        // On parcourt le set "monster_set"
+        var monster_set_rest = monster_set
+        monster_set = Set[Tuple2[MonsterType,Int]]()
+        var monster_type_founded = false
+        while (!monster_set_rest.isEmpty ) {
+          var t = monster_set_rest.head
+          var x = t._1
+          if (x == m) {
+            // le MonsterType est déjà présent dans le set du résultat,
+            // on augmente le nombre d'un
+            t = new Tuple2(m,t._2 + 1)
+            monster_type_founded = true
+          }
+          monster_set = monster_set.+(t)
+          monster_set_rest = monster_set_rest.tail
+        }
+        // le monsterType n'est pas encore présent dans le set du résultat,
+        // on l'ajoute donc
+        if (!monster_type_founded) {
+          monster_set = monster_set.+(new Tuple2(m,1))
+        }
+        map_set = map_set.tail
+      }
+      monster_set
     }
 
     /** Ajoute un monster sur la carte en position (height/2,0) */
