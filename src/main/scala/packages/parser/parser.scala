@@ -30,9 +30,9 @@ object Parser
     r2 = (new Tuple2(Set(new Tuple2(m4,1)),3))::r2
 
     r2 = (new Tuple2(Set(new Tuple2(m5,3)),6))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m1,0)),8))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m2,0)),7))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m1,0)),20))::r2
+    //r2 = (new Tuple2(Set(new Tuple2(m1,0)),8))::r2
+    //r2 = (new Tuple2(Set(new Tuple2(m2,0)),7))::r2
+    //r2 = (new Tuple2(Set(new Tuple2(m1,0)),20))::r2
 
     list_of_rounds = List(new Round(r2),new Round(r1))
 
