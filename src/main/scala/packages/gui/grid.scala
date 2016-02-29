@@ -72,7 +72,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       for(c<-0 to columns - 1) {
         val pos = new Position(l,c)
         val monsters = Map.get_monsters(pos)
-        if(monsters.size == 0 ){  
+        if(monsters.size == 0 ){
           contents(l*columns + c) = new TowerCell(pos)
           //MainFrameGUI.frame.game_grid.revalidate
           MainFrameGUI.visible = true // WTFFF si on l'enlève, énorme bug.
@@ -132,13 +132,13 @@ class TowerCell(pos:Position) extends Button("")
 class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
 {
   var scale = Math.sqrt(wave.size).ceil.toInt
-  val monsters = wave 
+  val monsters = wave
   for(i<-0 to monsters.size - 1){
     contents += new Label()
     }
 
   /** Initialisation des images de monstre
-    * 
+    *
     * L'initialisation n'est pas dans le constructeur car celle-ci doit avoir après un MainFrameGUI.visible
     *  pour que les taille de label et de case soient à jour*/
   def initialize_icons() {
@@ -155,7 +155,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sq
     }
     repaint
   }
-  
+
 
 
   override def repaint ()
