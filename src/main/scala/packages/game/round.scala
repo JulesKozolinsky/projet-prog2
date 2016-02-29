@@ -94,7 +94,6 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       {}
 
     }
-
   /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
     monsters.foreach { (m:Monster) => if (m.apply) {life = math.max(0,life-1) ; rem_monster(m)} }
 
