@@ -17,8 +17,8 @@ object Parser
     var m2 : MonsterType = Monster2Type
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    r1 = (new Tuple2(Set(new Tuple2(m1,5)),4))::r1
-    r1 = (new Tuple2(Set(new Tuple2(m2,0)),5))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m1,1)),4))::r1
+    r1 = (new Tuple2(Set(new Tuple2(m2,1)),6))::r1
     r1 = (new Tuple2(Set(new Tuple2(m1,0),new Tuple2(m2,0)),10))::r1
 
     var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()

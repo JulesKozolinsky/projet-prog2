@@ -17,7 +17,7 @@ import parser._
 class Level(file:String)
 {
 
-  /** Booléen indiquant si on se trouve en cours de round ou non */  
+  /** Booléen indiquant si on se trouve en cours de round ou non */
   var in_a_round = false
 
   /** L'identifiant du round dans lequel on se trouve.*/
@@ -26,21 +26,21 @@ class Level(file:String)
   /** Array contenant le rounds qui composent le niveau.*/
   var rounds = Parser.parse(file) //List[Round] ()
 
-  /** Permet de charger depuis le fichier XML l'ensemble des Rounds dont on a besoin, à l'aide du parser */
-  //def load_rounds() : Unit = {
-    //rounds = Parser.parse(file)
-  //}
 
   /** Démarre le round courrant
     *
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
-  def start_round():Round = {
+  def start_round():Unit = {
+    if (!rounds.isEmpty) {
     current_round = current_round + 1
-    var r = rounds.head
     rounds = rounds.tail
-    r
+    }
   }
+
+  /**
+  */
+  def stop_round():Unit = {}
 
 
   /** Crée une nouvelle tour
@@ -67,18 +67,18 @@ class Level(file:String)
   }
 
   /** Transmet à level l'état du round en cours
-     * 
+     *
      * Doit être lancée à chaque tick
      * @return true tant que le  round n'est pas terminé, false quand il est temps de se préparer pour un nouveau round
      */
   def actualize () : Boolean = {
     //in_a_round = true
     if (rounds.isEmpty) {throw new Exception ("You already finished this level")}
-    if ((rounds.head).actualize) 
+    if ((rounds.head).actualize)
       {
       if (life == 0) {throw new Exception("You failed : monsters killed you \n Game Over")}
       else
-        {if ((rounds.tails).isEmpty) {throw new Exception ("You killed everyone ! Congratulation !!")} 
+        {if ((rounds.tails).isEmpty) {throw new Exception ("You killed everyone ! Congratulation !!")}
          else {start_round() ; /*in_a_round = false ; */false}
         }
       }
