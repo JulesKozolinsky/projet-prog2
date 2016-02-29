@@ -68,6 +68,11 @@ object MainFrameGUI extends swing.MainFrame {
       timer.start
   }
 
+  def game_over()
+  {
+
+  }
+
 }
 
 /** Contient la grille et les options du jeu
