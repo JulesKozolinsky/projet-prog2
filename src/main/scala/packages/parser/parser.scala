@@ -27,14 +27,14 @@ object Parser
 
     var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
 
-    r2 = (new Tuple2(Set(new Tuple2(m1,0)),4))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m4,1)),3))::r2
 
-    r2 = (new Tuple2(Set(new Tuple2(m1,0)),6))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m5,3)),6))::r2
     r2 = (new Tuple2(Set(new Tuple2(m1,0)),8))::r2
     r2 = (new Tuple2(Set(new Tuple2(m2,0)),7))::r2
-    r2 = (new Tuple2(Set(new Tuple2(m1,10)),20))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,0)),20))::r2
 
-    list_of_rounds = List(new Round(r1),new Round(r2))
+    list_of_rounds = List(new Round(r2),new Round(r1))
 
 
     //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
