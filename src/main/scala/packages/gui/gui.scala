@@ -25,6 +25,11 @@ import java.awt.event.ActionEvent
 import javax.swing.Timer
 
 
+import java.awt.Desktop
+import java.net.URI
+
+
+
 /******************************** Organisation de la fenêtre **************/
 /** Main Frame de la GUI
   */
@@ -42,7 +47,7 @@ object MainFrameGUI extends swing.MainFrame {
     if(!current_level.actualize){
       stop_round
       if(current_level.has_won)
-        game_won
+        game_won2()
       if(current_level.has_lost)
         game_over
     }
@@ -79,7 +84,7 @@ object MainFrameGUI extends swing.MainFrame {
         timer.start
   }
 
-  def game_over(){
+  def game_won(){
     contents = new Button("Gagné"){
       action = new Action(""){
       def apply (){start_game}
@@ -87,7 +92,7 @@ object MainFrameGUI extends swing.MainFrame {
     repaint
     //visible = true
   }
-  def game_won(){
+  def game_over(){
     contents = new Button("Gagné"){
       action = new Action(""){
       def apply (){
@@ -100,6 +105,13 @@ object MainFrameGUI extends swing.MainFrame {
     repaint
 
     //visible = true
+  }
+
+  def game_won2(){
+    if(Desktop.isDesktopSupported())
+    {
+      Desktop.getDesktop().browse(new URI("https://www.facebook.com/konbinifr/videos/10154053721899276/"));
+    }
   }
 
   def start_game(){
@@ -181,7 +193,6 @@ class GameOptions extends BorderPanel {
 
       def apply() {
         MainFrameGUI.timer.setDelay(tick/4)
-        println("ok")
       }
     }
   }
