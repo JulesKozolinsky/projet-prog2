@@ -44,7 +44,7 @@ object MainFrameGUI extends swing.MainFrame {
       if(current_level.has_lost)
         game_over
     }
-      
+
     frame.actualize()
   }
 
@@ -63,7 +63,7 @@ object MainFrameGUI extends swing.MainFrame {
     timer.stop
   }
 
-  
+
   val reactor = new Object with Reactor
   reactor.listenTo(this)
   reactor.reactions += {
@@ -129,12 +129,28 @@ class GameOptions extends BorderPanel {
   /** Choix de la tour */
   val tower_choice = new TowerChoice
   /** Démarrage d'un round */
-  val round_button = new Button(""){
+  var round_button = new Button(""){
     action = new Action(""){
       icon  = new ImageIcon(getClass.getResource("/play_round_little.png"))
 
       def apply(){
-        MainFrameGUI.start_round
+        if (!current_level.in_a_round) {
+          MainFrameGUI.start_round
+          icon = new ImageIcon(getClass.getResource("/pause_round_little.png"))
+        }
+        else {
+          if (paused) {
+            paused = false
+            MainFrameGUI.timer.start
+            icon = new ImageIcon(getClass.getResource("/pause_round_little.png"))
+          }
+          else {
+            paused = true
+            MainFrameGUI.timer.stop
+            icon = new ImageIcon(getClass.getResource("/play_round_little.png"))
+          }
+
+        }
       }
     }
   }
@@ -142,7 +158,7 @@ class GameOptions extends BorderPanel {
   /** Argent et vie */
   val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
 
-  add(new GridPanel(1,2){hGap = 25; contents += infos; contents += round_button}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
+  add(new GridPanel(1,2){hGap = 25; contents += infos; contents += round_button; }, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 
 
@@ -150,6 +166,7 @@ class GameOptions extends BorderPanel {
   {
     life_info.set_text(game.life.toString)
     money_info.set_text(game.money.toString)
+    if (!current_level.in_a_round) {round_button.icon = new ImageIcon(getClass.getResource("/play_round_little.png"))}
   }
 }
 
@@ -158,8 +175,8 @@ class GameOptions extends BorderPanel {
 /* ************************ Skin *****************************/
 /** Cette classe permet de stocker des informations concernant l'affichage d'un élément de l'interface
   *
-  * On garde le fichier en mémoire parce que c'est le seul moyen de faire le zoom que j'ai trouvé 
-  * Plusieurs tailles de l'image sont conservées : 
+  * On garde le fichier en mémoire parce que c'est le seul moyen de faire le zoom que j'ai trouvé
+  * Plusieurs tailles de l'image sont conservées :
   * 0 correspondant à la taille de l'image initiale
   * 1 est la taille d'une cellule de la grille
   * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
@@ -171,7 +188,7 @@ class Skin(a_file:String)
   private val file = a_file
 
   /** Tableau contenant différentes tailles pour l'icone
-    * 
+    *
     * 0 correspondant à la taille de l'image initiale
     * 1 est la taille d'une cellule de la grille
     * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
@@ -208,7 +225,7 @@ class Skin(a_file:String)
     *
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant la déformer
     * @param new_dim Les dimensions de la nouvelle image
-    * @param scale Échelle redimensionnée 
+    * @param scale Échelle redimensionnée
     */
   def resize( scale : Int , new_dim : Dimension)
   {
@@ -228,7 +245,7 @@ class Skin(a_file:String)
           icons = icons.:+(None) //:+ append
           up_to_date = up_to_date.:+(false)
         }
-        
+
         icons = icons.:+ (Some(new ImageIcon(zoom_image(icon0.getImage,new_dim))))
         up_to_date = up_to_date.:+(true)
       }

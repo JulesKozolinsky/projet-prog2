@@ -16,6 +16,7 @@ import parser._
 
 class Level(file:String)
 {
+  
   /** si has_win vaut vrai, alors le joueur a gagné */
   var has_won : Boolean = false
 
@@ -91,14 +92,12 @@ class Level(file:String)
   def actualize () : Boolean = {
     if (in_a_round) {
       if ((rounds.head).actualize) {
-        println("round terminé ! ")
         stop_round()
         if (life == 0) {
           has_lost = true
         }
         else {
           if (rounds.isEmpty) {
-              println ("coucou")
               has_won = true
           }
           else {}//le round est terminé, mais il reste des rounds à jouer

@@ -17,6 +17,7 @@ package object gui {
   var current_level = new Level("/test1.xml")
  // var current_round = new Round(List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]())
 
+  var paused = false 
 
   /** Tableau contenant les skins de tous les types de tour
     *
@@ -33,7 +34,7 @@ package object gui {
 
 
   val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"),new Skin("/monster3.png"),new Skin("/monster4.png"),new Skin("/monster5.png"),new Skin("/monster6.png"))
-  def monster_skins(t:MonsterType) : Skin = 
+  def monster_skins(t:MonsterType) : Skin =
     {
       t match {
         case Monster1Type => monster_skins_array(0)
