@@ -39,7 +39,7 @@ object MainFrameGUI extends swing.MainFrame {
   maximize () //la fenêtre est maximisée à l'ouverture
   var frame = new GamePanel
 
-  size = new Dimension(800, 600)
+
 
   start_game
 
@@ -82,6 +82,11 @@ object MainFrameGUI extends swing.MainFrame {
     case WindowActivated(_) =>
       if(current_level.in_a_round && !paused)
         timer.start
+    case UIElementResized(_) =>
+      println("resize event")
+      resize_icons
+      println("endresize")
+      repaint //permet d'actualiser tous les boutons
   }
 
   def game_won(){
@@ -116,14 +121,18 @@ object MainFrameGUI extends swing.MainFrame {
 
   def start_game(){
     frame = new GamePanel
+    size = new Dimension(800, 600)
     maximize ()
+
     contents = frame
+
     life = life_default
     money = money_default
+
     Map.initialize()
     current_level = new Level("/test1.xml")
     visible = true
-    actualize
+    resize_icons
     repaint
   }
 
