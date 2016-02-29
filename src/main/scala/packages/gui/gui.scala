@@ -55,6 +55,17 @@ object MainFrameGUI extends swing.MainFrame {
   def stop_round(){
     timer.stop
   }
+
+  val reactor = new Object with Reactor
+   // gestion des changements de taille de la fenêtre
+  reactor.listenTo(this)
+  reactor.reactions += {
+    //code exécuté quand la fenetre est redimensionnée
+    case WindowClosing(_) =>
+println("hey")
+      stop_round
+  }
+
 }
 
 /** Contient la grille et les options du jeu
