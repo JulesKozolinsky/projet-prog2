@@ -102,7 +102,9 @@ object MainFrameGUI extends swing.MainFrame {
 
   def start_game(){
     frame = new GamePanel
+    maximize ()
     contents = frame
+    Map.initialize()
     current_level = new Level("/test1.xml")
     visible = true
     actualize
