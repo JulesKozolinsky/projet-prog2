@@ -17,7 +17,7 @@ import parser._
 class Level(file:String)
 {
   /** si has_win vaut vrai, alors le joueur a gagné */
-  var has_win : Boolean = false
+  var has_won : Boolean = false
 
   /** si has_lost vaut vrai, alors le joueur a perdu */
   var has_lost : Boolean = false
@@ -97,7 +97,7 @@ class Level(file:String)
         }
         else {
           if (rounds.isEmpty) {
-              has_win = true
+              has_won = true
           }
           else {}//le round est terminé, mais il reste des rounds à jouer
         }
