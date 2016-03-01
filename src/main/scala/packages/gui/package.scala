@@ -7,23 +7,31 @@ import java.awt.image._
 import java.awt.Image
 import java.awt.Dimension
 import javax.swing.ImageIcon
+
 /** Contient des classes permettant de générer l'interface graphique du jeu
   *
+  * Objet principal : MainFrameGui
+  * Contient un GamePanel qui fait la séparation entre la grille (GameGrid) et les options (GameOptions)
   */
 package object gui {
 
-  //def actualize_gui
+  /** Le niveau dans lequel on joue. Cette variable est mise à jour par MainFrameGUI */
   var current_level = new Level("/test1.xml")
- // var current_round = new Round(List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]())
-
+  /** Vaut true si le jeu est en pause et false sinon. Cette variable est mise à jour par MainFrameGUI */
   var paused = false 
+
 
   /** Tableau contenant les skins de tous les types de tour
     *
-    * Le type par défaut au début du jeu est le premier qui apparaît dans ce tableau.
+    * Le type de tour par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.
     */
   val tower_skins_array = Array(new TowerSkin("/choice_tower1.png", "/tower1.png", Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png", Tower2Type))
+
+  /** Type actuel. Cette variable est mise à jour par TowerChoice*/
+  var current_tower_type = tower_skins_array(0).tower_type
+
+  /** Convertit un TowerType en skin */
   def tower_skins(t:TowerType) : Skin = {
     t match {
       case Tower1Type => tower_skins_array(0)
@@ -31,18 +39,12 @@ package object gui {
     }
   }
 
-  /** Permet de modifier la dimension de toutes les tower_icons */
-  def resize_icons() {
-    println("resized")
-    for(i <- 0 to tower_skins_array.size - 1)
-      tower_skins_array(i).resize_all
-    for(i <- 0 to monster_skins_array.size - 1)
-      monster_skins_array(i).resize_all
-  }
-
-
-
+  /** Tableau contenant les skins de tous les types de monstre
+    *
+    * Attention, ce tableau ne peut pas être vide.
+    */
   val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"),new Skin("/monster3.png"),new Skin("/monster4.png"),new Skin("/monster5.png"),new Skin("/monster6.png"))
+  /** Convertit un MonsterType en skin */
   def monster_skins(t:MonsterType) : Skin =
     {
       t match {
@@ -55,10 +57,21 @@ package object gui {
       }
     }
 
+  /** Permet de modifier la dimension de toutes les tower_icons */
+  def resize_icons() {
+    for(i <- 0 to tower_skins_array.size - 1)
+      tower_skins_array(i).resize_all
+    for(i <- 0 to monster_skins_array.size - 1)
+      monster_skins_array(i).resize_all
+  }
 
 
-  /** Indice dans skins du skin actuellement sélectionné dans tower_choice */
-  var current_tower_type = tower_skins_array(0).tower_type
+
+  
+
+
+
+  
 
 
 

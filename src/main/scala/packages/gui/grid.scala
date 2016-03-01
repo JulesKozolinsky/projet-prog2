@@ -1,4 +1,5 @@
 //contient l'implémentation de la grille
+
 package packages
 package gui
 
@@ -18,36 +19,15 @@ import scala.swing.event._
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
+
+  //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
     for(j<-0 to columns - 1) {
       contents += new Label
     }
   }
 
-
-
-  /** Permet de réagir au clics de l'utilisateur */
-  val reactor = new Object with Reactor
-
-  // gestion des changements de taille de la fenêtre
-  /*reactor.listenTo(MainFrameGUI)
-  reactor.reactions += {
-    //code exécuté quand la fenetre est redimensionnée
-    case UIElementResized(_) =>
-      resize_icons
-      repaint //permet d'actualiser tous les boutons
-  }*/
-
-
-  /** Récupère un bouton à une position donnée */
-  def get_button(pos:Position):Button = {
-    this(pos)  match {
-      case but : Button => (but)
-      case _  => throw new ClassCastException
-    }
-  }
-
-  /** Appelle le repaint des boutons contenus dans la grille*/
+  /** Appelle le repaint des boutons contenus dans la grille (normalement, il devrait le faire mais il semble que ce ne soit pas le cas)*/
   override def repaint(){
     for(i<- 0 to contents.size-1){
       contents(i).repaint
@@ -58,22 +38,21 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   /** Actualise la grille en fonction de l'état de la Map.*/
   def actualize()
   {
-    //resize_icons
     for(l<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
       for(c<-0 to columns - 1) {
         val pos = new Position(l,c)
         val monsters = Map.get_monsters(pos)
-        if(monsters.size == 0 ){
+        if(monsters.size == 0 ){ //s'il n'y a pas de monstres sur la case
           contents(l*columns + c) = new TowerCell(pos)
-          //MainFrameGUI.frame.game_grid.revalidate
-          MainFrameGUI.visible = true // WTFFF si on l'enlève, énorme bug.
-          if(Map.is_tower(pos)){
+          MainFrameGUI.visible = true // On doit réactualiser GUI car sinon la taille de notre nouvelle MonsterCell
+          //n'est pas correctement actualisée : on aura width = 0 et height = 0
+          if(Map.is_tower(pos)){ // S'il y une tour sur la case, on appelle build tower
             (contents(l*columns + c) match {
               case t:TowerCell => t
               case _ => throw new  ClassCastException
             }).build_tower(Map.get_tower(pos).tower_type)
           }
-        }else{
+        }else{ //s'il y a au moins un monstre
           contents(l*columns + c) = new MonsterCell(monsters)
           MainFrameGUI.visible = true
           (contents(l*columns + c) match {
@@ -86,22 +65,27 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   }
 }
 
-/** Cellule de la grille contenant un bouton permettant d'ajouter des tours */
+/** Cellule de la grille contenant un bouton permettant d'ajouter des tours 
+  * 
+  * Par défaut, la cellule ne contient pas de tour et on ne sait pas encore quel type de tour elle va contenir
+  */
 class TowerCell(pos:Position) extends Button("")
 {
+  /** skin associé à la cellule*/
   var skin : Option[Skin] = None
   action = new Action(""){
     background = new Color(0,0,0,0)
     rolloverEnabled = false
     contentAreaFilled = false
 
-
+    //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
     def apply(){
       current_level.create_new_tower(current_tower_type,pos)
        MainFrameGUI.actualize()
     }
   }
 
+  /** en plus du repaint, on vérifie que la taille est correcte */
   override def repaint(){
 
     skin match {
@@ -122,8 +106,10 @@ class TowerCell(pos:Position) extends Button("")
 /** Cellule de la grille contenant des monstres */
 class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
 {
+  /** Taille des images de monstres dans le skin correspondant */
   var scale = Math.sqrt(wave.size).ceil.toInt
   val monsters = wave
+  //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
   for(i<-0 to monsters.size - 1){
     contents += new Label()
     }
@@ -131,7 +117,8 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sq
   /** Initialisation des images de monstre
     *
     * L'initialisation n'est pas dans le constructeur car celle-ci doit avoir après un MainFrameGUI.visible
-    *  pour que les taille de label et de case soient à jour*/
+    *  pour que les tailles de label et de case soient à jour
+    */
   def initialize_icons() {
     var left_monsters = monsters
     var i = 0

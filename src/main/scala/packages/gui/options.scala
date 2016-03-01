@@ -1,3 +1,5 @@
+//Ce fichier contient les classes concernant les interactions avec l'utilisateur sur le panneau supérieur du jeu
+
 package packages
 package gui
 
@@ -21,8 +23,11 @@ class GameOptions extends BorderPanel {
   border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,0))
   /** Affichage du nombre de vies */
   val life_info = new InfoGame("/little_heart.png",game.life.toString)
-  /** Affichage argent restant */
+  /** Affichage or restant */
   val money_info = new InfoGame("/little_money.png",game.money.toString)
+  /** Or et vie */
+  val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
+
   /** Choix de la tour */
   val tower_choice = new TowerChoice
   /** Démarrage d'un round */
@@ -36,7 +41,7 @@ class GameOptions extends BorderPanel {
           icon = new ImageIcon(getClass.getResource("/pause-button.png"))
         }
         else {
-          if (paused) {
+          if (paused) { //le bouton change d'apparence lorsque l'on est dans un round. On peut alors faire une pause.
             paused = false
             MainFrameGUI.timer.start
             icon = new ImageIcon(getClass.getResource("/pause-button.png"))
@@ -51,6 +56,7 @@ class GameOptions extends BorderPanel {
       }
     }
   }
+  /** Bouton permettant d'accélérer le jeu pendant la phase d'attaque des monstres */
   var next_button = new Button(""){
     action = new Action(""){
       icon  = new ImageIcon(getClass.getResource("/next-button.png"))
@@ -61,6 +67,7 @@ class GameOptions extends BorderPanel {
     }
   }
 
+   /** Bouton permettant de ralentir le jeu pendant la phase d'attaque des monstres */
   var back_button = new Button(""){
     action = new Action(""){
       icon  = new ImageIcon(getClass.getResource("/back-button.png"))
@@ -71,14 +78,13 @@ class GameOptions extends BorderPanel {
     }
   }
 
-  /** Argent et vie */
-  val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
+
 
   add(new GridPanel(1,2){hGap = 25; contents += infos; contents += back_button ; contents += round_button;
     contents += next_button;}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 
-
+  /** Synchronise le nombre de vies et l'or restant avec level */
   def actualize()
   {
     life_info.set_text(game.life.toString)
@@ -148,7 +154,7 @@ class InfoGame(file : String, text : String) extends GridPanel(1,2){
   val info = new Label(text)
   contents += icone; contents += info
 
-  /** Change la valeur */
+  /** Change la valeur du texte*/
   def set_text(text : String)
   {
     info.text = text
