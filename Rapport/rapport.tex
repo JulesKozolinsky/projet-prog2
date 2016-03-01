@@ -3,6 +3,8 @@
 \usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 
 \title{Rapport du projet de programmtion 2}
 \author{Jules Kozolinsky, Gabriel Lebouder, Julien Rixte}
@@ -29,9 +31,9 @@ Nous avons choisi de diviser le code en trois parties principales : l'interface 
 \par
 Ainsi, afin que l'interface graphique puisse être changée aisément, aucun élément ayant trait à \textbf{gui} n'apparaît dans les autres parties du code. Pour cela, gui ne fait que lire les informations de \textbf{map} pour afficher les éléments de la carte et demande à \textbf{game} de s'actualiser lorsque cela est nécessaire. 
 \par
-Un paragraphs sur les interactions entre \textbf{map} et \textbf{game}
+TODO Un paragraphe sur les interactions entre \textbf{map} et \textbf{game}
 \par
-à compléter
+TODO à compléter
 Une quatrième partie, \textbf{entities}, qui correspond à la configuration des tours et des monstres, dispose de classes permettant de créer facilement de nouveaux types de tours ou de monstres.
 \section{Les différents packages}
 
@@ -52,9 +54,17 @@ messieurs jules et alix ça va bien ??
 
 tututu
 \subsection{Gui}
-Le package gui contient l'interface graphique
-\subsubsection{Gui}
-\subsubsection{Grid}
+
+\begin{figure}[h]
+\center
+\includegraphics[scale = 0.4]{schema_gui.png}
+\caption{Organisation de GUI}
+\end{figure}
+
+Le package \textbf{gui} contient l'interface graphique du jeu. Celle-ci a été écrite avec swing. L'objet principal est \textit{MainFrameGUI}. Il contient notamment la fonction actualize qui permet d'actualiser complètement \textbf{gui}. L'interface est alors séparée en deux parties : \textit{GameOptions} qui contient les options du jeu, situées en haut et \textit{GameGrid} qui contient la grille du jeu. \textit{GameOptions} est principalement constitué de boutons et d'informations sur le jeu. \textit{GameGrid} est le coeur de l'interface. C'est une grille qui peut contenir des \textit{MonsterCell} ou des \textit{TowerCell}. La fonction actualize de \textit{GameGrid} est la principale fonction d'actualisation de l'interface : c'est elle qui va lire la carte afin de placer les monstres et les tours à leur place.
+\par
+La gestion des images a posé de nombreux problèmes : en effet, nous n'avons pas trouvé d'autre moyen que de recharger le fichier image pour changer ses dimensions. Nous avons donc essayé de minimiser le nombre de fois où l'on change de taille d'image. De cette idée est née la classe \textit{Skin} qui permet un partage d'image entre les différentes entités de la grille et une évaluation paresseuse des différentes échelles dont on a besoin pour l'image. Cette classe permet donc de mettre autant de monstres qu'on le souhaite sur une même case sans pour autant ralentir de manière significative.
+
 
 \section{Ce qu'on aimerait faire}
 
