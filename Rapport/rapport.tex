@@ -11,11 +11,28 @@
 \maketitle
 
 \section{Introduction}
+Dans ce projet, nous avons du coder un jeu de type tower defense. Nous avons donc choisi de mettre en scène la protection d'une vallée contre des vagues de monstres ennemis. Pour cela, le joueur pourra construire des tours au dessus de la vallée afin de s'assurer que les monstres ne la traversent pas. 
+\par
+Nous avons subdivisé notre code en différents packages traitant chacun d'un aspect du problème. Nous expliquerons dans un premier temps le fonctionnement du jeu. Puis, nous présenterons les interactions entre nos packages. Enfin, nous verrons plus en détail l'organisation de chaque package.
 
-Nous avons subdivisé notre code en différents packages traitant de différents aspects du problème.·\\  Nous allons présenter dans un premier temps les interractions entre nos packages.\\  Nous présenterons ensuite un par un les packages.
+\section{Fonctionnement du jeu}
+Le jeu se déroule en différents niveaux. À chaque niveau, le joueur se voit attribuer un montant d'or et un nombre de vies. L'or permet de créer des tours. Le nombre de vies diminue lorsque des monstres parviennent à passer les défenses érigées par le joueur. Lorsque le joueur n'a plus de vie, il a perdu$_{the game}$.
+\par
+Chaque niveau consiste en une série de vagues de monstres précédées chacune d'une phase de positionnement défensif. Lors de la phase de positionnement, le joueur peut placer des tours de défense dans la limite de l'or disponible. Ces tours peuvent être de plusieurs type et certaines, bien que plus puissantes, peuvent coûter plus cher que d'autres. Une fois le positionnement effectué, le joueur peut lancer la vague de monstres en cliquant sur le bouton play.
+\par
+Les monstres vont alors essayer de passer outre les défenses du joueur. Chaque monstre tué rapporte un montant d'or proportionnel à la difficulté à tuer celui-ci. Pendant cette phase de jeu, il est impossible d'ajouter les tours. C'est pourquoi nous avons ajouté un bouton d'avance rapide permettant d'accélérer le jeu.
+\par
+À la fin du jeu, il suffit de cliquer sur l'image indiquant la défaite ou la victoire du joueur pour recommencer une partie.
 
-\section{Interractions entre nos packages}
-
+\section{Interactions entre nos packages}
+Nous avons choisi de diviser le code en trois parties principales : l'interface graphique (\textbf{gui}), le control du jeu (\textbf{game}) et la carte (\textbf{map}). L'idée derrière cette organisation était de cloisonner le plus possible différentes parties du codes afin qu'elles puissent fonctionner indépendemment. 
+\par
+Ainsi, afin que l'interface graphique puisse être changée aisément, aucun élément ayant trait à \textbf{gui} n'apparaît dans les autres parties du code. Pour cela, gui ne fait que lire les informations de \textbf{map} pour afficher les éléments de la carte et demande à \textbf{game} de s'actualiser lorsque cela est nécessaire. 
+\par
+Un paragraphs sur les interactions entre \textbf{map} et \textbf{game}
+\par
+à compléter
+Une quatrième partie, \textbf{entities}, qui correspond à la configuration des tours et des monstres, dispose de classes permettant de créer facilement de nouveaux types de tours ou de monstres.
 \section{Les différents packages}
 
 \subsection{Entities}
@@ -35,6 +52,7 @@ messieurs jules et alix ça va bien ??
 
 tututu
 \subsection{Gui}
+Le package gui contient l'interface graphique
 \subsubsection{Gui}
 \subsubsection{Grid}
 
