@@ -27,11 +27,11 @@ Les monstres vont alors essayer de passer outre les défenses du joueur. Chaque 
 À la fin du jeu, il suffit de cliquer sur l'image indiquant la défaite ou la victoire du joueur pour recommencer une partie.
 
 \section{Interactions entre nos packages}
-Nous avons choisi de diviser le code en trois parties principales : l'interface graphique (\textbf{gui}), le control du jeu (\textbf{game}) et la carte (\textbf{map}). L'idée derrière cette organisation était de cloisonner le plus possible différentes parties du codes afin qu'elles puissent fonctionner indépendemment. 
+Nous avons choisi de diviser le code en trois parties principales : l'interface graphique (\textbf{gui}), le contrôle du jeu (\textbf{game}) et la carte (\textbf{map}). L'idée derrière cette organisation était de cloisonner le plus possible différentes parties du codes afin qu'elles puissent fonctionner indépendemment. 
 \par
 Ainsi, afin que l'interface graphique puisse être changée aisément, aucun élément ayant trait à \textbf{gui} n'apparaît dans les autres parties du code. Pour cela, gui ne fait que lire les informations de \textbf{map} pour afficher les éléments de la carte et demande à \textbf{game} de s'actualiser lorsque cela est nécessaire. 
 \par
-TODO Un paragraphe sur les interactions entre \textbf{map} et \textbf{game}
+Le package game interroge le package map. La carte se charge du déplacement physique des monstres et de l'emplacement des tours. Ainsi ce sera le package \textbf{map} qui déterminera s'il est possible de placer une tour à une position donnée, et mais aussi de la position où le monstre doit se déplacer. La \textbf{map} dispose en effet d'une carte des monstres et des tours, alors que \textbf{game} dispose uniquement d'un \textit{Set} de monstres. 
 \par
 TODO à compléter
 Une quatrième partie, \textbf{entities}, qui correspond à la configuration des tours et des monstres, dispose de classes permettant de créer facilement de nouveaux types de tours ou de monstres.
@@ -47,12 +47,14 @@ les classes XXX1Type sont des objects
 \subsubsection{Level}
 
 \subsection{Parser}
+Le package \textbf{parser} s'occupe d'extraire d'un fichier XML les différentes informations sur un \textit{Level}, par exemple le nombre de round ou encore la date à laquelle les monstres de différents types vont apparaître, i.e. toutes les informations nécessaires pour construire un \textit{Level}. En pratique le \textbf{parser} ne fonctionne pas à cause d'un problème dûe à la librairie d'extraction de XML. On écrit donc naïvement à l'intérieur du package pour implémenter nos exemples. 
 
 \subsection{Map}
-bonjour
-messieurs jules et alix ça va bien ??
+Le package \textbf{map} représente les emplacements physiques des entités du jeu. En réalité, il existe trois cartes différentes : \textit{ground} représentant les obstacles fixes du jeu (par exemple des roches, des arbres ou encore des rivières), \textit{towers} représentant la position des différentes tours et \textit{monsters} représentant la position des monstres pendant un round. Ces trois cartes étant \textit{privées}, les autres packages \textbf{game} et \textbf{gui} appellent des fonctions particulières du package, par exemple s'il est possible de placer une tour, ou pour avoir accès aux monstres situés à une position donnée, ou également pour connaître la prochaine position d'un monstre. 
+\par
+En effet c'est le package \textbf{map} qui se charge de calculer le déplacement des monstres (pour l'instant naïvement dans la vallée). 
 
-tututu
+
 \subsection{Gui}
 
 \begin{figure}[h]
