@@ -33,8 +33,11 @@ object MainFrameGUI extends swing.MainFrame {
   /** Permet de recommencer le jeu */
   def start_game(){
     frame = new GamePanel
+    
+    //maximize () //la fenêtre est maximisée au début de chaque niveau
     size = new Dimension(800, 600)
-    maximize () //la fenêtre est maximisée au début de chaque niveau
+    preferredSize = new Dimension(800, 600)
+    maximize
 
     contents = frame
 
@@ -56,6 +59,7 @@ object MainFrameGUI extends swing.MainFrame {
     * si on est dans un round, la fonction actualize correspond à un tick 
     */
   def actualize() {
+
     if(!current_level.actualize){ //si le round est terminé
       stop_round //on arrête le timer
        if(current_level.has_won)
@@ -93,10 +97,13 @@ object MainFrameGUI extends swing.MainFrame {
   /****************** Game won et game over **/
   /** Affiche un gros bouton "gagné" */
   def game_won(){
-    contents = new Button("Gagné"){
-      action = new Action("Gagné"){
-      def apply (){start_game}
+    contents = new Button(""){
+      action = new Action(""){
+        icon =  full_screen_image("/game_won.jpg")
+          def apply (){start_game}
+        
     }}
+    maximize
     repaint
   }
 
@@ -107,8 +114,9 @@ object MainFrameGUI extends swing.MainFrame {
       def apply (){
         start_game
       }
-      icon =  new ImageIcon(zoom_image((new ImageIcon(getClass.getResource("/game_over.jpg"))).getImage(),java.awt.Toolkit.getDefaultToolkit().getScreenSize()))
+      icon =  full_screen_image("/game_over.jpg")
     }}
+    maximize
     repaint
   }
 
@@ -140,6 +148,7 @@ object MainFrameGUI extends swing.MainFrame {
         timer.start
     case UIElementResized(_) =>
       resize_icons //les icônes doivent être actualisées
+      actualize
       repaint //permet d'actualiser tous les boutons
   }
 }

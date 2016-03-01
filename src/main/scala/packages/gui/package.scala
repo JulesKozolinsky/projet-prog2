@@ -66,15 +66,6 @@ package object gui {
   }
 
 
-
-  
-
-
-
-  
-
-
-
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions
     *
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer l'image de départ.
@@ -90,5 +81,10 @@ package object gui {
       image.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_SMOOTH)
     } else
       image
+  }
+
+  /** Renvoie une image de la taille de la fenêtre */
+  def full_screen_image (file:String) : ImageIcon = {
+    new ImageIcon(new ImageIcon(getClass.getResource(file)).getImage.getScaledInstance(java.awt.Toolkit.getDefaultToolkit().getScreenSize.width,java.awt.Toolkit.getDefaultToolkit().getScreenSize.height,java.awt.Image.SCALE_SMOOTH))
   }
 }
