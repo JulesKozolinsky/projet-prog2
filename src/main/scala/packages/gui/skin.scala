@@ -6,6 +6,7 @@ import entities._
 import swing._
 
 import javax.swing.ImageIcon
+import java.awt.Dimension
 
 /* ************************ Skin *****************************/
 /** Cette classe permet de stocker des informations concernant l'affichage d'un élément de l'interface
@@ -14,23 +15,27 @@ import javax.swing.ImageIcon
   * Plusieurs tailles de l'image sont conservées :
   * 0 correspondant à la taille de l'image initiale
   * 1 est la taille d'une cellule de la grille
-  * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
-  * Utilisation de l'évaluation paresseuse : on ne crée une image que si on en a besoin. De plus, lorsque toutes les images doivent changer de taille, il faut le préciser à l'objet
+  * n est l'icône de la taille correspondant à une cellule divisée en n² cellules
+  * Utilisation de l'évaluation paresseuse : on ne crée une image que si on en a besoin. De plus, lorsque toutes les images doivent changer de taille, il faut le préciser à l'objet (resize_all)
   * @param a_file Image associée au skin
   */
 class Skin(a_file:String)
 {
+  /** Le fichier contenant l'image dont on veut le skin*/
   private val file = a_file
 
-  /** Tableau contenant différentes tailles pour l'icone
+  /** Tableau contenant différentes tailles pour l'icône
     *
     * 0 correspondant à la taille de l'image initiale
     * 1 est la taille d'une cellule de la grille
-    * n est l'icone de la taille correspondant à une cellule divisée en n2 cellules
+    * n est l'icône de la taille correspondant à une cellule divisée en n² cellules
     */
   private var icons = Array[Option[ImageIcon]](Some(icon0))
 
-  /**Permet de savoir si l'image est bien à jour ou non. */
+  /**Permet de savoir si l'image est bien à jour ou non. 
+    * 
+    * La fonction resize_all permet justement qu'aucune des images ne soit à jour, sauf 0
+    */
   private var up_to_date = Array[Boolean](true)
 
   /** Permet d'obtenir l'image dans sa dimension d'origine */
@@ -45,18 +50,19 @@ class Skin(a_file:String)
       case None => throw new IllegalArgumentException("La fonction resize a échoué.") // ne doit jamais arriver
     }}
 
-  /** Permet de réinitialiser le tableau d'icones */
+  /** Permet de réinitialiser le tableau d'icônes */
   def init()  {
     icons = Array[Option[ImageIcon]](Some(icon0()))
   }
 
+  /** Permet de dire à skin qu'il faut recalculer les images quand on en aura besoin */
   def resize_all(){
     for(i <- 1 to icons.size - 1){
       up_to_date(i) = false
     }
   }
 
-  /** Permet de changer la taille de l'icone
+  /** Permet de changer la taille de l'icône
     *
     * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant la déformer
     * @param new_dim Les dimensions de la nouvelle image
@@ -90,7 +96,7 @@ class Skin(a_file:String)
 
 /** Cette classe permet de stocker des informations concernant l'affichage d'une tour dans l'interface
   *
-  * L'icone de choix de la tour reste constante tout au long du jeu.
+  * L'icône de choix de la tour reste constante tout au long du jeu.
   * En revanche, on garde en mémoire le nom du fichier pour la grille afin de pouvoir adapter le taille de l'image de tour à la taille des cases de la grille.
   * @param choice_file Image affichée dans le menu de choix des tours
   * @param grid_file Image utilisée pour l'affichage de la tour dans la grille

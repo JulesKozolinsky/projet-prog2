@@ -41,7 +41,7 @@ object MainFrameGUI extends swing.MainFrame {
     life = life_default
     money = money_default
 
-    Map.initialize() //on remet la map à réro
+    Map.initialize() //on remet la map à zéro
     current_level = new Level("/test1.xml") //chargement d'un nouveau niveau
 
     //actualisation
