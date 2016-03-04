@@ -18,9 +18,9 @@ Dans ce projet, nous avons codé un jeu de type tower defense. Nous avons donc c
 Nous avons subdivisé notre code en différents packages traitant chacun d'un aspect du problème. Nous expliquerons dans un premier temps le fonctionnement du jeu. Puis, nous présenterons les interactions entre nos packages. Enfin, nous verrons plus en détail l'organisation de chaque package.
 
 \section{Fonctionnement du jeu}
-Le jeu se déroule en différents niveaux. À chaque niveau, le joueur se voit attribuer un montant d'or et un nombre de vies. L'or permet de créer des tours. Le nombre de vies diminue lorsque des monstres parviennent à passer les défenses érigées par le joueur. Lorsque le joueur n'a plus de vie, il a perdu$_{the game}$.
+Le jeu se déroule en différents rounds. À chaque round, le joueur se voit attribuer un montant d'or et un nombre de vies. L'or permet de créer des tours. Le nombre de vies diminue lorsque des monstres parviennent à passer les défenses érigées par le joueur. Lorsque le joueur n'a plus de vie, il a perdu$_{the game}$.
 \par
-Chaque niveau consiste en une série de vagues de monstres précédées chacune d'une phase de positionnement défensif. Lors de la phase de positionnement, le joueur peut placer des tours de défense dans la limite de l'or disponible. Ces tours peuvent être de plusieurs type et certaines, bien que plus puissantes, peuvent coûter plus cher que d'autres. Une fois le positionnement effectué, le joueur peut lancer la vague de monstres en cliquant sur le bouton play.
+Chaque round consiste en une série de vagues de monstres précédées chacune d'une phase de positionnement défensif. Lors de la phase de positionnement, le joueur peut placer des tours de défense dans la limite de l'or disponible. Ces tours peuvent être de plusieurs type et certaines, bien que plus puissantes, peuvent coûter plus cher que d'autres. Une fois le positionnement effectué, le joueur peut lancer la vague de monstres en cliquant sur le bouton play.
 \par
 Les monstres vont alors essayer de passer outre les défenses du joueur. Chaque monstre tué rapporte un montant d'or proportionnel à la difficulté à tuer celui-ci. Pendant cette phase de jeu, il est impossible d'ajouter les tours. C'est pourquoi nous avons ajouté un bouton d'avance rapide permettant d'accélérer le jeu.
 \par
@@ -106,6 +106,8 @@ La gestion des images a posé de nombreux problèmes : en effet, nous n'avons pa
 \item Gagner plein de sous avec
 \item La puissance des tours peut décroître avec la distance
 \item La fonction de tri des round ne gère pas encore l'éventualité où deux vagues ont la même date (mais le parser est censé s'en occuper tout seul de toute façon)
+\item Des options de tours qui apparaissent au fur et à mesure des rounds
+
 \end{itemize}
 
 \end{document}
