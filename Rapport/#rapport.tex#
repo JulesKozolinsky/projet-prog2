@@ -13,7 +13,7 @@
 \maketitle
 
 \section{Introduction}
-Dans ce projet, nous avons codé un jeu de type tower defense. Nous avons donc choisi de mettre en scène la protection d'une vallée contre des vagues de monstres ennemis. Pour cela, le joueur pourra construire des tours au dessus de la vallée afin de s'assurer que les monstres ne la traversent pas. 
+Dans ce projet, nous avons du coder un jeu de type tower defense. Nous avons donc choisi de mettre en scène la protection d'une vallée contre des vagues de monstres ennemis. Pour cela, le joueur pourra construire des tours au dessus de la vallée afin de s'assurer que les monstres ne la traversent pas. 
 \par
 Nous avons subdivisé notre code en différents packages traitant chacun d'un aspect du problème. Nous expliquerons dans un premier temps le fonctionnement du jeu. Puis, nous présenterons les interactions entre nos packages. Enfin, nous verrons plus en détail l'organisation de chaque package.
 
@@ -34,16 +34,6 @@ Ainsi, afin que l'interface graphique puisse être changée aisément, aucun él
 Le package game interroge le package map. La carte se charge du déplacement physique des monstres et de l'emplacement des tours. Ainsi ce sera le package \textbf{map} qui déterminera s'il est possible de placer une tour à une position donnée, et mais aussi de la position où le monstre doit se déplacer. La \textbf{map} dispose en effet d'une carte des monstres et des tours, alors que \textbf{game} dispose uniquement d'un \textit{Set} de monstres. 
 \par
 Une quatrième partie, \textbf{entities}, qui correspond à la configuration des tours et des monstres, dispose de classes permettant de créer facilement de nouveaux types de tours ou de monstres. C'est dans cette partie que les caractéristiques des différents objets (monstres et tours) sont définis, ainsi que les types correspondants. Le package entities définit les fonctions apply des objets qui appellent le package map pour trouver les monstres dans le cas des tours, les cases de progression dans le cas des monstres.
-
-
-\begin{figure}[h]
-\center
-\includegraphics[scale = 0.4]{interactions.png}
-\caption{Interactions entre les packages}
-\end{figure}
-
-
-
 \section{Les différents packages}
 
 \subsection{Entities}
@@ -56,15 +46,7 @@ Les classes instanciables se finissant en Type sont des objects.
 \begin{figure}[h]
 \center
 \includegraphics[scale = 0.4]{Entities.png}
-\caption{Les différents niveaux d'entitées}
-\end{figure}
-
-\subsection{Game}
-C'est dans ce package qu'est géré le déroulement interne du jeu. C'est 
-\subsubsection{Round}
-Le package round gère les actions faites à chaque tick du timer par les tours et les monstres, il dispose pour cela d'un set de monstres et des vagues susceptibles d'arriver sur la map. C'est lui qui appelle les apply des tours et monstres.
-\subsubsection{Level}
-Le package level est celui qui est appelé par gui, c'est lui qui relance round en permanence et qui gère les cas d'arrêt de jeu.
+\caption{
 \subsection{Parser}
 Le package \textbf{parser} s'occupe d'extraire d'un fichier XML les différentes informations sur un \textit{Level}, par exemple le nombre de round ou encore la date à laquelle les monstres de différents types vont apparaître, i.e. toutes les informations nécessaires pour construire un \textit{Level}. En pratique le \textbf{parser} ne fonctionne pas à cause d'un problème dûe à la librairie d'extraction de XML. On écrit donc naïvement à l'intérieur du package pour implémenter nos exemples. 
 
@@ -88,24 +70,24 @@ La gestion des images a posé de nombreux problèmes : en effet, nous n'avons pa
 
 
 \section{Ce qu'on aimerait faire}
-\begin{itemize}
-\item Wave serait une classe comprenant des entiers : hour-to-start ; nmber-of-monster1 ... ; ... nmber-of-monster6
-\item Un fond d'herbe partout sauf sur le chemin des monstres qui serait une sorte de sentier (donc évolutif en fonction de où on pose les tours entre les round, à partir de partie 2)
-\item Une matérialisation des tirs des tours (soit des boules qui partent, soit des traits si plus simple)
-\item Le numéro du round qui s'affiche dans la gui
-\item Des noms plus stylés et des particularités pour les tours : des priority qui diffèrent, possibilité de lancer des boules de feu et donc d'enflammer des monstres (=> les Liveable ont un booléen is-burning initialisé à false) ; FireTower, SpeedyTower, BoomBoomTower (vise tous les monstres sur une case) etc
-\item Le nombre de monstres de chaque type s'affiche sur les cases de la gui
-\item On n'a plus évolution des tailles de monstres en fonction du nombre de type différents par case
-\item On peut upgrader les tours, voire leur ajouter des traits ; on peut aussi les détruire, on récupère des sous mais on perd un peu en tout quand même
-\item Un parser qui fonctionne
-\item Un Dijkstra en pleine forme
-\item Des objets posables même pendant un round, très chers, qui ne tirent pas, rapportent 0 quand détruits, mais qui peuvent faire faire des demi-tour aux monstres et gagner du temps
-\item Quand on clique sur une case on a des infos sur ce qui s'y trouve
-\item Le parser lit l'argent et le nb de vie en fonction du level pour les mettre dans game
-\item Des musiques d'ambiance aléatoires pendant le jeu (GoT, Amélie Poulain, Schrtroumpf, Terminator, Taisez-Vous de Finkelkraut, hymne russe etc...)
-\item Gagner plein de sous avec
-\item La puissance des tours peut décroître avec la distance
-\item La fonction de tri des round ne gère pas encore l'éventualité où deux vagues ont la même date (mais le parser est censé s'en occuper tout seul de toute façon)
-\end{itemize}
+Wave serait une classe comprenant des entiers : hour-to-start ; nmber-of-monster1 ... ; ... nmber-of-monster6\\
+Un fond d'herbe partout sauf sur le chemin des monstres qui serait une sorte de sentier (donc évolutif en fonction de où on pose les tours entre les round, à partir de partie 2)\\
+    Une matérialisation des tirs des tours (soit des boules qui partent, soit des traits si plus simple)\\
+    Le numéro du round qui s'affiche dans la gui\\
+    Des blazs plus stylés et des particularités pour les tours : des priority qui diffèrent, possibilité de lancer des boules de feu et donc d'enflammer des monstres (=> les Liveable ont un booléen is-burning initialisé à false) ; FireTower, SpeedyTower, BoomBoomTower (vise tous les monstres sur une case) etc\\
+    Le nombre de monstres de chaque type s'affiche sur les cases de la gui\\
+    On n'a plus évolution des tailles de monstres en fonction du nombre de type différents par case\\
+    On peut upgrader les tours, voire leur ajouter des traits ; on peut aussi les détruire, on récupère des sous mais on perd un peu en tout quand même\\
+    Une version Androïd\\
+    Un parser qui fonctionne\\
+    Un Dijkstra en pleine forme\\
+    Des objets posables même pendant un round, très chers, qui ne tirent pas, rapportent 0 quand détruits, mais qui peuvent faire faire des demi-tour aux monstres et gagner du temps\\
+    Quand on clique sur une case on a des infos sur ce qui s'y trouve (?)\\
+    Le parser lit l'argent et le nb de vie en fonction du level pour les mettre dans game\\
+    Des musiques d'ambiance aléatoires pendant le jeu (GoT, Amélie Poulain, Schrtroumpf, Terminator, Taisez-Vous de Finkelkraut, hymne russe etc...)\\
+    Gagner plein de sous avec\\
+    La puissance des tours peut décroître avec la distance\\
+    La fonction de tri des round ne gère pas encore l'éventualité où deux vagues ont la même date (mais le parser est censé s'en occuper tout seul de toute façon)\\
+
 
 \end{document}
