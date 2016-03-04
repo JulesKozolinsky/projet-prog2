@@ -62,18 +62,19 @@ Les classes instanciables se finissant en Type sont des objects.
 \end{figure}
 
 \subsection{Game}
-C'est dans ce package qu'est géré le déroulement interne du jeu. C'est 
+C'est dans ce package qu'est géré le déroulement interne du jeu. 
 \subsubsection{Round}
-Le package round gère les actions faites à chaque tick du timer par les tours et les monstres, il dispose pour cela d'un set de monstres et des vagues susceptibles d'arriver sur la map. C'est lui qui appelle les apply des tours et monstres.
+Le package round gère les actions faites à chaque tick du timer par les tours et les monstres, il dispose pour cela d'un set de monstres et des vagues susceptibles d'arriver sur la map. C'est lui qui appelle les apply des tours et monstres. C'est donc ce package qui s'occupe de faire tirer les tours, de faire avancer les monstres et de les retirer de la map et du set quand ceux-ci meurent.\\
+Le set nous a été nécessaire car les monstres peuvent avancer sur un tick, et nous ne pouvions donc pas faire un parcours des positions sur la map des monstres.
 \subsubsection{Level}
-Le package level est celui qui est appelé par gui, c'est lui qui relance round en permanence et qui gère les cas d'arrêt de jeu.
+Le package level est celui qui est appelé par gui, c'est lui qui relance round en permanence et qui gère les cas d'arrêt de jeu. C'est également level qui fournit à round la listes des vagues de monstres qui correspondent, ceci en demandant au parser de le faire.
 \subsection{Parser}
-Le package \textbf{parser} s'occupe d'extraire d'un fichier XML les différentes informations sur un \textit{Level}, par exemple le nombre de round ou encore la date à laquelle les monstres de différents types vont apparaître, i.e. toutes les informations nécessaires pour construire un \textit{Level}. En pratique le \textbf{parser} ne fonctionne pas à cause d'un problème dûe à la librairie d'extraction de XML. On écrit donc naïvement à l'intérieur du package pour implémenter nos exemples. 
+Le package \textbf{parser} s'occupe d'extraire d'un fichier XML les différentes informations sur un \textit{Level}, par exemple le nombre de round ou encore la date à laquelle les monstres de différents types vont apparaître, i.e. toutes les informations nécessaires pour construire un \textit{Level}. En pratique le \textbf{parser} ne fonctionne pas à cause d'un problème dû à la librairie d'extraction de XML. On écrit donc naïvement à l'intérieur du package pour implémenter nos exemples. 
 
 \subsection{Map}
-Le package \textbf{map} représente les emplacements physiques des entités du jeu. En réalité, il existe trois cartes différentes : \textit{ground} représentant les obstacles fixes du jeu (par exemple des roches, des arbres ou encore des rivières), \textit{towers} représentant la position des différentes tours et \textit{monsters} représentant la position des monstres pendant un round. Ces trois cartes étant \textit{privées}, les autres packages \textbf{game} et \textbf{gui} appellent des fonctions particulières du package, par exemple s'il est possible de placer une tour, ou pour avoir accès aux monstres situés à une position donnée, ou également pour connaître la prochaine position d'un monstre. 
+Le package \textbf{map} représente les emplacements physiques des entités du jeu. En réalité, il existe trois cartes différentes : \textit{ground} représentant les obstacles fixes du jeu (par exemple des roches, des arbres ou encore des rivières), \textit{towers} représentant la position des différentes tours, et \textit{monsters} représentant la position des monstres pendant un round. Ces trois cartes étant \textit{privées}, les autres packages \textbf{game} et \textbf{gui} appellent des fonctions particulières du package, par exemple s'il est possible de placer une tour, ou pour avoir accès aux monstres situés à une position donnée, ou également pour connaître la prochaine position d'un monstre. 
 \par
-En effet c'est le package \textbf{map} qui se charge de calculer le déplacement des monstres (pour l'instant naïvement dans la vallée). 
+En effet c'est le package \textbf{map} qui se charge de calculer le déplacement des monstres (pour l'instant naïvement) dans la vallée. 
 
 
 \subsection{Gui}
