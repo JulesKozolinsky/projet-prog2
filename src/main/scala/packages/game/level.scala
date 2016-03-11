@@ -37,12 +37,12 @@ class Level(file:String)
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
   def start_round():Unit = {
-      if (!rounds.isEmpty) {
-        in_a_round = true
-      }
-      else {
-        throw new Exception ("There are no more rounds")
-      }
+    if (!rounds.isEmpty) {
+      in_a_round = true
+    }
+    else {
+      throw new Exception ("There are no more rounds")
+    }
   }
 
   /** Arrête le round courant
@@ -69,26 +69,25 @@ class Level(file:String)
       false
     }
     else {
-      var tower_try = t.get_instance(new Position(-1,-1))
-      var cost = tower_try.price
-      if (!(cost > money))
+      var cost = t.price
+      if (cost <= money)
+      {
+        if (Map.new_tower(t,p))
         {
-          if (Map.new_tower(t,p))
-          {
-            money = money - cost
-            true
-          }
-          else {false}
+          money = money - cost
+          true
         }
         else {false}
+      }
+      else {false}
     }
   }
 
   /** Transmet à level l'état du round en cours
-     *
-     * Doit être lancée à chaque tick
-     * @return faux quand le round est terminé
-     */
+    *
+    * Doit être lancée à chaque tick
+    * @return faux quand le round est terminé
+    */
   def actualize () : Boolean = {
     if (in_a_round) {
       if ((rounds.head).actualize) {
@@ -98,7 +97,7 @@ class Level(file:String)
         }
         else {
           if (rounds.isEmpty) {
-              has_won = true
+            has_won = true
           }
           else {}//le round est terminé, mais il reste des rounds à jouer
         }

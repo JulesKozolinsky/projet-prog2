@@ -8,7 +8,7 @@ package packages
 package object game {
 
   /** Argent du joueur par défaut */
-  val money_default = 200
+  val money_default = 200000
 
   /** Nombre de vies au début */
   val life_default = 10
