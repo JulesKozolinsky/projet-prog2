@@ -72,6 +72,7 @@ object Map
     val start = m(height/2)(0)
     val target = m(height/2)(width-1)
     val path_dijkstra = Dijkstra_algo.compute_dijkstra(g,start,target)
+    //java.util.
     //Calcule les positions à partir des noeuds
     path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
 
@@ -113,9 +114,27 @@ object Map
         else {
           var tower = t.get_instance(p)
           towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
-          compute_path2
-          true}
+          var b = true
+          try { compute_path2
+          } catch {
+              case e : NoSuchElementException => {
+                remove_tower(p)
+                b = false
+              }
+          }
+          b
+        }
       }
+
+    /** Supprime une tour de la carte à la position (l,c) */
+    def remove_tower (p:Position) : Unit = {
+      if (towers(p.l)(p.c).isEmpty) {
+        throw new Exception("Position without any tower")
+      }
+      else {
+        towers(p.l)(p.c) = List[Tower]()
+      }
+    }
 
     /** Renvoie la tour située à la position (l,c) */
     def get_tower (p:Position) : Tower = {

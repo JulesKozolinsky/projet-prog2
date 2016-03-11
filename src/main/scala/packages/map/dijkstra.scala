@@ -73,20 +73,13 @@ class Dijkstra (graph: WeightedGraph) {
       }
   }
 
-
-  def print_list (liste : List[Node]) : Unit = {
-    liste.foreach {x => println(x.pos.l) ; println(x.pos.c)}
-  }
-
   protected def mapToList(table :Map[Node,Node],start:Node,target:Node) : List[Node] = {
     var res = List[Node](target)
     var current_node = target
     while (current_node != start) {
-      println(current_node.pos.l + ";" + current_node.pos.c)
       current_node = table(current_node)
       res = current_node :: res
     }
-    println("**************")
     res.reverse
   }
 
