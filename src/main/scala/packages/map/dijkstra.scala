@@ -37,7 +37,7 @@ class Dijkstra (graph: WeightedGraph) {
       relaxNeighbors(u, queue, settled, distance, path)
     }
     val path_list = mapToList(path,start,target)
-    return path_list 
+    return path_list
   }
 
 
@@ -73,75 +73,33 @@ class Dijkstra (graph: WeightedGraph) {
       }
   }
 
+
+  def print_list (liste : List[Node]) : Unit = {
+    liste.foreach {x => println(x.pos.l) ; println(x.pos.c)}
+  }
+
   protected def mapToList(table :Map[Node,Node],start:Node,target:Node) : List[Node] = {
-    var res = List[Node](start)
-    var current_node = start
-    while (current_node != target) {
+    var res = List[Node](target)
+    var current_node = target
+    while (current_node != start) {
+      println(current_node.pos.l + ";" + current_node.pos.c)
       current_node = table(current_node)
       res = current_node :: res
     }
+    println("**************")
     res.reverse
   }
 
 }
 
 object Dijkstra_algo {
-  /**
-   * Test case:
-   *    ____________(5)
-   *   /   9           \
-   * (6)_____           \6
-   *  |      \2          \
-   *  |       \          |
-   *  |     ---(3)-----(4)
-   *  |14  /    |        |
-   *  |   /     |        |
-   *  |  / 9    |10      |
-   *  | /       |        |
-   * (1)-------(2)-------'
-   *      7         15
-   *
-   */
   def compute_dijkstra(g: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node):
     List[WeightedGraph#Node] = {
-    // 1. Construct graph
-    //val g = g_map//new WeightedGraph(1)
-    val n1 = g.addNode
-    val n2 = g.addNode
-    val n3 = g.addNode
-    val n4 = g.addNode
-    val n5 = g.addNode
-    val n6 = g.addNode
-    n1.connectWith(n2).setWeight(7)
-    n2.connectWith(n1).setWeight(7)
-    n1.connectWith(n3).setWeight(9)
-    n1.connectWith(n6).setWeight(14)
-    n2.connectWith(n3).setWeight(10)
-    n2.connectWith(n4).setWeight(15)
-    n3.connectWith(n4).setWeight(11)
-    n3.connectWith(n6).setWeight(2)
-    n4.connectWith(n5).setWeight(6)
-    n5.connectWith(n6).setWeight(9)
-
-    // 2. Set start, target, stop-condition and compute the path
+    // Set start, target, stop-condition and compute the path
     val (start, target) = (begin, end)
     val dijkstra2 = new Dijkstra(g)
-    // 2.1. Halt when target becomes settled
+    //  Halt when target becomes settled
     dijkstra2.stopCondition = (S, D, P) => !S.contains(target)
-    val path = dijkstra2.compute(start, target)
-    return path
-    // 3. Display the result
-    //printResult[g.type](start, target, distance, path)
+    dijkstra2.compute(start, target)
   }
-/*
-  def printResult[G <: Graph](start: G#Node, target: G#Node,
-      distance: Map[G#Node, Int], path: Map[G#Node, G#Node]): Unit = {
-    var shortest = List(target)
-    while(shortest.head != start) {
-      shortest ::= path(shortest.head)
-    }
-    println("Shortest-path cost: " + distance(target))
-    print("Shortest-path: " + shortest.mkString(" -> "))
-  }
-  */
 }

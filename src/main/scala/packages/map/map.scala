@@ -27,7 +27,7 @@ object Map
   private var monsters = initialize_matrix_monsters(height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
-  private var path : List[Position] = {compute_path ()}
+  var path : List[Position] = {List[Position]()}
 
   /** là où sont stockées les images associées aux tours*/
   var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
@@ -46,21 +46,24 @@ object Map
     * renvoie la liste des positions et renvoie la liste vide dans le cas où aucune solution n'a
     * été trouvée
     */
-  private def compute_path2 (p:Position) : List[Position] = {
+  def compute_path2 : Unit = {
+    // la liste résultat
+    var res = List[Position]()
     // définie le graphe sur lequel les monstres peuvent bouger
     val g = new WeightedGraph(1)
     // définie une matrice où les noeuds sont stockés
     var m = Array.ofDim[g.Node](height,width)
     for ( l <- 0 to (height-1) ; c <- 0 to (width-1) ) {
       m(l)(c) = g.addNode
+      m(l)(c).pos = new Position(l,c)
     }
     // crée les arêtes du graphe
     for ( l <- 0 to (height-1) ; c <- 0 to (width-1) ) {
       if (towers(l)(c).isEmpty) {
-        if ( (l != height-1) & (towers(l+1)(c)).isEmpty) {
+        if ( (l != height-1) && (towers(l+1)(c)).isEmpty) {
           (m(l)(c)).connectWith(m(l+1)(c))
         }
-        if ( (c != width-1) & (towers(l)(c+1)).isEmpty) {
+        if ( (c != (width-1)) && (towers(l)(c+1)).isEmpty) {
           (m(l)(c)).connectWith(m(l)(c+1))
         }
       }
@@ -68,21 +71,28 @@ object Map
     // calcule le plus court chemin avec dijkstra
     val start = m(height/2)(0)
     val target = m(height/2)(width-1)
-    val path = Dijkstra_algo.compute_dijkstra(g,start,target)
-
+    val path_dijkstra = Dijkstra_algo.compute_dijkstra(g,start,target)
     //Calcule les positions à partir des noeuds
+    path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
 
-
-    List[Position]()
+    path = res
   }
 
 
   /** Donne la case suivante d'un monster à partir du chemin*/
   def next_case (p:Position) : Position = {
-    if (p.c == width-1)
-    {throw new Exception("monster will go off the grid")}
-    else
-    {new Position(p.l,p.c+1)}
+    if (p.c == width-1) {
+      throw new Exception("monster will go off the grid")}
+    else {
+      var temp = path
+      while (!(temp.isEmpty) && !(temp.head == p)) {
+        temp = temp.tail
+      }
+      if (temp.head == p) {
+        (temp.tail).head
+      }
+      else {throw new Exception("next_case non founded")}
+    }
   }
 
 
@@ -101,14 +111,10 @@ object Map
         if ( is_tower (p) )
           {false}
         else {
-          if (p.l == height/2) {
-                false
-              }
-              else {
-                var tower = t.get_instance(p)
-                towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
-                true}
-           }
+          var tower = t.get_instance(p)
+          towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
+          compute_path2
+          true}
       }
 
     /** Renvoie la tour située à la position (l,c) */

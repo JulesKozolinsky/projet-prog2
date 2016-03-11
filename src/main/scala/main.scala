@@ -13,4 +13,6 @@ import swing._
   */
 object MainApp extends SimpleSwingApplication{
   def top = MainFrameGUI
+//  println(Map.new_tower (Tower1Type,new Position(4,1)))
+//  val liste = Map.compute_path2
 }

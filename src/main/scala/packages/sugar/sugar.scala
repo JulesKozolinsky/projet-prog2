@@ -12,6 +12,12 @@ class Position(l_arg:Int, c_arg:Int)
 {
   var l = l_arg
   var c = c_arg
+  override def equals(pos2:Any) : Boolean = {
+    pos2 match {
+    case pos2:Position => this.l == pos2.l && this.c == pos2.c
+    case _ => throw new ClassCastException
+  }
+  }
 }
 
 

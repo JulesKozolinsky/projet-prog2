@@ -43,8 +43,6 @@ abstract class UndirectedGraph extends Graph {
     def give_position(l:Int,c:Int) : Unit = {
       pos = new Position(l,c)
     }
-  //  override def toString:String =
-  //    (nodes.length - nodes.findIndexOf(this == _)).toString()
   }
 
   protected def newNode: Node
