@@ -418,7 +418,6 @@ class Monster1 () extends Monster {
   var pos = new Position (Map.height / 2,0)
   var life = 40
 }
-
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
   var wait_since = 0
