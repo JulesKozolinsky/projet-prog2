@@ -165,9 +165,11 @@ class GamePanel extends BorderPanel {
   val game_opt = new GameOptions
   /** Grille du jeu */
   val game_grid = new GameGrid(Map.height,Map.width)
+  val info_panel = new InfoPanel
 
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)
+  add(info_panel,BorderPanel.Position.East)
 
   /** Permet d'actualiser les fonctions de l'interface à partir des informations données par la map.*/
   def actualize() {
