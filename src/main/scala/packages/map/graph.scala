@@ -1,6 +1,8 @@
 package packages
 package graph
 
+import sugar._
+
 
 
 abstract class Graph {
@@ -36,6 +38,11 @@ abstract class UndirectedGraph extends Graph {
       edges = edge :: edges;
       edge
     }
+
+    var pos = new Position(-1,-1)
+    def give_position(l:Int,c:Int) : Unit = {
+      pos = new Position(l,c)
+    }
   //  override def toString:String =
   //    (nodes.length - nodes.findIndexOf(this == _)).toString()
   }
@@ -51,14 +58,6 @@ abstract class UndirectedGraph extends Graph {
     nodes = node :: nodes
     node
   }
-}
-
-class ConcreteUndirectedGraph extends UndirectedGraph {
-  type Node = NodeImpl
-  type Edge = EdgeImpl
-  protected def newNode: Node = new Node
-  protected def newEdge(one: Node, other: Node): Edge =
-    new Edge(one, other)
 }
 
 class WeightedGraph(defaultWeight: Int) extends UndirectedGraph {

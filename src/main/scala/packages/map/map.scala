@@ -66,7 +66,12 @@ object Map
       }
     }
     // calcule le plus court chemin avec dijkstra
-    //val (distance, path) =
+    val start = m(height/2)(0)
+    val target = m(height/2)(width-1)
+    val path = Dijkstra_algo.compute_dijkstra(g,start,target)
+
+    //Calcule les positions à partir des noeuds
+
 
     List[Position]()
   }
@@ -124,7 +129,7 @@ object Map
         for ( c <- 0 to (width-1) ) {
             val coord = new Position(l,c)
             val v = new Vector(tower.pos,coord)
-            if (v.norme <= tower.range)
+            if (v.norme <= (tower.tower_type).range)
             {distance_of_case = coord::distance_of_case}
           }
         }

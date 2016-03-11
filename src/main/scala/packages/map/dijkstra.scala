@@ -5,9 +5,9 @@ import scala.collection.mutable._
 import graph._
 import sugar._
 
-class Dijkstra[G <: WeightedGraph](graph: G) {
-  type Node = G#Node
-  type Edge = G#Edge
+class Dijkstra (graph: WeightedGraph) {
+  type Node = WeightedGraph#Node
+  type Edge = WeightedGraph#Edge
   /**
    * StopCondition provides a way to terminate the algorithm at a certain
    * point, e.g.: When target becomes settled.
@@ -23,7 +23,7 @@ class Dijkstra[G <: WeightedGraph](graph: G) {
   var stopCondition = defaultStopCondition
 
   def compute(start: Node, target: Node):
-	  (Map[Node, Int], Map[Node, Node]) = {
+	  List[Node] = {
     var queue: Set[Node] = new HashSet()
     var settled: Set[Node] = new HashSet()
     var distance: Map[Node, Int] = new HashMap()
@@ -36,8 +36,8 @@ class Dijkstra[G <: WeightedGraph](graph: G) {
       settled += u
       relaxNeighbors(u, queue, settled, distance, path)
     }
-
-    return (distance, path)
+    val path_list = mapToList(path,start,target)
+    return path_list 
   }
 
 
@@ -56,7 +56,7 @@ class Dijkstra[G <: WeightedGraph](graph: G) {
 
   /**
    * For all nodes <code>v</code> not in <code>S</code>, neighbors of
-   * <code>u</code>}: Updates shortest distances and paths, if shorter than
+   * <code>u</code>: Updates shortest distances and paths, if shorter than
    * the previous value.
    */
   protected def relaxNeighbors(u: Node, Q: Set[Node], S: Set[Node],
@@ -71,8 +71,18 @@ class Dijkstra[G <: WeightedGraph](graph: G) {
           }
         }
       }
-
   }
+
+  protected def mapToList(table :Map[Node,Node],start:Node,target:Node) : List[Node] = {
+    var res = List[Node](start)
+    var current_node = start
+    while (current_node != target) {
+      current_node = table(current_node)
+      res = current_node :: res
+    }
+    res.reverse
+  }
+
 }
 
 object Dijkstra_algo {
@@ -92,9 +102,10 @@ object Dijkstra_algo {
    *      7         15
    *
    */
-  def compute_dijkstra(g_map: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node): Unit = {
+  def compute_dijkstra(g: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node):
+    List[WeightedGraph#Node] = {
     // 1. Construct graph
-    val g = g_map//new WeightedGraph(1)
+    //val g = g_map//new WeightedGraph(1)
     val n1 = g.addNode
     val n2 = g.addNode
     val n3 = g.addNode
@@ -113,16 +124,16 @@ object Dijkstra_algo {
     n5.connectWith(n6).setWeight(9)
 
     // 2. Set start, target, stop-condition and compute the path
-    val (start, target) = (n1, n5)
-    val dijkstra2 = new Dijkstra[g.type](g)
+    val (start, target) = (begin, end)
+    val dijkstra2 = new Dijkstra(g)
     // 2.1. Halt when target becomes settled
     dijkstra2.stopCondition = (S, D, P) => !S.contains(target)
-    val (distance, path) = dijkstra2.compute(start, target)
-    //return path
+    val path = dijkstra2.compute(start, target)
+    return path
     // 3. Display the result
     //printResult[g.type](start, target, distance, path)
   }
-
+/*
   def printResult[G <: Graph](start: G#Node, target: G#Node,
       distance: Map[G#Node, Int], path: Map[G#Node, G#Node]): Unit = {
     var shortest = List(target)
@@ -132,4 +143,5 @@ object Dijkstra_algo {
     println("Shortest-path cost: " + distance(target))
     print("Shortest-path: " + shortest.mkString(" -> "))
   }
+  */
 }
