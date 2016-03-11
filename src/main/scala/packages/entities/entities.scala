@@ -156,7 +156,7 @@ abstract class TowerType extends TileableType {
   /** la puissance de feu d'une tour */
   val power : Int
 
-  /** le round à partir duquel la tour est disponible (indéxés depuis 0) */
+  /** le round à partir duquel la tour est disponible (indéxé depuis 1) */
   val round_to_unlock : Int
 }
 
@@ -169,7 +169,7 @@ case object Tower1Type extends TowerType
   val range = 3
   val price = 20
   val power = 5
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 1"
   val description = "ceci est une Tour de type 1"
 }
@@ -181,7 +181,7 @@ case object Tower2Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 2"
   val description = "ceci est une Tour de type 2"
 
@@ -194,7 +194,7 @@ case object Tower3Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 3"
   val description = "ceci est une Tour de type 3"
 }
@@ -206,7 +206,7 @@ case object Tower4Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 4"
   val description = "ceci est une Tour de type 4"
 }
@@ -218,7 +218,7 @@ case object Tower5Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 5"
   val description = "ceci est une Tour de type 5"
 }
@@ -230,7 +230,7 @@ case object Tower6Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 6"
   val description = "ceci est une Tour de type 6"
 }
@@ -242,7 +242,7 @@ case object Tower7Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 7"
   val description = "ceci est une Tour de type 7"
 }
@@ -254,7 +254,7 @@ case object Tower8Type extends TowerType
   val range = 3
   val price = 35
   val power = 6
-  val round_to_unlock = 0
+  val round_to_unlock = 1
   val name = "Tour 8"
   val description = "ceci est une Tour de type 8"
 }
@@ -273,7 +273,10 @@ abstract class MonsterType extends TileableType
   /** butin obtenu lors de la mort du monstre */
   val gold : Int
 
-  /** le round à partir duquel la tour est susceptible d'apparaître (indéxés depuis 0) */
+  /** Vie initiale d'un monstre*/
+  val max_life : Int
+
+  /** le round à partir duquel la tour est susceptible d'apparaître (indéxés depuis 1) */
   val round_to_unlock : Int
 }
 
@@ -282,7 +285,8 @@ case object Monster1Type extends MonsterType
   def get_instance () = new Monster1()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 40
+  val round_to_unlock = 1
   val name = "Monstre 1"
   val description = "ceci est un Monstre de type 1"
 }
@@ -291,7 +295,8 @@ case object Monster2Type extends MonsterType
   def get_instance () = new Monster2()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 2"
   val description = "ceci est un Monstre de type 2"
 }
@@ -300,7 +305,8 @@ case object Monster3Type extends MonsterType
   def get_instance () = new Monster3()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 3"
   val description = "ceci est un Monstre de type 3"
 }
@@ -309,7 +315,8 @@ case object Monster4Type extends MonsterType
   def get_instance () = new Monster4()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 4"
   val description = "ceci est un Monstre de type 4"
 }
@@ -318,7 +325,8 @@ case object Monster5Type extends MonsterType
   def get_instance () = new Monster5()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 5"
   val description = "ceci est un Monstre de type 5"
 }
@@ -327,7 +335,8 @@ case object Monster6Type extends MonsterType
   def get_instance () = new Monster6()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 6"
   val description = "ceci est un Monstre de type 6"
 }
@@ -336,7 +345,8 @@ case object Monster7Type extends MonsterType
   def get_instance () = new Monster7()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 7"
   val description = "ceci est un Monstre de type 7"
 }
@@ -345,7 +355,8 @@ case object Monster8Type extends MonsterType
   def get_instance () = new Monster8()
   val slowness = 5
   val gold = 6
-  val round_to_unlock = 0
+  val max_life = 50
+  val round_to_unlock = 1
   val name = "Monstre 8"
   val description = "ceci est un Monstre de type 8"
 }
@@ -416,47 +427,47 @@ class Monster1 () extends Monster {
   val monster_type = Monster1Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 40
+  var life = monster_type.max_life
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }
 class Monster3 () extends Monster {
   val monster_type = Monster3Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }
 class Monster4 () extends Monster {
   val monster_type = Monster4Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }
 class Monster5 () extends Monster {
   val monster_type = Monster5Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }
 class Monster6 () extends Monster {
   val monster_type = Monster6Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }
 class Monster7 () extends Monster {
   val monster_type = Monster7Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }
 class Monster8 () extends Monster {
   val monster_type = Monster8Type
   var wait_since = 0
   var pos = new Position (Map.height / 2,0)
-  var life = 50
+  var life = monster_type.max_life
 }

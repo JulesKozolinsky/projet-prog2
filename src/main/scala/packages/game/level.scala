@@ -26,9 +26,11 @@ class Level(file:String)
   /** Booléen indiquant si on se trouve en cours de round ou non */
   var in_a_round = false
 
+  /** compteur indiquant le numéro du round dans lequel on se trouve */
+  var round_counter = 1
 
-  /** Array contenant le rounds qui composent le niveau.*/
-  private var rounds : List[Round]  = Parser.parse(file)
+  /** Array contenant les rounds qui composent le niveau.*/
+  private var rounds : List[Round] = Parser.parse(file)
 
 
 
@@ -36,26 +38,24 @@ class Level(file:String)
     *
     * Cette fonction incrémente current_round afin d'éviter de démarrer plusieurs fois le même round
     */
-  def start_round():Unit = {
-    if (!rounds.isEmpty) {
-      in_a_round = true
-    }
-    else {
-      throw new Exception ("There are no more rounds")
-    }
+  def start_round():Unit =
+  {
+    if (!rounds.isEmpty) {in_a_round = true }
+    else {throw new Exception ("There are no more rounds")}
   }
 
   /** Arrête le round courant
     * Cette fonction met la variable in_a_round à faux
     */
-  private def stop_round():Unit = {
-    if (!rounds.isEmpty) {
+  private def stop_round():Unit =
+  {
+    if (!rounds.isEmpty)
+    {
       in_a_round = false
       rounds = rounds.tail
+      round_counter = round_counter + 1
     }
-    else {
-      throw new Exception ("Round should be started before stopped")
-    }
+    else  {throw new Exception ("Round should be started before stopped")}
   }
 
 
@@ -64,13 +64,14 @@ class Level(file:String)
     * Renvoie un booléen, le même que Map.new_tower
     * Devra prendre en paramètre un TowerType et une position
     */
-  def create_new_tower(t:TowerType,p:Position) : Boolean = {
-    if (in_a_round) {
-      false
-    }
-    else {
+  def create_new_tower(t:TowerType,p:Position) : Boolean =
+  {
+    if (in_a_round) {false}
+    else
+    {
       var cost = t.price
-      if (cost <= money)
+      if (cost > money) {false}
+      else
       {
         if (Map.new_tower(t,p))
         {
@@ -79,33 +80,43 @@ class Level(file:String)
         }
         else {false}
       }
-      else {false}
     }
   }
+
+  def actualize_unlocked(n:Int) : Unit =
+  {
+    all_towers.foreach {(t:TowerType) => if (t.round_to_unlock == round_counter) {unlocked_towers = t::unlocked_towers}  }
+  }
+
 
   /** Transmet à level l'état du round en cours
     *
     * Doit être lancée à chaque tick
-    * @return faux quand le round est terminé
+    * @return faux quand le round est terminé pour indiquer à la gui qu'elle a un timer à stopper
     */
-  def actualize () : Boolean = {
-    if (in_a_round) {
-      if ((rounds.head).actualize) {
+  def actualize () : Boolean =
+  {
+    if (! in_a_round) {true}
+    else
+    {
+      if (! (rounds.head).actualize) {true}
+      else
+      {
         stop_round()
-        if (life == 0) {
-          has_lost = true
-        }
-        else {
-          if (rounds.isEmpty) {
-            has_won = true
-          }
-          else {}//le round est terminé, mais il reste des rounds à jouer
+        if (life == 0) {has_lost = true}
+        else
+        {
+          if (rounds.isEmpty) {has_won = true}
+          else {actualize_unlocked(round_counter)}   //le round est terminé, mais il reste des rounds à jouer : on actualise les tours disponibles pour la suite
         }
         false
       }
-      else {true}
     }
-    else {true}
   }
 
+
+
+
 }
+
+
