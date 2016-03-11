@@ -32,4 +32,10 @@ package object game {
   /** Les monstres débloqués à ce stade du jeu */
   var unlocked_monsters = unlocked_monsters_default
 
+  /** Liste qui contient tous les types de monstres */
+  val all_towers = List[TowerType] (Tower1Type, Tower2Type, Tower3Type, Tower4Type, Tower5Type, Tower6Type, Tower7Type, Tower8Type)
+
+  /** Liste qui contient tous les types de monstres */
+  val all_monsters = List[MonsterType] (Monster1Type, Monster2Type, Monster3Type, Monster4Type, Monster5Type, Monster6Type, Monster7Type, Monster8Type)
+
 }

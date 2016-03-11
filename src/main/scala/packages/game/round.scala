@@ -65,6 +65,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Actualise l'état de l'objet.
     *
     * Cette méthode est appelée à chaque tick par level
+    * @return true si le round est fini, false sinon
     */
   def actualize (): Boolean = {
     var l = 0
