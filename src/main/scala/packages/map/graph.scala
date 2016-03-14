@@ -3,8 +3,6 @@ package graph
 
 import sugar._
 
-
-
 abstract class Graph {
   type Edge <: IEdge
   type Node <: INode
