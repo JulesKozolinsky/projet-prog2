@@ -146,7 +146,7 @@ object Map
         }
     }
 
-    /** renvoie un tableau de monsters susceptibles d'être touchés par une tour donnée*/
+    /** renvoie une liste des cases visibles par la tour avec les monstres à l'intérieur de chaque case (format liste [tuple2]) ; les positions ne comprenant pas de monstres ne sont pas intégrées à la liste (IMPORTANT) */
     def get_targets (tower:Tower) : List[(Position,List[Monster])] = {
       // On calcule les cases à portée de la tour
       var distance_of_case = List[Position]()
