@@ -33,8 +33,9 @@ abstract class Tower () extends Actor
 
 
   /** le apply des tours est le fait de tirer sur un/des monstres ;
-    * apply renvoie la liste des monstres tués par la tour
-    * targets est un tableau contenant toutes les cibles sur qui la tour va tirer ; si le tableau est vide le wait_since peut augmenter mais ne retombe pas à 0
+    * 
+    * targets est une liste contenant toutes les cibles sur qui la tour va tirer ; si la liste	 est vide le wait_since peut augmenter mais ne retombe pas à 0
+    * @return la liste des monstres tués par la tour pendant l'éxécution
     */
   def apply () : List[Monster] = {
     var L : List[Monster] = List()
@@ -145,7 +146,7 @@ abstract class TowerType extends TileableType {
   val frequency : Int
 
   /** la priorité d'une tour est une fonction qui prend en entrée les monstres accessibles par la tour et renvoie la liste des monstres attaqués par la tour */
-  val priority : (List[Monster]) => List[Monster]
+  val priority : (List[(Position,List[Monster])]) => List[Monster]
 
   /** la portée d'une tour détermine la distance maximale à laquelle elle peut tirer */
   val range : Int

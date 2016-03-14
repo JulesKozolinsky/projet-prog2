@@ -138,7 +138,7 @@ object Map
     }
 
     /** renvoie un tableau de monsters susceptibles d'être touchés par une tour donnée*/
-    def get_targets (tower:Tower) : List[Monster] = {
+    def get_targets (tower:Tower) : List[(Position,List[Monster])] = {
       // On calcule les cases à portée de la tour
       var distance_of_case = List[Position]()
       for ( l <- 0 to (height-1) ) {
@@ -150,9 +150,13 @@ object Map
           }
         }
         // Pour chaque case, on ajoute les monstres considérés à la liste
-        var answer = List[Monster]()
-        for ( x <- distance_of_case ) {
-          answer = ((monsters(x.l)(x.c)).toList):::answer
+        var answer = List[(Position,List[Monster])] ()
+        for ( x <- distance_of_case )
+        {
+	  if (  !monsters(x.l)(x.c).toList.isEmpty  )
+	   {
+             answer = new Tuple2 ( x , monsters(x.l)(x.c).toList )::answer
+	   }
         }
         answer
   }
