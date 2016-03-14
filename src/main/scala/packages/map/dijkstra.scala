@@ -46,8 +46,6 @@ class Dijkstra (graph: WeightedGraph) {
    * from Q and returns it.
    */
   protected def extractMinimum[T](Q: Set[T], D: Map[T, Int]): T = {
-
-
     var u = Q.head
     Q.foreach((node) =>  if(D(u) > D(node)) u = node)
     Q -= u
@@ -82,7 +80,6 @@ class Dijkstra (graph: WeightedGraph) {
     }
     res.reverse
   }
-
 }
 
 object Dijkstra_algo {

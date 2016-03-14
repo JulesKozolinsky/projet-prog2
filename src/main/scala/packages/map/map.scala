@@ -32,21 +32,12 @@ object Map
   /** là où sont stockées les images associées aux tours*/
   var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
 
-  /** Calcule le chemin à partir d'une position jusqu'à la fin (appelé au début du round) */
-  private def compute_path () : List[Position] = {
-      var path = List[Position]()
-      var c = 0;
-      for( c <- 0 to (width-1)) {
-        path = (new Position (height/2,c))::path
-      }
-      path.reverse
-     }
 
   /** Calcule le chemin avec les tours existantes à l'aide d'un algorithme de plus court chemin,
     * renvoie la liste des positions et renvoie la liste vide dans le cas où aucune solution n'a
     * été trouvée
     */
-  def compute_path2 : Unit = {
+  def compute_path : Unit = {
     // la liste résultat
     var res = List[Position]()
     // définie le graphe sur lequel les monstres peuvent bouger
@@ -115,7 +106,7 @@ object Map
           var tower = t.get_instance(p)
           towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
           var b = true
-          try { compute_path2
+          try { compute_path
           } catch {
               case e : NoSuchElementException => {
                 remove_tower(p)
