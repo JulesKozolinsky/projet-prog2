@@ -76,7 +76,7 @@ object MainFrameGUI extends swing.MainFrame {
       if(current_level.has_lost)
       {
         game_over
-        game_over2
+        //game_over2
       }
     }
     actualize

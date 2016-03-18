@@ -7,6 +7,49 @@ import swing._
 
 import javax.swing.ImageIcon
 import java.awt.Dimension
+import java.awt.image.BufferedImage
+
+/** Cette classe permet de stocker des informations concernant l'affichage d'un élément de l'interface
+  *
+  * On garde le fichier en mémoire parce que c'est le seul moyen de faire le zoom que j'ai trouvé
+  * Plusieurs tailles de l'image sont conservées :
+  * 0 correspondant à la taille de l'image initiale
+  * 1 est la taille d'une cellule de la grille
+  * n est l'icône de la taille correspondant à une cellule divisée en n² cellules
+  * Utilisation de l'évaluation paresseuse : on ne crée une image que si on en a besoin. De plus, lorsque toutes les images doivent changer de taille, il faut le préciser à l'objet (resize_all)
+  * @param a_file Image associée au skin
+  */
+class Skin2(a_file:String)
+{
+  /** Le fichier contenant l'image dont on veut le skin*/
+  private val file = a_file
+  private var main_image : Option[BufferedImage] = None
+  private var up_to_date = false
+
+  def apply(dim : Dimension, keep_ratio : Boolean = true):BufferedImage =  {
+    if(!up_to_date){
+      resize(dim)
+      up_to_date = true
+    }
+      
+    
+    main_image match {
+      case None => throw new UninitializedError 
+      case Some(img) => img
+    }
+  }
+
+  def need_resize () {
+    up_to_date = false
+  }
+
+  private def resize(dim:Dimension) {
+    val img = new ImageIcon(zoom_image(new ImageIcon(getClass.getResource(file)).getImage,dim)).getImage
+    val buffered = new BufferedImage(dim.width,dim.height, BufferedImage.TYPE_INT_ARGB)
+    buffered.getGraphics().drawImage(img, 0, 0 , null);
+    main_image = Some(buffered)
+  }
+}
 
 /* ************************ Skin *****************************/
 /** Cette classe permet de stocker des informations concernant l'affichage d'un élément de l'interface
@@ -43,6 +86,7 @@ class Skin(a_file:String)
     new ImageIcon(getClass.getResource(file))
   }
 
+  
   def apply(scale:Int, dim:Dimension):ImageIcon =  {
     resize(scale,dim)
     icons(scale) match {

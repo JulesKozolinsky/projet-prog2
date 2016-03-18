@@ -10,6 +10,9 @@ import sugar._
 
 import swing._
 import scala.swing.event._
+import java.awt.Graphics
+import java.awt.Graphics2D
+import java.awt.image._
 
 
 /** Contient la grille des cases du jeu
@@ -55,10 +58,10 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         }else{ //s'il y a au moins un monstre
           contents(l*columns + c) = new MonsterCell(monsters)
           MainFrameGUI.visible = true
-          (contents(l*columns + c) match {
+         /* (contents(l*columns + c) match {
             case m:MonsterCell => m
             case _ => throw new ClassCastException
-          }).initialize_icons
+          }).initialize_icons*/
         }
       }}
     repaint
@@ -103,8 +106,46 @@ class TowerCell(pos:Position) extends Button("")
   }
 }
 
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Button ("blub")
+{
+  var scale = Math.sqrt(wave.size).ceil.toInt
+  val monsters = wave
+  action = new Action(""){
+
+    //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
+    def apply(){
+      println("bldzebbdzeuiezdb")
+    }
+  }
+
+  override def paint(g:Graphics2D){
+    val skin = monster_skins(wave.head._1)
+    g.drawImage(skin(size), null, 0, 0)
+  }
+
+
+   /** Initialisation des images de monstre
+    *
+    * L'initialisation n'est pas dans le constructeur car celle-ci doit avoir après un MainFrameGUI.visible
+    *  pour que les tailles de label et de case soient à jour
+    */
+  //def initialize_icons() {
+    /*var left_monsters = monsters
+    var i = 0
+    while(! left_monsters.isEmpty) {
+      var new_monster = left_monsters.head
+      (contents(i) match {
+        case l:Label => l
+        case _ => throw new ClassCastException
+      }).icon = monster_skins(new_monster._1)(scale,contents(0).size)
+      left_monsters = left_monsters.tail
+      i+= 1
+    }
+    repaint*/
+    //}
+}
 /** Cellule de la grille contenant des monstres */
-class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
+/*class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
 {
   /** Taille des images de monstres dans le skin correspondant */
   var scale = Math.sqrt(wave.size).ceil.toInt
@@ -145,4 +186,4 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sq
     }
   }
 
-}
+ }*/

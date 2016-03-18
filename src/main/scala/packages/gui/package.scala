@@ -43,9 +43,9 @@ package object gui {
     *
     * Attention, ce tableau ne peut pas être vide.
     */
-  val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"),new Skin("/monster3.png"),new Skin("/monster4.png"),new Skin("/monster5.png"),new Skin("/monster6.png"))
+  val monster_skins_array = Array(new Skin2("/monster1.png"),new Skin2("/monster2.png"),new Skin2("/monster3.png"),new Skin2("/monster4.png"),new Skin2("/monster5.png"),new Skin2("/monster6.png"))
   /** Convertit un MonsterType en skin */
-  def monster_skins(t:MonsterType) : Skin =
+  def monster_skins(t:MonsterType) : Skin2 =
     {
       t match {
         case Monster1Type => monster_skins_array(0)
@@ -62,7 +62,7 @@ package object gui {
     for(i <- 0 to tower_skins_array.size - 1)
       tower_skins_array(i).resize_all
     for(i <- 0 to monster_skins_array.size - 1)
-      monster_skins_array(i).resize_all
+      monster_skins_array(i).need_resize
   }
 
 
