@@ -3,6 +3,7 @@ package gui
 
 import game._
 import map._
+import entities._
 
 import swing._
 import scala.swing.event._
@@ -165,7 +166,7 @@ class GamePanel extends BorderPanel {
   val game_opt = new GameOptions
   /** Grille du jeu */
   val game_grid = new GameGrid(Map.height,Map.width)
-  val info_panel = new InfoPanel
+  val info_panel = new InfoTower(Tower1Type)
 
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)
