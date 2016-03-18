@@ -20,10 +20,3 @@ class PosGridPanel(lines : Int, cols : Int) extends GridPanel(lines,cols)
   }
 }
 
-class PushUp(comp : Component) extends BoxPanel(Orientation.Vertical)
-{
-  contents += comp
-  contents += Swing.VGlue
-}
-
-
