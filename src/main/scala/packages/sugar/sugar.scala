@@ -19,6 +19,15 @@ class Position (l_arg:Int, c_arg:Int)
     case _ => throw new ClassCastException
   }
   }
+
+  /** Cette fonction sert à trouver les monstres sur la trajectoire d'un tir de tour */
+  def is_on_half_line (pos_tower:Position,pos_first:Position) : Boolean = 
+  {
+    
+    
+    true
+  }
+
 }
 
 
