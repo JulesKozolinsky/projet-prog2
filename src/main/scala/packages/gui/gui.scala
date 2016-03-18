@@ -61,6 +61,11 @@ object MainFrameGUI extends swing.MainFrame {
     */
   def actualize() {
 
+    frame.actualize()
+  }
+
+  /** Envoie un tick à tous les éléments du jeu */
+  def send_tick(){
     if(!current_level.actualize){ //si le round est terminé
       stop_round //on arrête le timer
        if(current_level.has_won)
@@ -74,14 +79,13 @@ object MainFrameGUI extends swing.MainFrame {
         game_over2
       }
     }
-
-    frame.actualize()
+    actualize
   }
 
   /** Fonction à appliquer à chaque tick du timer */
   val taskPerformer = new ActionListener() {
     def actionPerformed(evt:ActionEvent) {
-      actualize
+      send_tick
     }
   }
   var timer = new Timer(tick, taskPerformer)
