@@ -32,7 +32,7 @@ class Level(file:String)
   /** Array contenant les rounds qui composent le niveau.*/
   private var rounds : List[Round] = Parser.parse(file)
 
-
+  Map.compute_path
 
   /** Démarre le round courrant
     *

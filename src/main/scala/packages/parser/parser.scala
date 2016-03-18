@@ -42,8 +42,8 @@ object Parser
 
     r3 = (Set((m4,6)) , 3)::r3
 
-    r4 = (Set((m5,126)) , 1)::r4
-    r4 = (Set((m6,126)) , 3)::r4
+    r4 = (Set((m5,16)) , 1)::r4
+    r4 = (Set((m6,12)) , 3)::r4
 
 
     list_of_rounds = List(new Round(r1),new Round(r2),new Round(r3),new Round(r4))

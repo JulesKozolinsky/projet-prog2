@@ -58,10 +58,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         }else{ //s'il y a au moins un monstre
           contents(l*columns + c) = new MonsterCell(monsters)
           MainFrameGUI.visible = true
-         /* (contents(l*columns + c) match {
-            case m:MonsterCell => m
-            case _ => throw new ClassCastException
-          }).initialize_icons*/
         }
       }}
     repaint

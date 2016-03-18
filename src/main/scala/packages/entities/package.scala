@@ -67,11 +67,11 @@ package object entities
   {
     var main_target = closest(l_with_towerpos)
     var targets = List[Monster] ()
-    //if (main_target.isEmpty) {targets}
-    //else 
-    //{
-     // var m_targ = 
-    //}
+    if (main_target.isEmpty) {targets}
+    else 
+    {
+      var m_targ = true
+    }
     List[Monster] (l_with_towerpos(0)._2(0))
   }
 
