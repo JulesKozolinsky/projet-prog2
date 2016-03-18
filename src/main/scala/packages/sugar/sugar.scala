@@ -20,8 +20,23 @@ class Position (l_arg:Int, c_arg:Int)
   }
   }
 
+  /** Cette fonction renvoie true si le point se situe dans la direction du tir de la tour, false si derrière */
+  def is_well_directed (pos_tower:Position,pos_first:Position) : Boolean = 
+  {
+    (pos_tower.l - this.l)*(pos_tower.l - pos_first.l) + (pos_tower.c - this.c)*(pos_tower.c - pos_first.c) > 0
+  }
+
+  /** Cette fonction renvoie true si le point se trouve à droite de la demi-droite, et false si à gauche */
+  def blup (pos_tower:Position,pos_first:Position) : Boolean = 
+  {
+    
+    
+    true
+  }
+
+
   /** Cette fonction sert à trouver les monstres sur la trajectoire d'un tir de tour */
-  def is_on_half_line (pos_tower:Position,pos_first:Position) : Boolean = 
+  def is_on_ray (pos_tower:Position,pos_first:Position) : Boolean = 
   {
     
     
