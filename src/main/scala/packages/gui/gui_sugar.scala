@@ -20,4 +20,3 @@ class PosGridPanel(lines : Int, cols : Int) extends GridPanel(lines,cols)
   }
 }
 
-

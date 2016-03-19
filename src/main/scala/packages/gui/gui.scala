@@ -3,6 +3,7 @@ package gui
 
 import game._
 import map._
+import entities._
 
 import swing._
 import scala.swing.event._
@@ -60,6 +61,11 @@ object MainFrameGUI extends swing.MainFrame {
     */
   def actualize() {
 
+    frame.actualize()
+  }
+
+  /** Envoie un tick à tous les éléments du jeu */
+  def send_tick(){
     if(!current_level.actualize){ //si le round est terminé
       stop_round //on arrête le timer
        if(current_level.has_won)
@@ -70,17 +76,16 @@ object MainFrameGUI extends swing.MainFrame {
       if(current_level.has_lost)
       {
         game_over
-        game_over2
+        //game_over2
       }
     }
-
-    frame.actualize()
+    actualize
   }
 
   /** Fonction à appliquer à chaque tick du timer */
   val taskPerformer = new ActionListener() {
     def actionPerformed(evt:ActionEvent) {
-      actualize
+      send_tick
     }
   }
   var timer = new Timer(tick, taskPerformer)
@@ -165,7 +170,7 @@ class GamePanel extends BorderPanel {
   val game_opt = new GameOptions
   /** Grille du jeu */
   val game_grid = new GameGrid(Map.height,Map.width)
-  val info_panel = new InfoPanel
+  val info_panel = new InfoTower(Tower1Type)
 
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)

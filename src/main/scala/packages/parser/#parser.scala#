@@ -27,26 +27,22 @@ object Parser
     var m4 : MonsterType = Monster4Type
     var m5 : MonsterType = Monster5Type
     var m6 : MonsterType = Monster6Type
-    var m7 : MonsterType = Monster7Type //ne pas utiliser car pas d'icônes dans gui
-    var m8 : MonsterType = Monster8Type //ne pas utiliser car pas d'icônes dans gui
+    var m7 : MonsterType = Monster7Type
+    var m8 : MonsterType = Monster8Type
 
-    r1 = (Set((m1,1) , (m2,1) , (m3,1) , (m4,1) , (m5,1) , (m6,1) ) , 1)::r1
-    r1 = (Set((m2,7)) , 2)::r1
-
-
-    r2 = (Set((m4,1)) , 3)::r2
-    r2 = (Set((m5,3)) , 6)::r2
-    r2 = (Set((m1,1)) , 8)::r2
-    r2 = (Set((m2,2)) , 7)::r2
-    r2 = (Set((m1,3)) , 10)::r2
-
-    r3 = (Set((m4,6)) , 3)::r3
-
-    r4 = (Set((m5,16)) , 1)::r4
-    r4 = (Set((m6,12)) , 3)::r4
+    r1 = (Set(new Tuple2(m1,1), new Tuple2(m2,1), new Tuple2(m3,1), new Tuple2(m4,1), new Tuple2(m5,1), new Tuple2(m6,1) ),1)::r1
+    r1 = ((Set(new Tuple2(m2,1)),2)::r1
+    r1 = (new Tuple2(Set(new Tuple2(m1,0),new Tuple2(m2,0)),10))::r1
 
 
-    list_of_rounds = List(new Round(r1),new Round(r2),new Round(r3),new Round(r4))
+    r2 = (new Tuple2(Set(new Tuple2(m4,1)),3))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m5,3)),6))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,1)),8))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m2,2)),7))::r2
+    r2 = (new Tuple2(Set(new Tuple2(m1,3)),10))::r2
+
+    r3 = (new Tuple2(Set(new Tuple2(m4,1)),3))::r2
+    list_of_rounds = List(new Round(r1),new Round(r2),new Round(r3))
 
 
     //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
@@ -126,7 +122,7 @@ object Parser
       list_of_rounds = r::list_of_rounds
     } */
     // retourne la liste des rounds dans le bon ordre
-    list_of_rounds//.reverse
+    list_of_rounds.reverse
 
   }
 }

@@ -165,7 +165,7 @@ abstract class TowerType extends TileableType {
 case object Tower1Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower1(pos)
-  val frequency =  10
+  val frequency =  15
   val priority = lazi _
   val range = 3
   val price = 20
@@ -177,7 +177,7 @@ case object Tower1Type extends TowerType
 case object Tower2Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower2(pos)
-  val frequency =  8
+  val frequency =  18
   val priority = lazi _
   val range = 3
   val price = 35
