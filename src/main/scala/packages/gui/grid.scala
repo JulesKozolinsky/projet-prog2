@@ -104,42 +104,34 @@ class TowerCell(pos:Position) extends Button("")
 
 class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Button ("blub")
 {
-  var scale = Math.sqrt(wave.size).ceil.toInt
+  var scale = 3//Math.sqrt(wave.size).ceil.toInt
   val monsters = wave
+  
   action = new Action(""){
 
     //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
     def apply(){
-      println("bldzebbdzeuiezdb")
+      println("Vous avez cliqué sur un monstre.")
     }
   }
+
 
   override def paint(g:Graphics2D){
-    val skin = monster_skins(wave.head._1)
-    g.drawImage(skin(size), null, 0, 0)
+    var i = 0
+    wave.foreach(
+      m =>{
+        val skin = monster_skins(m._1);
+        g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth, (i /scale)* skin().getHeight)
+        i += 1
+      }
+    )
   }
 
 
-   /** Initialisation des images de monstre
-    *
-    * L'initialisation n'est pas dans le constructeur car celle-ci doit avoir après un MainFrameGUI.visible
-    *  pour que les tailles de label et de case soient à jour
-    */
-  //def initialize_icons() {
-    /*var left_monsters = monsters
-    var i = 0
-    while(! left_monsters.isEmpty) {
-      var new_monster = left_monsters.head
-      (contents(i) match {
-        case l:Label => l
-        case _ => throw new ClassCastException
-      }).icon = monster_skins(new_monster._1)(scale,contents(0).size)
-      left_monsters = left_monsters.tail
-      i+= 1
-    }
-    repaint*/
-    //}
 }
+
+
+
 /** Cellule de la grille contenant des monstres */
 /*class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
 {

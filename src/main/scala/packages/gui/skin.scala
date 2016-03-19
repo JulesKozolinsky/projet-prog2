@@ -26,13 +26,11 @@ class Skin2(a_file:String)
   private var main_image : Option[BufferedImage] = None
   private var up_to_date = false
 
-  def apply(dim : Dimension, keep_ratio : Boolean = true):BufferedImage =  {
+  def apply(dim : Dimension = new Dimension(0,0), scale : Int = 1, keep_ratio : Boolean = true):BufferedImage =  {
     if(!up_to_date){
-      resize(dim)
+      resize(dim,scale)
       up_to_date = true
     }
-      
-    
     main_image match {
       case None => throw new UninitializedError 
       case Some(img) => img
@@ -43,9 +41,9 @@ class Skin2(a_file:String)
     up_to_date = false
   }
 
-  private def resize(dim:Dimension) {
-    val img = new ImageIcon(zoom_image(new ImageIcon(getClass.getResource(file)).getImage,dim)).getImage
-    val buffered = new BufferedImage(dim.width,dim.height, BufferedImage.TYPE_INT_ARGB)
+  private def resize(dim:Dimension, scale : Int) {
+    val img = new ImageIcon(zoom_image(new ImageIcon(getClass.getResource(file)).getImage,dim,scale)).getImage
+    val buffered = new BufferedImage(img.getWidth(null),img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
     buffered.getGraphics().drawImage(img, 0, 0 , null);
     main_image = Some(buffered)
   }

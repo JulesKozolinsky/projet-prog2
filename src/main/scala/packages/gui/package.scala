@@ -68,19 +68,35 @@ package object gui {
 
   /** Permet de créer une nouvelle image à partir de la première en changeant ses dimensions
     *
-    * Maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer l'image de départ.
+    * Si keep_ratio vaut true, maximise la taille de l'image afin qu'elle puisse rentrer dans la dimension imposée mais sans pour autant déformer l'image de départ.
     *
     * @param image L'image de départ
     * @param dim Les dimensions de la nouvelle image
+    * @param keep_ratio Lorsque keep_ratio vaut true, on conserve le ratio.
     */
-  def zoom_image (image : Image ,dim : Dimension) = {
+  def zoom_image (image : Image ,dim : Dimension, scale : Int = 1, keep_ratio : Boolean = true) = {
     if(dim.width != 0 && dim.height != 0){
-      val ratio:Float= (image.getWidth(null)).toFloat/ (image.getHeight(null));
-      val new_width = math.min(dim.width,(ratio * dim.height).toInt);
-      val new_height = (new_width / ratio).toInt
-      image.getScaledInstance(new_width,new_height,java.awt.Image.SCALE_SMOOTH)
+      var new_dim = dim
+      if(keep_ratio)
+        new_dim = get_keep_ratio_dim(new Dimension(image.getWidth(null), image.getHeight(null)), dim) 
+      new_dim.width /= scale
+      new_dim.height /= scale
+      image.getScaledInstance(new_dim.width,new_dim.height,java.awt.Image.SCALE_SMOOTH)
     } else
       image
+  }
+
+  /** Permet de calculer la dimension pour garder le ratio d'une image 
+    * 
+    * @param img_dim Taille de l'image que l'on souhaite faire rentrer dans unrectangloe de dimension bounds
+    * @param bound Dimension du rectangle contenant l'image
+    * @param scale Permet de diviser la taille de l'image par scale. Par exemple s'il y a 9 monstres , le scale correspondant est de 3 */
+  def get_keep_ratio_dim (img_dim : Dimension, bounds : Dimension) = 
+  {
+    val ratio:Float= img_dim.width.toFloat/ (img_dim.height.toFloat);
+    val new_width = math.min(bounds.width,(ratio * bounds.height).toInt);
+    val new_height = (new_width / ratio).toInt
+    new Dimension(new_width,new_height)
   }
 
   /** Renvoie une image de la taille de la fenêtre */

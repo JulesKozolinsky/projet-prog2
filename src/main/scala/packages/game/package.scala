@@ -15,7 +15,7 @@ package object game {
   val life_default = 10
 
   /** Les tours débloquées au début de la partie */
-  val unlocked_towers_default = List[TowerType] (Tower1Type, Tower2Type, Tower3Type, Tower4Type, Tower5Type, Tower6Type, Tower7Type, Tower8ype)
+  val unlocked_towers_default = List[TowerType] (Tower1Type, Tower2Type, Tower3Type, Tower4Type, Tower5Type, Tower6Type, Tower7Type, Tower8Type)
 
   /** Les monstres débloqués au début de la partie */
   val unlocked_monsters_default = List[MonsterType] (Monster1Type, Monster2Type, Monster3Type, Monster4Type, Monster5Type, Monster6Type, Monster7Type, Monster8Type)
