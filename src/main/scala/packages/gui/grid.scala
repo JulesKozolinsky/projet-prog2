@@ -64,14 +64,22 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   }
 }
 
+class Cell(pos:Position) extends Button("")
+{
+  override def paint(g:Graphics2D){
+    g.setColor(new java.awt.Color(100,100,100))
+    g.drawRect (0, 0, size.width-1, size.height-1); 
+  }
+}
+
 /** Cellule de la grille contenant un bouton permettant d'ajouter des tours 
   * 
   * Par défaut, la cellule ne contient pas de tour et on ne sait pas encore quel type de tour elle va contenir
   */
-class TowerCell(pos:Position) extends Button("")
+class TowerCell(pos:Position) extends Cell(pos)
 {
-  /** skin associé à la cellule*/
-  var skin : Option[Skin] = None
+  var is_tower = false
+  var tower_type:TowerType = Tower1Type
   action = new Action(""){
     background = new Color(0,0,0,0)
     rolloverEnabled = false
@@ -85,31 +93,35 @@ class TowerCell(pos:Position) extends Button("")
   }
 
   /** en plus du repaint, on vérifie que la taille est correcte */
-  override def repaint(){
+  /*override def repaint(){
 
     skin match {
       case Some(s) => s.resize(1,size);
       case None => ()
     }
     super.repaint
+  }*/
+
+  override def paint(g:Graphics2D){
+    super.paint(g)
+    if(is_tower)
+      g.drawImage(tower_skins(tower_type)(size), null,0,0)
   }
 
   /** Permet de construire une tour sur la case */
   def build_tower(t:TowerType){
-    skin = Some(tower_skins(t))
-    icon = tower_skins(t)(1,size) //on récupère le skin de scale 1 et on le crée s'il n'existe pas
-      repaint
+    tower_type = t
+    is_tower = true
   }
 }
 
-class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Button ("blub")
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Cell (new Position(0,0))
 {
   var scale = 3//Math.sqrt(wave.size).ceil.toInt
   val monsters = wave
   
   action = new Action(""){
-
-    //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
+    //lorsqu'on clique sur une case avec des monstres
     def apply(){
       println("Vous avez cliqué sur un monstre.")
     }
@@ -117,6 +129,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Button ("blub")
 
 
   override def paint(g:Graphics2D){
+    super.paint(g)
     var i = 0
     wave.foreach(
       m =>{
@@ -126,8 +139,6 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Button ("blub")
       }
     )
   }
-
-
 }
 
 

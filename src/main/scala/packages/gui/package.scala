@@ -26,13 +26,13 @@ package object gui {
     * Le type de tour par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.
     */
-  val tower_skins_array = Array(new TowerSkin("/choice_tower1.png", "/tower1.png", Tower1Type), new TowerSkin("/choice_tower2.png", "/tower2.png", Tower2Type))
+  val tower_skins_array = Array(new TowerSkin2("/choice_tower1.png", "/tower1.png", Tower1Type), new TowerSkin2("/choice_tower2.png", "/tower2.png", Tower2Type))
 
   /** Type actuel. Cette variable est mise à jour par TowerChoice*/
   var current_tower_type = tower_skins_array(0).tower_type
 
   /** Convertit un TowerType en skin */
-  def tower_skins(t:TowerType) : Skin = {
+  def tower_skins(t:TowerType) : Skin2 = {
     t match {
       case Tower1Type => tower_skins_array(0)
       case Tower2Type => tower_skins_array(1)
@@ -60,7 +60,7 @@ package object gui {
   /** Permet de modifier la dimension de toutes les tower_icons */
   def resize_icons() {
     for(i <- 0 to tower_skins_array.size - 1)
-      tower_skins_array(i).resize_all
+      tower_skins_array(i).need_resize
     for(i <- 0 to monster_skins_array.size - 1)
       monster_skins_array(i).need_resize
   }
