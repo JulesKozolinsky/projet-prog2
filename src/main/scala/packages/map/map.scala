@@ -59,9 +59,10 @@ object Map
     for (i <- 0 to (height-1)) {
       // on parcourt les cases de sorties
       var distance_min = 1000000
-      var new_path_computed = false
+
       for (j <- 0 to (height-1)) {
 
+        var new_path_computed = false
         // calcule le plus court chemin avec dijkstra
         val start = m(i)(0)
         val target = m(j)(width-1)
@@ -77,6 +78,7 @@ object Map
           distance_min = distance
           new_path_computed = true
         }
+
 
         if (new_path_computed) {
           //liste resultat
@@ -235,7 +237,8 @@ object Map
 
     /** Ajoute un monster sur la carte en position (height/2,0) */
     def new_monster (m:Monster) : Unit = {
-      monsters(height/2)(0) = (monsters(height/2)(0)).+(m)
+      val p = m.init_pos
+      monsters(p.l)(p.c) = (monsters(p.l)(p.c)).+(m)
     }
 
     /** Réinitialise les cartes */
@@ -243,5 +246,6 @@ object Map
       ground = initialize_matrix_ground(height,width)
       towers = initialize_matrix_towers(height,width)
       monsters = initialize_matrix_monsters(height,width)
+      compute_path
     }
 }

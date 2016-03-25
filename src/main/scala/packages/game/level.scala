@@ -16,7 +16,7 @@ import parser._
 
 class Level(file:String)
 {
-  
+
   /** si has_win vaut vrai, alors le joueur a gagné */
   var has_won : Boolean = false
 
@@ -32,7 +32,7 @@ class Level(file:String)
   /** Array contenant les rounds qui composent le niveau.*/
   private var rounds : List[Round] = Parser.parse(file)
 
-  Map.compute_path
+  Map.initialize
 
   /** Démarre le round courrant
     *
@@ -118,5 +118,3 @@ class Level(file:String)
 
 
 }
-
-

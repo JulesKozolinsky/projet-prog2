@@ -33,7 +33,7 @@ abstract class Tower () extends Actor
 
 
   /** le apply des tours est le fait de tirer sur un/des monstres ;
-    * 
+    *
     * targets est une liste contenant toutes les cibles sur qui la tour va tirer ; si la liste	 est vide le wait_since peut augmenter mais ne retombe pas à 0
     * @return la liste des monstres tués par la tour pendant l'éxécution
     */
@@ -459,7 +459,7 @@ class Tower8 (position:Position) extends Tower
 class Monster1 () extends Monster {
   val monster_type = Monster1Type
   var wait_since = 0
-  var init_pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (1,0)
   var pos = init_pos
   var life = monster_type.max_life
 }
