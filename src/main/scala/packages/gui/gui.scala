@@ -170,7 +170,7 @@ class GamePanel extends BorderPanel {
   val game_opt = new GameOptions
   /** Grille du jeu */
   val game_grid = new GameGrid(Map.height,Map.width)
-  val info_panel = new InfoTower(Tower1Type)
+  val info_panel = InfoPanel
 
   add(game_opt,BorderPanel.Position.North)
   add(game_grid,BorderPanel.Position.Center)

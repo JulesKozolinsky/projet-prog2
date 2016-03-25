@@ -26,7 +26,13 @@ package object gui {
     * Le type de tour par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.
     */
-  val tower_skins_array = Array(new TowerSkin2("/choice_tower1.png", "/tower1.png", Tower1Type), new TowerSkin2("/choice_tower2.png", "/tower2.png", Tower2Type))
+  val tower_skins_array = new Array[TowerSkin2](unlocked_towers.size)
+
+  def actualize_tower_skins(){
+    var i = 0 
+    unlocked_towers.foreach({tt: TowerType => tower_skins_array(i) =  new TowerSkin2(tt);i+= 1 })
+  }
+  actualize_tower_skins()
 
   /** Type actuel. Cette variable est mise à jour par TowerChoice*/
   var current_tower_type = tower_skins_array(0).tower_type
@@ -36,6 +42,12 @@ package object gui {
     t match {
       case Tower1Type => tower_skins_array(0)
       case Tower2Type => tower_skins_array(1)
+      case Tower3Type => tower_skins_array(2)
+      case Tower4Type => tower_skins_array(3)
+      case Tower5Type => tower_skins_array(4)
+      case Tower6Type => tower_skins_array(5)
+      case Tower7Type => tower_skins_array(6)
+      case Tower8Type => tower_skins_array(7)
     }
   }
 

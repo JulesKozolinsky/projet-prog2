@@ -174,12 +174,9 @@ class TowerSkin(choice_file:String, grid_file_a:String, tower_type_a : TowerType
   * @param tower_type_a Type de la tour
   * @param init_dim Dimension initiale de l'icône de la grille (dimensions des boutons de la grille au délarrage du jeu)
   */
-class TowerSkin2(choice_file:String, grid_file_a:String, tower_type_a : TowerType) extends Skin2(grid_file_a){
+class TowerSkin2(tower_type_a : TowerType) extends Skin2(tower_type_a.main_icon){
   /** Icon du choix de la tour */
-  val choice_icon =  new ImageIcon(getClass.getResource(choice_file))
-
-  /** Nom du fichier de l'image pour la grille */
-  private val grid_file = grid_file_a
+  val choice_icon =  new ImageIcon(getClass.getResource(tower_type_a.choice_icon))
 
   /** Type de la tour */
   val tower_type = tower_type_a
