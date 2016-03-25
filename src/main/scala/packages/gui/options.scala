@@ -25,10 +25,18 @@ class GameOptions extends BorderPanel {
   val life_info = new InfoGame("/little_heart.png",game.life.toString)
   /** Affichage or restant */
   val money_info = new InfoGame("/little_money.png",game.money.toString)
+  /**Affichage du numéro du round en cours sur le nombre de rounds total*/
+  val rounds_info = new InfoGame("Round ",fraction_to_string(3,4), false)
+  /**Affichage du numéro du level en cours sur le nombre de levels total*/
+  val levels_info = new InfoGame("Niveau ",fraction_to_string(3,4), false)
+
   /** Or et vie */
   val life_money = new BoxPanel(Orientation.Vertical){ 
     border = BorderFactory.createMatteBorder(0, 0, 0, 15, new Color(0,0,0,0))
-    contents += life_info;contents += money_info
+    contents += life_info
+    contents += money_info
+    contents += rounds_info
+    contents += levels_info
   }
 
   /** Choix de la tour */
@@ -74,6 +82,8 @@ class GameOptions extends BorderPanel {
   {
     life_info.set_text(game.life.toString)
     money_info.set_text(game.money.toString)
+    rounds_info.set_text(fraction_to_string(3,4))
+    levels_info.set_text(fraction_to_string(3,10))
     if (!current_level.in_a_round) {round_button.icon = new ImageIcon(getClass.getResource("/play_round_little.png"))}
   }
 }
@@ -169,15 +179,24 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
   *
   * Exemples : nombre de vies, argent restant
   * @param file Fichier contenant une icône
+  * @param is_icon Permet de préciser que le file n'est en fait pas une icône et qu'en réalité on veut du texte
   */
-class InfoGame(file : String, text : String) extends GridPanel(1,2){
+class InfoGame(file : String, text : String, is_icon : Boolean = true) extends BoxPanel(Orientation.Horizontal){
+   border = BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(0,0,0,0))
 
   /** Icone représentant la donnée affichée*/
 
-  val icone = new Label("",new ImageIcon(getClass.getResource(file)),Alignment(0))
+  val icone = 
+    if (is_icon)
+      new Label("",new ImageIcon(getClass.getResource(file)),Alignment(0))
+    else
+      new Label(file)
+
   /** Label affichant l'information */
   val info = new Label(text)
-  contents += icone; contents += info
+  contents += icone
+  contents += Swing.HGlue
+  contents += info
 
   /** Change la valeur du texte*/
   def set_text(text : String)
