@@ -102,8 +102,8 @@ abstract class Monster () extends Living
       }
       else
       {
-        Map.move_monster (this,pos,Map.next_case(pos))
-        pos = Map.next_case(pos)
+        Map.move_monster (this,pos,Map.next_case(pos,init_pos))
+        pos = Map.next_case(pos,init_pos)
         wait_since = 0
       }
     }

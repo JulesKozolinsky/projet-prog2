@@ -52,6 +52,9 @@ class Vector (point1:Position,point2:Position)
 }
 
 
+
+
+
 class Targets ()
 {
   var itself = List[(Position,List[Monster])] ()

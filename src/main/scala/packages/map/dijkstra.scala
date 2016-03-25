@@ -23,7 +23,7 @@ class Dijkstra (graph: WeightedGraph) {
   var stopCondition = defaultStopCondition
 
   def compute(start: Node, target: Node):
-	  List[Node] = {
+	  (List[Node],Int) = {
     var queue: Set[Node] = new HashSet()
     var settled: Set[Node] = new HashSet()
     var distance: Map[Node, Int] = new HashMap()
@@ -37,7 +37,7 @@ class Dijkstra (graph: WeightedGraph) {
       relaxNeighbors(u, queue, settled, distance, path)
     }
     val path_list = mapToList(path,start,target)
-    return path_list
+    return (path_list,distance(target))
   }
 
 
@@ -84,7 +84,7 @@ class Dijkstra (graph: WeightedGraph) {
 
 object Dijkstra_algo {
   def compute_dijkstra(g: WeightedGraph,begin: WeightedGraph#Node,end: WeightedGraph#Node):
-    List[WeightedGraph#Node] = {
+    (List[WeightedGraph#Node],Int) = {
     // Set start, target, stop-condition and compute the path
     val (start, target) = (begin, end)
     val dijkstra2 = new Dijkstra(g)
