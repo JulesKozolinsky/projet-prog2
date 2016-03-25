@@ -102,8 +102,8 @@ abstract class Monster () extends Living
       }
       else
       {
-        Map.move_monster (this,pos,Map.next_case(pos,init_pos))
-        pos = Map.next_case(pos,init_pos)
+        Map.move_monster (this,pos,Map.next_case(pos))
+        pos = Map.next_case(pos)
         wait_since = 0
       }
     }
@@ -181,8 +181,8 @@ case object Tower1Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 1"
   val description = "ceci est une Tour de type 1"
-  val main_icon = "tower1.png"
-  val choice_icon = "choice_tower1.png"
+  val main_icon = "/tower1.png"
+  val choice_icon = "/choice_tower1.png"
 }
 case object Tower2Type extends TowerType
 {
@@ -195,8 +195,8 @@ case object Tower2Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 2"
   val description = "ceci est une Tour de type 2"
-  val main_icon = "tower2.png"
-  val choice_icon = "choice_tower2.png"
+  val main_icon = "/tower2.png"
+  val choice_icon = "/choice_tower2.png"
 
 }
 case object Tower3Type extends TowerType
@@ -210,8 +210,8 @@ case object Tower3Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 3"
   val description = "ceci est une Tour de type 3"
-  val main_icon = "tower3.png"
-  val choice_icon = "choice_tower3.png"
+  val main_icon = "/tower3.png"
+  val choice_icon = "/choice_tower3.png"
 }
 case object Tower4Type extends TowerType
 {
@@ -224,8 +224,8 @@ case object Tower4Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 4"
   val description = "ceci est une Tour de type 4"
-  val main_icon = "tower4.png"
-  val choice_icon = "choice_tower4.png"
+  val main_icon = "/tower4.png"
+  val choice_icon = "/choice_tower4.png"
 }
 case object Tower5Type extends TowerType
 {
@@ -238,8 +238,8 @@ case object Tower5Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 5"
   val description = "ceci est une Tour de type 5"
-  val main_icon = "tower5.png"
-  val choice_icon = "choice_tower5.png"
+  val main_icon = "/tower5.png"
+  val choice_icon = "/choice_tower5.png"
 }
 case object Tower6Type extends TowerType
 {
@@ -252,8 +252,8 @@ case object Tower6Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 6"
   val description = "ceci est une Tour de type 6"
-  val main_icon = "tower6.png"
-  val choice_icon = "choice_tower6.png"
+  val main_icon = "/tower6.png"
+  val choice_icon = "/choice_tower6.png"
 }
 case object Tower7Type extends TowerType
 {
@@ -266,8 +266,8 @@ case object Tower7Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 7"
   val description = "ceci est une Tour de type 7"
-  val main_icon = "tower7.png"
-  val choice_icon = "choice_tower7.png"
+  val main_icon = "/tower7.png"
+  val choice_icon = "/choice_tower7.png"
 }
 case object Tower8Type extends TowerType
 {
@@ -280,8 +280,8 @@ case object Tower8Type extends TowerType
   val round_to_unlock = 1
   val name = "Tour 8"
   val description = "ceci est une Tour de type 8"
-  val main_icon = "tower8.png"
-  val choice_icon = "choice_tower8.png"
+  val main_icon = "/tower8.png"
+  val choice_icon = "/choice_tower8.png"
 }
 
 
@@ -314,7 +314,7 @@ case object Monster1Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 1"
   val description = "ceci est un Monstre de type 1"
-  val main_icon = "monster1.png"
+  val main_icon = "/monster1.png"
 }
 case object Monster2Type extends MonsterType
 {
@@ -325,7 +325,7 @@ case object Monster2Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 2"
   val description = "ceci est un Monstre de type 2"
-  val main_icon = "monster2.png"
+  val main_icon = "/monster2.png"
 }
 case object Monster3Type extends MonsterType
 {
@@ -336,7 +336,7 @@ case object Monster3Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 3"
   val description = "ceci est un Monstre de type 3"
-  val main_icon = "monster3.png"
+  val main_icon = "/monster3.png"
 }
 case object Monster4Type extends MonsterType
 {
@@ -347,7 +347,7 @@ case object Monster4Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 4"
   val description = "ceci est un Monstre de type 4"
-  val main_icon = "monster4.png"
+  val main_icon = "/monster4.png"
 }
 case object Monster5Type extends MonsterType
 {
@@ -358,7 +358,7 @@ case object Monster5Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 5"
   val description = "ceci est un Monstre de type 5"
-  val main_icon = "monster5.png"
+  val main_icon = "/monster5.png"
 }
 case object Monster6Type extends MonsterType
 {
@@ -369,7 +369,7 @@ case object Monster6Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 6"
   val description = "ceci est un Monstre de type 6"
-  val main_icon = "monster6.png"
+  val main_icon = "/monster6.png"
 }
 case object Monster7Type extends MonsterType
 {
@@ -380,7 +380,7 @@ case object Monster7Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 7"
   val description = "ceci est un Monstre de type 7"
-  val main_icon = "monster7.png"
+  val main_icon = "/monster7.png"
 }
 case object Monster8Type extends MonsterType
 {
@@ -391,7 +391,7 @@ case object Monster8Type extends MonsterType
   val round_to_unlock = 1
   val name = "Monstre 8"
   val description = "ceci est un Monstre de type 8"
-  val main_icon = "monster8.png"
+  val main_icon = "/monster8.png"
 }
 
 
@@ -459,7 +459,7 @@ class Tower8 (position:Position) extends Tower
 class Monster1 () extends Monster {
   val monster_type = Monster1Type
   var wait_since = 0
-  var init_pos = new Position (0,0)
+  var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
 }
