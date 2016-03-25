@@ -85,9 +85,10 @@ abstract class Living () extends Actor
 /** Les Monstres sont les ennemis */
 abstract class Monster () extends Living
 {
-  var life : Int
-  var wait_since : Int
+  /** position d'apparition du monstre */
+  var init_pos : Position
 
+  /** type du monstre en question */
   val monster_type : MonsterType
 
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
@@ -101,8 +102,8 @@ abstract class Monster () extends Living
       }
       else
       {
-        Map.move_monster (this,pos,Map.next_case(pos))
-        pos = Map.next_case(this.pos)
+        Map.move_monster (this,pos,Map.next_case(pos,init_pos))
+        pos = Map.next_case(pos,init_pos)
         wait_since = 0
       }
     }
@@ -458,48 +459,56 @@ class Tower8 (position:Position) extends Tower
 class Monster1 () extends Monster {
   val monster_type = Monster1Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (0,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster3 () extends Monster {
   val monster_type = Monster3Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster4 () extends Monster {
   val monster_type = Monster4Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster5 () extends Monster {
   val monster_type = Monster5Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster6 () extends Monster {
   val monster_type = Monster6Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster7 () extends Monster {
   val monster_type = Monster7Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster8 () extends Monster {
   val monster_type = Monster8Type
   var wait_since = 0
-  var pos = new Position (Map.height / 2,0)
+  var init_pos = new Position (Map.height / 2,0)
+  var pos = init_pos
   var life = monster_type.max_life
 }
