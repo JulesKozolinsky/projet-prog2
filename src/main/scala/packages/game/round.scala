@@ -4,6 +4,8 @@ package game
 import map._
 import entities._
 import sugar._
+import scala.util.Random
+
 
 
 
@@ -21,9 +23,9 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Ensemble des monstres en vie et présents sur la map */
   var monsters = Set[Monster] ()
 
-  /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée 
+  /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée
     *
-    * @param l : liste de vagues de monstre triée par ordre d'apparition 
+    * @param l : liste de vagues de monstre triée par ordre d'apparition
     * @param x : vague de monstres à placer dans la liste
     */
   def insertion (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , x:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) : List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] = {
@@ -35,7 +37,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
          }
   }
 
-  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par insertion vu le faible nombre de vagues qui vont arriver) 
+  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par insertion vu le faible nombre de vagues qui vont arriver)
     *
     * @param l : la liste non triée des vagues d'attaquants sans aucun doublon de date d'apparition (sinon on est foutus grave, ou il faut modifier le cas pathologique dans insertion)
     * @return la même liste triée par ordre d'apparition
@@ -59,7 +61,23 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Fonction auxiliaire utilisée pour les vagues */
   def add_monsters_waves (t:MonsterType,n:Int) : Unit = {
     var k = 1
-    for (k <- 1 to n) {var m = t.get_instance() ; Map.new_monster (m) ; monsters = monsters + m}
+    for (k <- 1 to n) {
+      // On crée le monstre
+      var m = t.get_instance()
+      // On considère la position initiale  A CHANGER QUAND PARSER
+      val initial_position = m.init_pos
+      // le tableau des chemins les plus courts disponibles
+      val tab = Map.path(initial_position.l)
+      // on choisit aléatoirement un chemin
+      val rand = new Random(System.currentTimeMillis());
+      val random_index = rand.nextInt(tab.length);
+      // on attribue le chemin au monstre considéré
+      m.path_choice = random_index
+
+      // On ajoute le monstre à la carte et à l'ensemble monsters
+      Map.new_monster (m)
+      monsters = monsters + m
+    }
   }
 
   /** Actualise l'état de l'objet.

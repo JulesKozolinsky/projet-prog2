@@ -35,4 +35,5 @@ package object map
   /** renvoie true si p1 et p2 représentent la même Position */
   def same_position (p1:Position,p2:Position) : Boolean =
     { p1.l == p2.l & p1.c == p2.c}
+
 }
