@@ -27,7 +27,7 @@ object Map
   private var monsters = initialize_matrix_monsters(height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
-  var path : Array[List[Position]] = {new Array[List[Position]](height)}
+  var path : Array[Array[List[Position]]] = {new Array[Array[List[Position]]](height)}
 
 
   /** Calcule le chemin avec les tours existantes à l'aide d'un algorithme de plus court chemin,
@@ -57,12 +57,14 @@ object Map
 
     // on parcourt les cases de départ
     for (i <- 0 to (height-1)) {
-      // on parcourt les cases de sorties
-      var distance_min = 1000000
 
+      // distance minimale initiale
+      var distance_min = 1000000
+      // la liste des chemins de plus courts chemin
+      var res_list = List[List[Position]]()
+      // on parcourt les cases de sorties
       for (j <- 0 to (height-1)) {
 
-        var new_path_computed = false
         // calcule le plus court chemin avec dijkstra
         val start = m(i)(0)
         val target = m(j)(width-1)
@@ -70,24 +72,27 @@ object Map
 
         // on regarde si c'est le chemin le plus court jusqu'à présent
         if (distance < distance_min) {
+          // la distance minimale est changée
           distance_min = distance
-          new_path_computed = true
+
+          var res = List[Position]()
+          //Calcule les positions à partir des noeuds
+          path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
+          res_list = List(res)
+
         }
 
         if (distance == distance_min) {
-          distance_min = distance
-          new_path_computed = true
-        }
-
-
-        if (new_path_computed) {
           //liste resultat
           var res = List[Position]()
           //Calcule les positions à partir des noeuds
           path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
-          path(i) = res
+          // on ajoute un nouveau plus court chemin
+          res_list = res::res_list
         }
       }
+      // on ajoute le résultat
+      path(i) = res_list.toArray
     }
   }
 
@@ -97,7 +102,7 @@ object Map
     if (p.c == width-1) {
       throw new Exception("monster will go off the grid")}
     else {
-      var temp = path(o.l)
+      var temp = path(o.l)(0)
       while (!(temp.isEmpty) && !(temp.head == p)) {
         temp = temp.tail
       }
