@@ -26,36 +26,16 @@ class GameOptions extends BorderPanel {
   /** Affichage or restant */
   val money_info = new InfoGame("/little_money.png",game.money.toString)
   /** Or et vie */
-  val infos = new BoxPanel(Orientation.Vertical){ contents += life_info;contents += money_info}
+  val life_money = new BoxPanel(Orientation.Vertical){ 
+    border = BorderFactory.createMatteBorder(0, 0, 0, 15, new Color(0,0,0,0))
+    contents += life_info;contents += money_info
+  }
 
   /** Choix de la tour */
   val tower_choice = new TowerChoice
   /** Démarrage d'un round */
-  var round_button = new Button(""){
-    action = new Action(""){
-      icon  = new ImageIcon(getClass.getResource("/play-button.png"))
+  var round_button = PlayPauseButton
 
-      def apply(){
-        if (!current_level.in_a_round) {
-          MainFrameGUI.start_round
-          icon = new ImageIcon(getClass.getResource("/pause-button.png"))
-        }
-        else {
-          if (paused) { //le bouton change d'apparence lorsque l'on est dans un round. On peut alors faire une pause.
-            paused = false
-            MainFrameGUI.timer.start
-            icon = new ImageIcon(getClass.getResource("/pause-button.png"))
-          }
-          else {
-            paused = true
-            MainFrameGUI.timer.stop
-            icon = new ImageIcon(getClass.getResource("/play-button.png"))
-          }
-
-        }
-      }
-    }
-  }
   /** Bouton permettant d'accélérer le jeu pendant la phase d'attaque des monstres */
   var next_button = new Button(""){
     action = new Action(""){
@@ -78,10 +58,15 @@ class GameOptions extends BorderPanel {
     }
   }
 
+  val left_features = new BoxPanel(Orientation.Horizontal){
+    //hGap = 25
+    contents += life_money
+    contents += back_button 
+    contents += round_button
+    contents += next_button
+  }
 
-
-  add(new GridPanel(1,2){hGap = 25; contents += infos; contents += back_button ; contents += round_button;
-    contents += next_button;}, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
+  add(left_features, BorderPanel.Position.West) //on affiche la vie et l'argent dans une colonne tout à gauche
   add(tower_choice , BorderPanel.Position.East) //on affiche le choix des tours tout à droite
 
   /** Synchronise le nombre de vies et l'or restant avec level */
@@ -91,6 +76,42 @@ class GameOptions extends BorderPanel {
     money_info.set_text(game.money.toString)
     if (!current_level.in_a_round) {round_button.icon = new ImageIcon(getClass.getResource("/play_round_little.png"))}
   }
+}
+
+/************************* Pause, play, accélération ********************************/
+
+/**Bouton pour lancer un nouveau round et pour mettre en pause la jeu*/
+object PlayPauseButton extends Button("")
+{
+  /** Icone du bouton lorsque le jeu est en pause ou bien lorsqu'on n'est pas dans un round*/
+  val play_icon = new ImageIcon(getClass.getResource("/play-button.png"))
+
+  /** Icone du bouton lorsqu'un round est en cours*/
+  val pause_icon = new ImageIcon(getClass.getResource("/pause-button.png"))
+
+  action = new Action(""){
+      icon  = play_icon
+
+      def apply(){
+        if (!current_level.in_a_round) {
+          MainFrameGUI.start_round
+          icon = pause_icon
+        }
+        else {
+          if (paused) { //le bouton change d'apparence lorsque l'on est dans un round. On peut alors faire une pause.
+            paused = false
+            MainFrameGUI.timer.start
+            icon = pause_icon
+          }
+          else {
+            paused = true
+            MainFrameGUI.timer.stop
+            icon = play_icon
+          }
+
+        }
+      }
+    }
 }
 
 /* ********************* Tower choice **********************/
