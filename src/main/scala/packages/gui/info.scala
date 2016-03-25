@@ -20,7 +20,12 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
   
   /** Cette fonction permet de changer le type de tour ou de monstre dont les infos sont affichées dans le bloc principal */
   def change_main_unit(tileable_type : TileableType)
-{}
+  {
+    tileable_type match {
+      case tt:TowerType => contents(0) = new InfoTower(tt)
+      case mt:MonsterType =>
+    }
+  }
 
 }
 

@@ -62,6 +62,7 @@ object MainFrameGUI extends swing.MainFrame {
   def actualize() {
 
     frame.actualize()
+    MainFrameGUI.visible = true
   }
 
   /** Envoie un tick à tous les éléments du jeu */

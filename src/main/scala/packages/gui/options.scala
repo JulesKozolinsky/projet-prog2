@@ -121,7 +121,11 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
 
       action = new Action(""){ //lorsqu'on clique sur un bouton de choix de la tour
         icon = tower_skins_array(i).choice_icon
-        def apply(){current_tower_type = tower_skins_array(i).tower_type}
+        def apply(){
+          current_tower_type = tower_skins_array(i).tower_type
+          InfoPanel.change_main_unit(current_tower_type) //on change l'info associée 
+          MainFrameGUI.visible = true
+        }
       }
     }
   }

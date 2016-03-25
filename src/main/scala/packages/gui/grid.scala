@@ -47,7 +47,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         val monsters = Map.get_monsters(pos)
         if(monsters.size == 0 ){ //s'il n'y a pas de monstres sur la case
           contents(l*columns + c) = new TowerCell(pos)
-          MainFrameGUI.visible = true // On doit réactualiser GUI car sinon la taille de notre nouvelle MonsterCell
           //n'est pas correctement actualisée : on aura width = 0 et height = 0
           if(Map.is_tower(pos)){ // S'il y une tour sur la case, on appelle build tower
             (contents(l*columns + c) match {
@@ -57,7 +56,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
           }
         }else{ //s'il y a au moins un monstre
           contents(l*columns + c) = new MonsterCell(monsters)
-          MainFrameGUI.visible = true
         }
       }}
     repaint
