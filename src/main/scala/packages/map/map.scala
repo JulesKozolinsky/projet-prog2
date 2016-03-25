@@ -10,7 +10,7 @@ import dijkstra._
 object Map
 {
   /** hauteur de la carte */
-  val height : Int = 9
+  val height : Int = 10
 
   /** largeur de la carte */
   val width : Int = 20
@@ -27,10 +27,7 @@ object Map
   private var monsters = initialize_matrix_monsters(height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
-  var path : List[Position] = {List[Position]()}
-
-  /** là où sont stockées les images associées aux tours*/
-  var tower_resources : Array[String] = {Array("tower1.png","tower2.png")}
+  var path : Array[List[Position]] = {new Array[List[Position]](height)}
 
 
   /** Calcule le chemin avec les tours existantes à l'aide d'un algorithme de plus court chemin,
@@ -38,8 +35,6 @@ object Map
     * été trouvée
     */
   def compute_path : Unit = {
-    // la liste résultat
-    var res = List[Position]()
     // définie le graphe sur lequel les monstres peuvent bouger
     val g = new WeightedGraph(1)
     // définie une matrice où les noeuds sont stockés
@@ -59,24 +54,48 @@ object Map
         }
       }
     }
-    // calcule le plus court chemin avec dijkstra
-    val start = m(height/2)(0)
-    val target = m(height/2)(width-1)
-    val path_dijkstra = Dijkstra_algo.compute_dijkstra(g,start,target)
-    //java.util.
-    //Calcule les positions à partir des noeuds
-    path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
 
-    path = res
+    // on parcourt les cases de départ
+    for (i <- 0 to (height-1)) {
+      // on parcourt les cases de sorties
+      var distance_min = 1000000
+      var new_path_computed = false
+      for (j <- 0 to (height-1)) {
+
+        // calcule le plus court chemin avec dijkstra
+        val start = m(i)(0)
+        val target = m(j)(width-1)
+        val (path_dijkstra,distance) = Dijkstra_algo.compute_dijkstra(g,start,target)
+
+        // on regarde si c'est le chemin le plus court jusqu'à présent
+        if (distance < distance_min) {
+          distance_min = distance
+          new_path_computed = true
+        }
+
+        if (distance == distance_min) {
+          distance_min = distance
+          new_path_computed = true
+        }
+
+        if (new_path_computed) {
+          //liste resultat
+          var res = List[Position]()
+          //Calcule les positions à partir des noeuds
+          path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
+          path(i) = res
+        }
+      }
+    }
   }
 
 
   /** Donne la case suivante d'un monster à partir du chemin*/
-  def next_case (p:Position) : Position = {
+  def next_case (p:Position,o:Position) : Position = {
     if (p.c == width-1) {
       throw new Exception("monster will go off the grid")}
     else {
-      var temp = path
+      var temp = path(o.l)
       while (!(temp.isEmpty) && !(temp.head == p)) {
         temp = temp.tail
       }
