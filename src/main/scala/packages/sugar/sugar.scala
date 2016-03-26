@@ -29,9 +29,9 @@ class Position (l_arg:Int, c_arg:Int)
   /** Cette fonction renvoie true si le point se trouve à droite de la demi-droite, et false si à gauche */
   def blup (pos_tower:Position,pos_first:Position) : Boolean = 
   {
-    
-    
-    true
+    var normal_vect = new Position (pos_tower.c - pos_first.c , pos_first.l - pos_tower.l)
+    val my_vect = new Position (l - pos_tower.l , c - pos_tower.c)
+    (normal_vect.l * my_vect.l) + (normal_vect.l * my_vect.l) >= 0
   }
 
 
@@ -50,8 +50,6 @@ class Vector (point1:Position,point2:Position)
 {
   def norme : Int = math.sqrt((point1.l - point2.l)*(point1.l - point2.l) + (point1.c - point2.c)*(point1.c - point2.c)).toInt
 }
-
-
 
 
 
