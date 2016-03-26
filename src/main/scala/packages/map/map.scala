@@ -27,13 +27,22 @@ object Map
   private var monsters = initialize_matrix_monsters(height,width)
 
   /** le chemin où les monstrers peuvent se déplacer */
-  var path : Array[List[Position]] = {new Array[List[Position]](height)}
+  var path : Array[Array[List[Position]]] = initialize_path(height)
+
+  /** Réinitialise les cartes */
+  def initialize():Unit = {
+    ground = initialize_matrix_ground(height,width)
+    towers = initialize_matrix_towers(height,width)
+    monsters = initialize_matrix_monsters(height,width)
+    compute_path
+  }
 
 
-  /** Calcule le chemin avec les tours existantes à l'aide d'un algorithme de plus court chemin,
-    * renvoie la liste des positions et renvoie la liste vide dans le cas où aucune solution n'a
-    * été trouvée
-    */
+
+
+/******************* CALCUL DE CHEMIN **************************/
+
+  /** Calcule le chemin avec les tours existantes à l'aide d'un algorithme de plus court chemin */
   def compute_path : Unit = {
     // définie le graphe sur lequel les monstres peuvent bouger
     val g = new WeightedGraph(1)
@@ -54,12 +63,14 @@ object Map
         }
       }
     }
-
     // on parcourt les cases de départ
     for (i <- 0 to (height-1)) {
+
+      // distance minimale initiale
+      var distance_min = height*width
+      // la liste des chemins de plus courts chemin
+      var res_list = List[List[Position]]()
       // on parcourt les cases de sorties
-      var distance_min = 1000000
-      var new_path_computed = false
       for (j <- 0 to (height-1)) {
 
         // calcule le plus court chemin avec dijkstra
@@ -69,33 +80,38 @@ object Map
 
         // on regarde si c'est le chemin le plus court jusqu'à présent
         if (distance < distance_min) {
+          // la distance minimale est changée
           distance_min = distance
-          new_path_computed = true
-        }
-
-        if (distance == distance_min) {
-          distance_min = distance
-          new_path_computed = true
-        }
-
-        if (new_path_computed) {
-          //liste resultat
+          // liste résultat
           var res = List[Position]()
           //Calcule les positions à partir des noeuds
           path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
-          path(i) = res
+          res_list = List(res)
         }
+        else {
+          if (distance == distance_min) {
+            //liste resultat
+            var res = List[Position]()
+            //Calcule les positions à partir des noeuds
+            path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
+            // on ajoute un nouveau plus court chemin
+            res_list = res::res_list
+          }
+        }
+
       }
+      // on ajoute le résultat
+      path(i) = res_list.toArray
     }
   }
 
 
   /** Donne la case suivante d'un monster à partir du chemin*/
-  def next_case (p:Position,o:Position) : Position = {
+  def next_case (p:Position,o:Position,c:Int) : Position = {
     if (p.c == width-1) {
       throw new Exception("monster will go off the grid")}
     else {
-      var temp = path(o.l)
+      var temp = (path(o.l))(c)
       while (!(temp.isEmpty) && !(temp.head == p)) {
         temp = temp.tail
       }
@@ -106,6 +122,13 @@ object Map
     }
   }
 
+
+
+
+
+
+
+/******************* OPERATIONS SUR LES TOURS **************************/
 
     /** Renvoie vrai si une tour se trouve sur la case indiquée */
     def is_tower (p:Position) : Boolean = {
@@ -181,6 +204,12 @@ object Map
   }
 
 
+
+
+
+
+/******************* OPERATIONS SUR LES MONSTRES **************************/
+
     /** Supprime le monstre monster de la 1ere position et l'ajoute sur la deuxieme */
     def move_monster (monster:Monster,p1:Position,p2:Position) : Unit = {
       remove_monster (monster,p1)
@@ -235,13 +264,8 @@ object Map
 
     /** Ajoute un monster sur la carte en position (height/2,0) */
     def new_monster (m:Monster) : Unit = {
-      monsters(height/2)(0) = (monsters(height/2)(0)).+(m)
+      val p = m.init_pos
+      monsters(p.l)(p.c) = (monsters(p.l)(p.c)).+(m)
     }
 
-    /** Réinitialise les cartes */
-    def initialize():Unit = {
-      ground = initialize_matrix_ground(height,width)
-      towers = initialize_matrix_towers(height,width)
-      monsters = initialize_matrix_monsters(height,width)
-    }
 }
