@@ -32,8 +32,13 @@ package object map
     }
     matrix
   }
-  /** renvoie true si p1 et p2 représentent la même Position */
-  def same_position (p1:Position,p2:Position) : Boolean =
-    { p1.l == p2.l & p1.c == p2.c}
 
+  /** initialise le chemin */
+  def initialize_path (n:Int) = {
+    var tab1 = new Array[Array[List[Position]]](n)
+    for (l <- 0 to (n-1)) {
+      tab1(l) = new Array[List[Position]](0)
+    }
+    tab1
+  }
 }

@@ -61,6 +61,8 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Fonction auxiliaire utilisée pour les vagues */
   def add_monsters_waves (t:MonsterType,n:Int) : Unit = {
     var k = 1
+    val rand = new Random()
+
     for (k <- 1 to n) {
       // On crée le monstre
       var m = t.get_instance()
@@ -68,9 +70,10 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       val initial_position = m.init_pos
       // le tableau des chemins les plus courts disponibles
       val tab = Map.path(initial_position.l)
+
       // on choisit aléatoirement un chemin
-      val rand = new Random(System.currentTimeMillis());
-      val random_index = rand.nextInt(tab.length);
+      val random_index = rand.nextInt(tab.length)
+
       // on attribue le chemin au monstre considéré
       m.path_choice = random_index
 
