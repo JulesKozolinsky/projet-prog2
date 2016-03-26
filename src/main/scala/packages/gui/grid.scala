@@ -90,16 +90,6 @@ class TowerCell(pos:Position) extends Cell(pos)
     }
   }
 
-  /** en plus du repaint, on vérifie que la taille est correcte */
-  /*override def repaint(){
-
-    skin match {
-      case Some(s) => s.resize(1,size);
-      case None => ()
-    }
-    super.repaint
-  }*/
-
   override def paint(g:Graphics2D){
     super.paint(g)
     if(is_tower)
@@ -115,6 +105,7 @@ class TowerCell(pos:Position) extends Cell(pos)
 
 class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Cell (new Position(0,0))
 {
+  /**Définit la racine carrée du nombre maximal de monstres par case*/
   var scale = 3//Math.sqrt(wave.size).ceil.toInt
   val monsters = wave
   

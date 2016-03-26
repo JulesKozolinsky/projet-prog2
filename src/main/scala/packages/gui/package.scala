@@ -17,6 +17,7 @@ package object gui {
 
   /** Le niveau dans lequel on joue. Cette variable est mise à jour par MainFrameGUI */
   var current_level = new Level("/test1.xml")
+
   /** Vaut true si le jeu est en pause et false sinon. Cette variable est mise à jour par MainFrameGUI */
   var paused = false 
 
@@ -114,5 +115,11 @@ package object gui {
   /** Renvoie une image de la taille de la fenêtre */
   def full_screen_image (file:String) : ImageIcon = {
     new ImageIcon(new ImageIcon(getClass.getResource(file)).getImage.getScaledInstance(java.awt.Toolkit.getDefaultToolkit().getScreenSize.width,java.awt.Toolkit.getDefaultToolkit().getScreenSize.height,java.awt.Image.SCALE_SMOOTH))
+  }
+
+
+  /**Renvoie la chaîne de caractères représentant la fraction des deux entiers en paramètre*/
+  def fraction_to_string(dividend:Int , divisor : Int) : String = {
+    dividend.toString + "/" + divisor.toString
   }
 }
