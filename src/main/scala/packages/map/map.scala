@@ -231,26 +231,25 @@ object Map
 
     /** Renvoie l'ensemble des type de monstres situés à la position (l,c), et la quantité de chaque */
     def get_monsters (p:Position) : Set[Tuple2[MonsterType,Int]] = {
-      // On parcourt le set "map_set"
       var map_set = monsters(p.l)(p.c) //Set[Monster]
-
 //version gab
-      var monster_set = Set[Tuple2[MonsterType,Int]]()
-      map_set.foreach {(monster:Monster) =>
+      var monster_set = Set[Tuple2[MonsterType,Int]]() // l'ensemble que l'on va remplir
+      map_set.foreach {(monster:Monster) => // on parcourt la case
        {
-         var m_type = monster.monster_type
-         var monster_type_found = false
+         var m_type = monster.monster_type // le type du monstre en cours
+         var monster_type_found = false // à priori pas encore dans notre ensemble
          var old_t = (m_type,0) // valeurs inutiles, sert à transmettre l'information de
          var new_t = (m_type,0) // la ligne suivante à l'extérieur du "monster_set.foreach"
+	 // on parcourt notre ensemble en cours de remplissage, si on trouve dedans le type du monstre en cours on stock les modifications à apporter.
          monster_set.foreach {(t:(MonsterType,Int)) => {if (t._1 == m_type) {new_t = (m_type,t._2 + 1) ; old_t = t ; monster_type_found = true} }}
          if (monster_type_found)  {monster_set = (monster_set - old_t) + new_t} else {monster_set = monster_set + (new Tuple2(m_type,1))}
        }
       }
       monster_set
     }
-//fin gab
+//fin version gab
 
-
+//ancienne version
 /*
       while (!map_set.isEmpty) {
         var m = (map_set.head).monster_type //m est le type du monstre
@@ -282,11 +281,7 @@ object Map
 */
 
     /** Renvoie l'ensemble des monstres situés à la position (l,c) */
-    def get_real_monsters (p:Position) : Set[Monster] = 
-    {
-      var m = Set[Monster] () 
-      m
-    }
+    def get_real_monsters (p:Position) : Set[Monster] = { var answer = monsters(p.l)(p.c) ; Set[Monster] ()} // en vrai juste renvoyer monsters(p.l)(p.c) mais pb de typage
 
     /** Ajoute un monster sur la carte en position (height/2,0) */
     def new_monster (m:Monster) : Unit = {
