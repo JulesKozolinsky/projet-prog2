@@ -22,7 +22,7 @@ import java.awt.image._
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
-
+  border = null
   //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
     for(j<-0 to columns - 1) {
@@ -30,12 +30,10 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     }
   }
 
-  /** Appelle le repaint des boutons contenus dans la grille (normalement, il devrait le faire mais il semble que ce ne soit pas le cas)*/
-  override def repaint(){
-    for(i<- 0 to contents.size-1){
-      contents(i).repaint
-    }
-    super.repaint
+
+  override def paint(g:Graphics2D) {
+    super.paint(g)
+    g.drawLine(0,0,100,100)
   }
 
   /** Actualise la grille en fonction de l'état de la Map.*/
@@ -131,9 +129,9 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Cell (new Positio
 }
 
 
-
+/* Ancienne version de monstercell 
 /** Cellule de la grille contenant des monstres */
-/*class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
 {
   /** Taille des images de monstres dans le skin correspondant */
   var scale = Math.sqrt(wave.size).ceil.toInt

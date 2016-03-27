@@ -52,7 +52,7 @@ class Skin2(a_file:String)
   private def resize(dim:Dimension, scale : Int) {
     val img = new ImageIcon(zoom_image(new ImageIcon(getClass.getResource(file)).getImage,dim,scale)).getImage
     val buffered = new BufferedImage(img.getWidth(null),img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
-    buffered.getGraphics().drawImage(img, 0, 0 , null);
+    buffered.getGraphics().drawImage(img, 0, 0 , null)
     main_image = Some(buffered)
   }
 }

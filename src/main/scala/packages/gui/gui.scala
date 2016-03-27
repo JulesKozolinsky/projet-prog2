@@ -16,6 +16,10 @@ import javax.swing.Timer
 import java.awt.Desktop
 import java.net.URI
 
+import java.awt.Graphics2D
+import java.awt.image.BufferedImage
+import java.awt.Color
+
 
 
 /******************************** Organisation de la fenêtre **************/
@@ -157,6 +161,9 @@ object MainFrameGUI extends swing.MainFrame {
       actualize
       repaint //permet d'actualiser tous les boutons
   }
+
+
+  
 }
 
 
@@ -183,6 +190,8 @@ class GamePanel extends BorderPanel {
     game_grid.actualize()
   }
 
+
+ 
 }
 
 

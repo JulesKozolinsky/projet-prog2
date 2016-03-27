@@ -14,7 +14,6 @@ import java.awt.Dimension
 import java.awt.Font
 
 object InfoPanel extends BoxPanel(Orientation.Vertical){
-
   contents += new InfoTower(Tower1Type)
   contents += new InfoTower(Tower1Type)
   
