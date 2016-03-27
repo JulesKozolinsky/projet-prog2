@@ -233,7 +233,25 @@ object Map
     def get_monsters (p:Position) : Set[Tuple2[MonsterType,Int]] = {
       // On parcourt le set "map_set"
       var map_set = monsters(p.l)(p.c) //Set[Monster]
+
+//version gab
       var monster_set = Set[Tuple2[MonsterType,Int]]()
+      map_set.foreach {(monster:Monster) =>
+       {
+         var m_type = monster.monster_type
+         var monster_type_found = false
+         var old_t = (m_type,0) // valeurs inutiles, sert à transmettre l'information de
+         var new_t = (m_type,0) // la ligne suivante à l'extérieur du "monster_set.foreach"
+         monster_set.foreach {(t:(MonsterType,Int)) => {if (t._1 == m_type) {new_t = (m_type,t._2 + 1) ; old_t = t ; monster_type_found = true} }}
+         if (monster_type_found)  {monster_set = (monster_set - old_t) + new_t} else {monster_set = monster_set + (new Tuple2(m_type,1))}
+       }
+      }
+      monster_set
+    }
+//fin gab
+
+
+/*
       while (!map_set.isEmpty) {
         var m = (map_set.head).monster_type //m est le type du monstre
         // On parcourt le set "monster_set"
@@ -261,6 +279,7 @@ object Map
       }
       monster_set
     }
+*/
 
     /** Renvoie l'ensemble des monstres situés à la position (l,c) */
     def get_real_monsters (p:Position) : Set[Monster] = 
