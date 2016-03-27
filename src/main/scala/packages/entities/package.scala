@@ -65,14 +65,20 @@ package object entities
   // à voir si on abandonne cette propriété ou si je tente de modifier mon code...
   def line (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
+    var t_pos = l_with_towerpos.head._1
     var main_target = closest(l_with_towerpos)
     var targets = List[Monster] ()
-    if (main_target.isEmpty) {targets}
-    else 
+    if (! main_target.isEmpty)
     {
-      var m_targ = true
+      var target = main_target(0)
+      targets = target::targets
+      for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1) 
+      {
+       var current_pos = new Position (l,c)
+       if (current_pos.is_on_ray(t_pos,target.pos)) { Map.get_real_monsters(current_pos).foreach {(m:Monster) => targets = m::targets} }
+      }
     }
-    List[Monster] (l_with_towerpos(0)._2(0))
+    targets
   }
 
   /** Cette fonction renvoie le monstre avec la vie la plus basse, avec en plus en cas d'égalité choix du monstre le plus loin dans le parcours */

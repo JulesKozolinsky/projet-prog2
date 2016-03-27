@@ -9,6 +9,16 @@ import entities._
   * @param c Numéro de la colonne
   */
 
+
+class Position_Real (l_arg : Double , c_arg : Double)
+{
+  var l = l_arg
+  var c = c_arg
+  def scalar_prod (pos2:Position_Real) : Double = {(l * pos2.l) + (c * pos2.c)}
+  def get_center = {new Position_Real (l+0.5,c+0.5)}
+  def to_vect (pos2:Position_Real) : Position_Real = {new Position_Real (pos2.l - l , pos2.c - c)}
+}
+
 class Position (l_arg:Int, c_arg:Int)
 {
   var l = l_arg
@@ -17,30 +27,51 @@ class Position (l_arg:Int, c_arg:Int)
     pos2 match {
     case pos2:Position => this.l == pos2.l && this.c == pos2.c
     case _ => throw new ClassCastException
+
   }
   }
+  // je commenterai moi-même       s : gab
+  def scalar_prod (pos2:Position) : Int = {(l * pos2.l) + (c * pos2.c)}
+
+  // je commenterai moi-même       s : gab
+  def to_vect (pos2:Position) : Position = {new Position (pos2.l - l , pos2.c - c)}
+
+  // je commenterai moi-même       s : gab
+  def to_normal_vect () : Position = {new Position (-c,l)}
+
+  // je commenterai moi-même       s : gab
+  def to_Position_Real () : Position_Real = {new Position_Real (l.toFloat,c.toFloat)}
+
+  // je commenterai moi-même       s : gab
+  def norme () : Int = {c*c+l*l}
 
   /** Cette fonction renvoie true si le point se situe dans la direction du tir de la tour, false si derrière */
   def is_well_directed (pos_tower:Position,pos_first:Position) : Boolean = 
   {
-    (pos_tower.l - this.l)*(pos_tower.l - pos_first.l) + (pos_tower.c - this.c)*(pos_tower.c - pos_first.c) > 0
+    var tower_target = pos_tower.to_vect(pos_first)
+    var tower_self = pos_tower.to_vect(this)
+    tower_target.scalar_prod(tower_self) > 0
   }
 
-  /** Cette fonction renvoie true si le point se trouve à droite de la demi-droite, et false si à gauche */
-  def blup (pos_tower:Position,pos_first:Position) : Boolean = 
+  /** Cette fonction renvoie true si le point se trouve à gauche de la demi-droite, et false si à droite */
+  def is_on_left (pos_tower:Position,pos_first:Position) : Boolean = 
   {
-    var normal_vect = new Position (pos_tower.c - pos_first.c , pos_first.l - pos_tower.l)
-    val my_vect = new Position (l - pos_tower.l , c - pos_tower.c)
-    (normal_vect.l * my_vect.l) + (normal_vect.l * my_vect.l) >= 0
+    var dir_vect = pos_tower.to_vect(pos_first)
+    var normal_vect = dir_vect.to_normal_vect.to_Position_Real    
+    val tower_self = pos_tower.to_Position_Real.get_center.to_vect(this.to_Position_Real)
+    normal_vect.scalar_prod(tower_self) >= 0
   }
 
 
   /** Cette fonction sert à trouver les monstres sur la trajectoire d'un tir de tour */
   def is_on_ray (pos_tower:Position,pos_first:Position) : Boolean = 
   {
+    var up_left_corner = this
+    var up_right_corner = new Position (l,c+1)
+    var down_left_corner = new Position (l+1,c)
+    var down_right_corner = new Position (l+1,c+1)
     
-    
-    true
+    (up_left_corner.is_on_left(pos_tower,pos_first) != down_right_corner.is_on_left(pos_tower,pos_first) || up_right_corner.is_on_left(pos_tower,pos_first) != down_left_corner.is_on_left(pos_tower,pos_first)) && (this.is_well_directed(pos_tower,pos_first))
   }
 
 }

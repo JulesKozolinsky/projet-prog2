@@ -229,7 +229,7 @@ object Map
     }
 
 
-    /** Renvoie l'ensemble des monsters situés à la position (l,c) */
+    /** Renvoie l'ensemble des type de monstres situés à la position (l,c), et la quantité de chaque */
     def get_monsters (p:Position) : Set[Tuple2[MonsterType,Int]] = {
       // On parcourt le set "map_set"
       var map_set = monsters(p.l)(p.c) //Set[Monster]
@@ -260,6 +260,13 @@ object Map
         map_set = map_set.tail
       }
       monster_set
+    }
+
+    /** Renvoie l'ensemble des monstres situés à la position (l,c) */
+    def get_real_monsters (p:Position) : Set[Monster] = 
+    {
+      var m = Set[Monster] () 
+      m
     }
 
     /** Ajoute un monster sur la carte en position (height/2,0) */
