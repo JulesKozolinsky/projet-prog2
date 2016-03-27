@@ -1,3 +1,4 @@
 package object packages{
-  var tick = 100
+  val tick_default = 100
+  var tick = tick_default
 }

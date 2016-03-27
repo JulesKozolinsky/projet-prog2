@@ -57,7 +57,11 @@ class GameOptions extends BorderPanel {
       contentAreaFilled =false
 
       def apply() {
-        MainFrameGUI.timer.setDelay(tick/4)
+        tick = (tick/2).toInt
+        if (tick == 0) {//invariant : tick >0
+          tick = 1
+        }
+        MainFrameGUI.timer.setDelay(tick)
       }
     }
   }
@@ -72,7 +76,8 @@ class GameOptions extends BorderPanel {
       contentAreaFilled =false
 
       def apply() {
-        MainFrameGUI.timer.setDelay(tick*4)
+        tick = (tick*2).toInt 
+        MainFrameGUI.timer.setDelay(tick)
       }
     }
     
