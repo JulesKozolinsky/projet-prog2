@@ -29,6 +29,14 @@ object Map
   /** le chemin où les monstrers peuvent se déplacer */
   var path : Array[Array[List[Position]]] = initialize_path(height)
 
+  /** L'ensemble des positions de la map */
+  var set_positions : Set[Position] = 
+  {
+    var pre_set = Set[Position]()
+    for (l <- 0 to (height-1) ; c <- 0 to (width-1) ) {pre_set = pre_set + new Position(l,c)}
+    pre_set
+  }
+
   /** Réinitialise les cartes */
   def initialize():Unit = {
     ground = initialize_matrix_ground(height,width)

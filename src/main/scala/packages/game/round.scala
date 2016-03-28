@@ -95,7 +95,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /* ici on ajoute dans le set de monstres une éventuelle nouvelle vague */
   if (!waves.isEmpty) // pour pas bugger sur la commande suivante
     {
-     if (waves.head._2*1000/tick == compteur_tick) // s'il est temps
+     if (waves.head._2*10 == compteur_tick) // s'il est temps
        {
 	 for (x <- waves.head._1) {add_monsters_waves(x._1,x._2)}
          waves = waves.tail

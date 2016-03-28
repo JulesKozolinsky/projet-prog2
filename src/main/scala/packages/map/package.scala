@@ -26,9 +26,9 @@ package object map
 
   /** initialise la matrice monsters */
   def initialize_matrix_monsters (n:Int,p:Int) = {
-    var matrix = Array.ofDim[/*scala.collection.mutable.*/Set[Monster]](n,p)
+    var matrix = Array.ofDim[Set[Monster]](n,p)
     for ( l <- 0 to (n-1) ; c <- 0 to (p-1) ) {
-      matrix(l)(c) = /*scala.collection.mutable.*/Set[Monster]()
+      matrix(l)(c) = Set[Monster]()
     }
     matrix
   }
