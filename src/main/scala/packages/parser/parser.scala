@@ -10,8 +10,8 @@ object Parser
 {
 
   /** Parse le XML */
-  def parse (file:String) : List[Round] = {
-    var list_of_rounds = List[Round]()
+  def parse (file:String) : (List[Round] , String) = {
+    //var list_of_rounds = List[Round]()
 
 
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
@@ -30,7 +30,7 @@ object Parser
     var m7 : MonsterType = Monster7Type //ne pas utiliser car pas d'icônes dans gui
     var m8 : MonsterType = Monster8Type //ne pas utiliser car pas d'icônes dans gui
 
-    r1 = (Set((m1,1) , (m2,1) , (m3,1) , (m4,1) , (m5,1) , (m6,1) ) , 1)::r1
+    r1 = (Set((m1,1) , (m3,1) , (m4,1) , (m5,1) , (m6,1) ) , 1)::r1
     r1 = (Set((m2,7)) , 2)::r1
 
 
@@ -46,7 +46,7 @@ object Parser
     r4 = (Set((m6,12)) , 3)::r4
 
 
-    list_of_rounds = List(new Round(r1),new Round(r2),new Round(r3),new Round(r4))
+    var list_of_rounds : (List[Round],String) = (List(new Round(r1),new Round(r2),new Round(r3),new Round(r4)) , "Niveau unique")
 
 
     //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)

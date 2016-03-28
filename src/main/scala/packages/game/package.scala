@@ -29,7 +29,6 @@ package object game {
   /** Les monstres débloqués au début de la partie */
   val unlocked_monsters_default = List[MonsterType] (Monster1Type, Monster2Type, Monster3Type, Monster4Type, Monster5Type, Monster6Type, Monster7Type, Monster8Type)
  
-
   /** Les monstres débloqués à ce stade du jeu */
   var unlocked_monsters = unlocked_monsters_default
 
@@ -39,4 +38,25 @@ package object game {
   /** Liste qui contient tous les types de monstres */
   val all_monsters = List[MonsterType] (Monster1Type, Monster2Type, Monster3Type, Monster4Type, Monster5Type, Monster6Type, Monster7Type, Monster8Type)
 
+  /** Nombre total de level */ //cela at-il vraiment un sens ?? à supprimer je pense
+  var number_of_level = 17
+
+  /** Level en cours */
+  var current_level = "Je peux écrire n'importe quoi ici de toute façon ça va être modifié \n Vivent Marx, Engels, Lénine & Beyonce"
+
+  /** Nombre total de round dans le level */
+  var number_of_round = 4
+
+  /** Numéro du  round en cours */
+  var round_counter = 1
+
+  /** Initialisation de Game */
+  def game_initialize () : Unit = 
+  {
+    money = money_default
+    life = life_default
+    unlocked_towers = unlocked_towers_default
+    unlocked_monsters = unlocked_monsters_default
+    round_counter = 1
+  }
 }

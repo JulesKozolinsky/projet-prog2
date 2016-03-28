@@ -120,6 +120,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     monsters.foreach { (m:Monster) => if (m.apply) {life = math.max(0,life-1) ; rem_monster(m)} }
 
     compteur_tick = compteur_tick + 1
+    if (is_finished ()) {println ("round fini \n")} // à enlever un jour ou l'autre...
     is_finished ()
   }
 

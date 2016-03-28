@@ -26,13 +26,17 @@ class Level(file:String)
   /** Booléen indiquant si on se trouve en cours de round ou non */
   var in_a_round = false
 
-  /** compteur indiquant le numéro du round dans lequel on se trouve */
-  var round_counter = 1
+  /** Ce qu'est le level */
+  private var info_level : (List[Round] , String) = Parser.parse(file)
 
-  /** Array contenant les rounds qui composent le niveau.*/
-  private var rounds : List[Round] = Parser.parse(file)
+  /** Liste contenant les rounds qui composent le niveau.*/
+  private var rounds : List[Round] = info_level._1
 
+  /** On met à jour tout dans game */
+  current_level = info_level._2
   Map.initialize
+  game_initialize
+  number_of_round = rounds.size
 
   /** Démarre le round courrant
     *
@@ -83,7 +87,7 @@ class Level(file:String)
     }
   }
 
-  def actualize_unlocked(n:Int) : Unit =
+  def actualize_unlocked() : Unit =
   {
     all_towers.foreach {(t:TowerType) => if (t.round_to_unlock == round_counter) {unlocked_towers = t::unlocked_towers}  }
   }
@@ -107,7 +111,7 @@ class Level(file:String)
         else
         {
           if (rounds.isEmpty) {has_won = true}
-          else {actualize_unlocked(round_counter)}   //le round est terminé, mais il reste des rounds à jouer : on actualise les tours disponibles pour la suite
+          else {actualize_unlocked ()}   //le round est terminé, mais il reste des rounds à jouer : on actualise les tours disponibles pour la suite
         }
         false
       }
