@@ -100,18 +100,18 @@ class Level(file:String)
     */
   def actualize () : Boolean =
   {
-    if (! in_a_round) {true}
+    if (! in_a_round) {true}                   // si quelqu'un pouvait commenter pour expliquer ce choix "true" ; gab
     else
     {
-      if (! (rounds.head).actualize) {true}
+      if (! (rounds.head).actualize) {true}    // si le round n'est pas fini on renvoie bien true
       else
       {
-        stop_round()
-        if (life == 0) {has_lost = true}
+        stop_round()                           // si le round est fini, bah on le stop
+        if (life == 0) {has_lost = true}       // là c'est qu'on a perdu
         else
         {
-          if (rounds.isEmpty) {has_won = true}
-          else {actualize_unlocked ()}   //le round est terminé, mais il reste des rounds à jouer : on actualise les tours disponibles pour la suite
+          if (rounds.isEmpty) {has_won = true} // là c'est qu'on a gagné
+          else {actualize_unlocked ()}         // le round est terminé, mais il reste des rounds à jouer : on actualise les tours disponibles pour la suite
         }
         false
       }

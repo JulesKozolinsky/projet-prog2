@@ -11,8 +11,6 @@ object Parser
 
   /** Parse le XML */
   def parse (file:String) : (List[Round] , String) = {
-    //var list_of_rounds = List[Round]()
-
 
     var r1 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
     var r2 : List[(Set[(MonsterType,Int)],Int)] = List[(Set[(MonsterType,Int)],Int)] ()
