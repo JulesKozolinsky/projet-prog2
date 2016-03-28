@@ -177,27 +177,27 @@ case object Tower1Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower1(pos)
   val frequency =  15
-  val priority = lazi _
-  val range = 3
+  val priority = coward_smart _
+  val range = 5
   val price = 20
   val power = 5
   val round_to_unlock = 1
-  val name = "Tour 1"
-  val description = "ceci est une Tour de type 1"
+  val name = "Tirs sur ambulances..."
+  val description = "Tour avec une grande portée et qui vise en priorité les monstres ayant une vie faible"
   val main_icon = "/tower1.png"
   val choice_icon = "/choice_tower1.png"
 }
 case object Tower2Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower2(pos)
-  val frequency =  18
-  val priority = lazi _
-  val range = 3
+  val frequency =  50
+  val priority = case_max _
+  val range = 2
   val price = 35
-  val power = 6
+  val power = 10
   val round_to_unlock = 1
-  val name = "Tour 2"
-  val description = "ceci est une Tour de type 2"
+  val name = "Grosse Bertha"
+  val description = "Une espèce de gros canon lent à charger, voit pas loin mais puissant et bouzille toute une case "
   val main_icon = "/tower2.png"
   val choice_icon = "/choice_tower2.png"
 
