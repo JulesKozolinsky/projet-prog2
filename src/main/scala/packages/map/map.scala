@@ -186,7 +186,7 @@ object Map
       for ( l <- 0 to (height-1) ) {
         for ( c <- 0 to (width-1) ) {
             val coord = new Position(l,c)
-            val v = new Vector(tower.pos,coord)
+            val v = tower.pos.to_vect(coord)
             if (v.norme <= (tower.tower_type).range)
             {distance_of_case = coord::distance_of_case}
           }

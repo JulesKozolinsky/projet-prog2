@@ -30,19 +30,19 @@ class Position (l_arg:Int, c_arg:Int)
 
   }
   }
-  // je commenterai moi-même       s : gab
+  /** Produit scalaire entre this et l'argument, vus comme des vecteurs */
   def scalar_prod (pos2:Position) : Int = {(l * pos2.l) + (c * pos2.c)}
 
-  // je commenterai moi-même       s : gab
+  /** Construit le vecteur this -> argument */
   def to_vect (pos2:Position) : Position = {new Position (pos2.l - l , pos2.c - c)}
 
-  // je commenterai moi-même       s : gab
+  /** Construit un vecteur orthogonal au vecteur this (par (-b,a)) */
   def to_normal_vect () : Position = {new Position (-c,l)}
 
-  // je commenterai moi-même       s : gab
+  /** Construit le point aux coordonées réelles, identique à this en valeur */
   def to_Position_Real () : Position_Real = {new Position_Real (l.toFloat,c.toFloat)}
 
-  // je commenterai moi-même       s : gab
+  /* Renvoie la norme de this vu comme un vecteur */
   def norme () : Int = {c*c+l*l}
 
   /** Cette fonction renvoie true si le point se situe dans la direction du tir de la tour, false si derrière */
@@ -75,13 +75,6 @@ class Position (l_arg:Int, c_arg:Int)
   }
 
 }
-
-
-class Vector (point1:Position,point2:Position)
-{
-  def norme : Int = math.sqrt((point1.l - point2.l)*(point1.l - point2.l) + (point1.c - point2.c)*(point1.c - point2.c)).toInt
-}
-
 
 
 class Targets ()
