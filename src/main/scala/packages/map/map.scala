@@ -218,14 +218,16 @@ object Map
 
     /** supprime le monstre à la position p de la carte monsters */
     def remove_monster (monster:Monster,p:Position) : Unit = {
-      if ( !( (monsters(p.l)(p.c)).remove(monster) ))
+      if ( !( monsters(p.l)(p.c) contains monster ))
       {throw new Exception("monster is not in this box")}
+      monsters(p.l)(p.c) = monsters(p.l)(p.c) - monster
     }
 
     /** ajoute un monstre à la position p de la carte monsters */
     def add_monster (monster:Monster,p:Position) : Unit = {
-      if ( !( (monsters(p.l)(p.c)).add(monster) ))
+      if ( monsters(p.l)(p.c) contains monster )
       {throw new Exception("monster is already in this box")}
+      monsters(p.l)(p.c) = monsters(p.l)(p.c) + monster
     }
 
 
@@ -281,7 +283,7 @@ object Map
 */
 
     /** Renvoie l'ensemble des monstres situés à la position (l,c) */
-    def get_real_monsters (p:Position) : Set[Monster] = { var answer = monsters(p.l)(p.c) ; Set[Monster] ()} // en vrai juste renvoyer monsters(p.l)(p.c) mais pb de typage
+    def get_real_monsters (p:Position) : Set[Monster] = {monsters(p.l)(p.c)}
 
     /** Ajoute un monster sur la carte en position (height/2,0) */
     def new_monster (m:Monster) : Unit = {
