@@ -65,7 +65,7 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   def center_of_cell(pos:Position):Position = {
     val cell_size = contents(0).size
     new Position(pos.c * cell_size.height + cell_size.width/2 +  3,
-      pos.l * cell_size.width + cell_size.height/2 +5
+      pos.l * cell_size.width + cell_size.height/2 + 5
     )
   }
 }
