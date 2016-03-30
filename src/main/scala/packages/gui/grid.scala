@@ -13,6 +13,7 @@ import scala.swing.event._
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.image._
+import javax.swing.BorderFactory
 
 
 /** Contient la grille des cases du jeu
@@ -22,7 +23,7 @@ import java.awt.image._
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
-  border = null
+  //border = BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(0,0,0,255))
   //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
     for(j<-0 to columns - 1) {
@@ -33,7 +34,9 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
   override def paint(g:Graphics2D) {
     super.paint(g)
-    g.drawLine(0,0,100,100)
+    g.setColor(new java.awt.Color(255,0,0))
+    println(contents(0).size.width +""+contents(0).size.height)
+    g.drawLine(center_of_cell(new Position(0,0)).c,center_of_cell(new Position(0,0)).l,center_of_cell(new Position(2,2)).c,center_of_cell(new Position(2,2)).l)
   }
 
   /** Actualise la grille en fonction de l'état de la Map.*/
@@ -57,6 +60,13 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
         }
       }}
     repaint
+  }
+
+  def center_of_cell(pos:Position):Position = {
+    val cell_size = contents(0).size
+    new Position(pos.c * cell_size.height + cell_size.width/2 +  3,
+      pos.l * cell_size.width + cell_size.height/2 +5
+    )
   }
 }
 
