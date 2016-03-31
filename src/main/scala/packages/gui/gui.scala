@@ -64,9 +64,14 @@ object MainFrameGUI extends swing.MainFrame {
     * si on est dans un round, la fonction actualize correspond à un tick 
     */
   def actualize() {
-
     frame.actualize()
     MainFrameGUI.visible = true
+  }
+
+  /** Fonction actualise à appeler uniquement à la fin des rounds */
+  def actualize_end_round()
+  {
+    frame.actualize_end_round
   }
 
   /** Envoie un tick à tous les éléments du jeu */
@@ -83,6 +88,7 @@ object MainFrameGUI extends swing.MainFrame {
         game_over
         //game_over2
       }
+      actualize_end_round
     }
     actualize
   }
@@ -190,8 +196,9 @@ class GamePanel extends BorderPanel {
     game_grid.actualize()
   }
 
-
- 
+  def actualize_end_round(){
+    game_opt.actualize_end_round()
+  } 
 }
 
 

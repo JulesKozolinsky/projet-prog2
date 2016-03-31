@@ -16,6 +16,7 @@ import java.awt.Font
 object InfoPanel extends BoxPanel(Orientation.Vertical){
   contents += new InfoTower(Tower1Type)
   contents += new InfoTower(Tower1Type)
+  preferredSize = new Dimension(250,preferredSize.height)
   
   /** Cette fonction permet de changer le type de tour ou de monstre dont les infos sont affichées dans le bloc principal */
   def change_main_unit(tileable_type : TileableType)
@@ -30,11 +31,7 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
 
 class InfoUnit extends BoxPanel(Orientation.Vertical) {
   border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,100))
-
-  //add_attribute("blub","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc diam felis, facilisis ut ligula fringilla, ultrices eleifend ligula. Vivamus in elit dui. Suspendisse convallis nisi quis aliquet aliquet. Morbi non lectus quam. Phasellus aliquet quam nec felis tempus dapibus. Donec lacus quam, tempor a dapibus eget, aliquam in sapien. Curabitur accumsan massa velit, feugiat sodales ligula porttitor at. Sed eros felis, rhoncus semper commodo ut, mattis a ligula. Nulla facilisi. Ut a arcu ac erat sodales malesuada. Ut in est vehicula, ullamcorper eros a, laoreet orci.\nAenean maximus egestas laoreet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum tincidunt mi facilisis, porta dui ut, scelerisque purus. In hac habitasse platea dictumst ","truc")
   
-
-  preferredSize = new Dimension(250,250)
  
   /** Permet d'ajouter une nouvelle information à la liste des informations */
   def add_attribute (name : String, description :String, file : String)
@@ -50,6 +47,19 @@ class InfoTower(tower_type:TowerType) extends InfoUnit {
   contents += new Label(tower_type.name){
     font = font_title
   }
+
+  /* Titre aligné à gauche :
+
+   val title = new BoxPanel(Orientation.Horizontal) {
+    border = Swing.EmptyBorder(0,10,0,0)
+    val font_title = new Font("Courier New", Font.BOLD, 15)
+    contents += new Label(tower_type.name){
+      font = font_title
+    }
+    contents += Swing.HGlue
+  }
+  contents += title */
+
   add_attribute("Description : ", tower_type.description,"")
   add_attribute("Prix : ", tower_type.price.toString,"")
   
@@ -85,7 +95,7 @@ class Attribute(title : String, description : String, icon_file : String) extend
     contents += Swing.HGlue
   }
  val descr_label = new JLabel("<html><span style=\"font-weight:normal\"><i>" + description + "</i></span></html>"){
-    //font = font_descr
+
   }
 
   val descr_panel = new BoxPanel(Orientation.Horizontal) {

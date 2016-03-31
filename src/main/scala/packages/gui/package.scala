@@ -27,11 +27,11 @@ package object gui {
     * Le type de tour par défaut au début du jeu est le premier qui apparaît dans ce tableau.
     * Attention, ce tableau ne peut pas être vide.
     */
-  val tower_skins_array = new Array[TowerSkin2](unlocked_towers.size)
+  val tower_skins_array = new Array[TowerSkin](unlocked_towers.size)
 
   def actualize_tower_skins(){
     var i = 0 
-    unlocked_towers.foreach({tt: TowerType => tower_skins_array(i) =  new TowerSkin2(tt);i+= 1 })
+    unlocked_towers.foreach({tt: TowerType => tower_skins_array(i) =  new TowerSkin(tt);i+= 1 })
   }
   actualize_tower_skins()
 
@@ -39,7 +39,7 @@ package object gui {
   var current_tower_type = tower_skins_array(0).tower_type
 
   /** Convertit un TowerType en skin */
-  def tower_skins(t:TowerType) : Skin2 = {
+  def tower_skins(t:TowerType) : Skin = {
     t match {
       case Tower1Type => tower_skins_array(0)
       case Tower2Type => tower_skins_array(1)
@@ -56,9 +56,9 @@ package object gui {
     *
     * Attention, ce tableau ne peut pas être vide.
     */
-  val monster_skins_array = Array(new Skin2("/monster1.png"),new Skin2("/monster2.png"),new Skin2("/monster3.png"),new Skin2("/monster4.png"),new Skin2("/monster5.png"),new Skin2("/monster6.png"))
+  val monster_skins_array = Array(new Skin("/monster1.png"),new Skin("/monster2.png"),new Skin("/monster3.png"),new Skin("/monster4.png"),new Skin("/monster5.png"),new Skin("/monster6.png"))
   /** Convertit un MonsterType en skin */
-  def monster_skins(t:MonsterType) : Skin2 =
+  def monster_skins(t:MonsterType) : Skin =
     {
       t match {
         case Monster1Type => monster_skins_array(0)
@@ -72,10 +72,8 @@ package object gui {
 
   /** Permet de modifier la dimension de toutes les tower_icons */
   def resize_icons() {
-    for(i <- 0 to tower_skins_array.size - 1)
-      tower_skins_array(i).need_resize
-    for(i <- 0 to monster_skins_array.size - 1)
-      monster_skins_array(i).need_resize
+    tower_skins_array.foreach(el => el.need_resize)
+    monster_skins_array.foreach(el => el.need_resize)
   }
 
 

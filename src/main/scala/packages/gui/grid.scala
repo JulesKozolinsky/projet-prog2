@@ -25,7 +25,7 @@ import java.awt.RenderingHints //pour l'anticrénelage
   * @param nb_columns Nombre de colonnes dans la grille
   */
 class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
-  //border = BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(0,0,0,255))
+
   //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
     for(j<-0 to columns - 1) {
@@ -33,8 +33,8 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     }
   }
 
-
-  def paintLaser(g: Graphics2D, cell1 : Position , cell2 :Position, color : java.awt.Color )
+  /** Permet de peindre un laser allant d'une case vers une autre*/
+  private def paintLaser(g: Graphics2D, cell1 : Position , cell2 :Position, color : java.awt.Color )
   {
     g.setColor(color)
     val center1 = center_of_cell(cell1)
@@ -47,8 +47,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
     super.paint(g)
     paintLaser(g, new Position(0,0), new Position(5,5),new java.awt.Color(255,0,255))
-    /*g.setColor(new java.awt.Color(255,0,0))
-    g.drawLine(center_of_cell(new Position(0,0)).c,center_of_cell(new Position(0,0)).l,center_of_cell(new Position(5,5)).c,center_of_cell(new Position(5,5)).l)*/
   }
 
   /** Actualise la grille en fonction de l'état de la Map.*/
@@ -68,13 +66,18 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
             }).build_tower(Map.get_tower(pos).tower_type)
           }
         }else{ //s'il y a au moins un monstre
-          contents(l*columns + c) = new MonsterCell(monsters)
+          contents(l*columns + c) = new MonsterCell(monsters,pos)
         }
       }}
     repaint
   }
 
+  /** Renvoie la position en pixels du centre d'une cellule
+    * 
+    * @param pos Position de la cellule considérée (mais cette fois pas en pixel)
+    */
   def center_of_cell(pos:Position):Position = {
+    //taille en pixels d'une cellule de la grille
     val cell_size = contents(0).size
     new Position(pos.c * cell_size.height + cell_size.height/2   ,
       pos.l * cell_size.width + cell_size.width/2 
@@ -83,8 +86,15 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
 }
 
-class Cell(pos:Position) extends Button("")
+
+/** Classe mère des cellules de la grille principale */
+class Cell(pos_a:Position) extends Button("")
 {
+  /** Position de la case au sein de la grille principale*/
+  val pos = pos_a
+
+  rolloverEnabled = false //évite une actualisation du bouton au moment où la souris passe par dessus
+
   override def paint(g:Graphics2D){
     g.setColor(new java.awt.Color(100,100,100))
     g.drawRect (0, 0, size.width-1, size.height-1); 
@@ -97,13 +107,24 @@ class Cell(pos:Position) extends Button("")
   */
 class TowerCell(pos:Position) extends Cell(pos)
 {
+  /** Vaut true si une tour est construite sur la case, false sinon */
   var is_tower = false
+  /** Type de la tour construite sur la case à condition que is_tower vaille true. 
+    * 
+    * Si is_tower vaut false, le type de tour n'a aucun sens
+    */
   var tower_type:TowerType = Tower1Type
-  action = new Action(""){
-    background = new Color(0,0,0,0)
-    rolloverEnabled = false
-    contentAreaFilled = false
 
+  /** Permet de construire une tour sur la case.
+    * 
+    * Cette méthode est appelée par la fonction actualize de gamegrid
+    */
+  def build_tower(t:TowerType){
+    tower_type = t
+    is_tower = true
+  }
+
+  action = new Action(""){
     //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
     def apply(){
       current_level.create_new_tower(current_tower_type,pos)
@@ -111,20 +132,20 @@ class TowerCell(pos:Position) extends Cell(pos)
     }
   }
 
+
   override def paint(g:Graphics2D){
     super.paint(g)
     if(is_tower)
       g.drawImage(tower_skins(tower_type)(size), null,0,0)
   }
-
-  /** Permet de construire une tour sur la case */
-  def build_tower(t:TowerType){
-    tower_type = t
-    is_tower = true
-  }
 }
 
-class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Cell (new Position(0,0))
+
+/** Cellule de la grille contenant autant de monstres qu'on le souhaite
+  * 
+  * @param pos Position de la cellule dans la grille
+  */
+class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends Cell (pos)
 {
   /**Définit la racine carrée du nombre maximal de monstres par case*/
   var scale = 3//Math.sqrt(wave.size).ceil.toInt

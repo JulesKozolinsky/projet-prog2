@@ -100,9 +100,14 @@ class GameOptions extends BorderPanel {
   def actualize()
   {
     life_info.set_text(game.life.toString)
-    money_info.set_text(game.money.toString)
+    money_info.set_text(game.money.toString)   
+  }
+
+  def actualize_end_round()
+  {
     rounds_info.set_text(fraction_to_string(game.round_counter,game.number_of_round))
     levels_info.set_text(fraction_to_string(1,game.number_of_level))
+    PlayPauseButton.actualize_end_round
   }
 }
 
@@ -120,7 +125,7 @@ object PlayPauseButton extends Button("")
  
 
   action = new Action(""){
-     icon  = play_icon
+    icon  = play_icon
     rolloverIcon = play_icon_rollover
     background = new Color(0,0,0,0)
     border = null
@@ -153,12 +158,11 @@ object PlayPauseButton extends Button("")
     }
   }
 
-  def actualize(){
-    if (!current_level.in_a_round) {
-      MainFrameGUI.start_round
-      icon = play_icon
-      MainFrameGUI.visible = true
-    }
+  def actualize_end_round(){
+    // on n'est plus dans un round. On doit donc mettre le bouton play
+    icon = play_icon
+    rolloverIcon = play_icon_rollover
+    MainFrameGUI.visible = true
   }
 }
 
@@ -174,7 +178,7 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
   val button_group = new ButtonGroup
 
   /** Permet d'ajouter un choix de tour pour le foreach */
-  private def add_button(ts : TowerSkin2)
+  private def add_button(ts : TowerSkin)
   { 
     val new_button = new ToggleButton(""){
 
