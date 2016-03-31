@@ -26,9 +26,9 @@ class GameOptions extends BorderPanel {
   /** Affichage or restant */
   val money_info = new InfoGame("/little_money.png",game.money.toString)
   /**Affichage du numéro du round en cours sur le nombre de rounds total*/
-  val rounds_info = new InfoGame("Round ",fraction_to_string(3,4), false)
+  val rounds_info = new InfoGame("Round ",fraction_to_string(game.round_counter,game.number_of_round), false)
   /**Affichage du numéro du level en cours sur le nombre de levels total*/
-  val levels_info = new InfoGame("Niveau ",fraction_to_string(3,4), false)
+  val levels_info = new InfoGame("Niveau ",fraction_to_string(1,game.number_of_level), false)
 
   /** Or et vie */
   val life_money = new BoxPanel(Orientation.Vertical){
@@ -101,8 +101,8 @@ class GameOptions extends BorderPanel {
   {
     life_info.set_text(game.life.toString)
     money_info.set_text(game.money.toString)
-    rounds_info.set_text(fraction_to_string(3,4))
-    levels_info.set_text(fraction_to_string(3,10))
+    rounds_info.set_text(fraction_to_string(game.round_counter,game.number_of_round))
+    levels_info.set_text(fraction_to_string(1,game.number_of_level))
   }
 }
 

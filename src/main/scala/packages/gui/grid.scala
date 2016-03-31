@@ -14,6 +14,8 @@ import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.image._
 import javax.swing.BorderFactory
+import java.awt.RenderingHints //pour l'anticrénelage
+
 
 
 /** Contient la grille des cases du jeu
@@ -32,11 +34,21 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   }
 
 
+  def paintLaser(g: Graphics2D, cell1 : Position , cell2 :Position, color : java.awt.Color )
+  {
+    g.setColor(color)
+    val center1 = center_of_cell(cell1)
+    val center2 = center_of_cell(cell2)
+    g.drawLine(center1.c,center1.l,center2.c,center2.l)
+  }
+
   override def paint(g:Graphics2D) {
+    //anticrénelage pour les lasers
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
     super.paint(g)
-    g.setColor(new java.awt.Color(255,0,0))
-    println(contents(0).size.width +""+contents(0).size.height)
-    g.drawLine(center_of_cell(new Position(0,0)).c,center_of_cell(new Position(0,0)).l,center_of_cell(new Position(2,2)).c,center_of_cell(new Position(2,2)).l)
+    paintLaser(g, new Position(0,0), new Position(5,5),new java.awt.Color(255,0,255))
+    /*g.setColor(new java.awt.Color(255,0,0))
+    g.drawLine(center_of_cell(new Position(0,0)).c,center_of_cell(new Position(0,0)).l,center_of_cell(new Position(5,5)).c,center_of_cell(new Position(5,5)).l)*/
   }
 
   /** Actualise la grille en fonction de l'état de la Map.*/
@@ -64,10 +76,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
 
   def center_of_cell(pos:Position):Position = {
     val cell_size = contents(0).size
-    new Position(pos.c * cell_size.height + cell_size.width/2 +  3,
-      pos.l * cell_size.width + cell_size.height/2 + 5
+    new Position(pos.c * cell_size.height + cell_size.height/2   ,
+      pos.l * cell_size.width + cell_size.width/2 
     )
   }
+
 }
 
 class Cell(pos:Position) extends Button("")
@@ -138,48 +151,3 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends Cell (new Positio
   }
 }
 
-
-/* Ancienne version de monstercell 
-/** Cellule de la grille contenant des monstres */
-class MonsterCell(wave : Set[Tuple2[MonsterType,Int]]) extends GridPanel(Math.sqrt(wave.size).ceil.toInt,Math.sqrt(wave.size).ceil.toInt)
-{
-  /** Taille des images de monstres dans le skin correspondant */
-  var scale = Math.sqrt(wave.size).ceil.toInt
-  val monsters = wave
-  //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
-  for(i<-0 to monsters.size - 1){
-    contents += new Label()
-    }
-
-  /** Initialisation des images de monstre
-    *
-    * L'initialisation n'est pas dans le constructeur car celle-ci doit avoir après un MainFrameGUI.visible
-    *  pour que les tailles de label et de case soient à jour
-    */
-  def initialize_icons() {
-    var left_monsters = monsters
-    var i = 0
-    while(! left_monsters.isEmpty) {
-      var new_monster = left_monsters.head
-      (contents(i) match {
-        case l:Label => l
-        case _ => throw new ClassCastException
-      }).icon = monster_skins(new_monster._1)(scale,contents(0).size)
-      left_monsters = left_monsters.tail
-      i+= 1
-    }
-    repaint
-  }
-
-
-
-  override def repaint ()
-  {
-    for(i<-0 to monster_skins_array.size - 1)
-      monster_skins_array(i).resize(scale,contents(0).size)
-    for(i<-0 to contents.size - 1){
-      contents(i).repaint
-    }
-  }
-
- }*/
