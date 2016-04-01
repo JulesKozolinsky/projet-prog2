@@ -135,14 +135,11 @@ object PlayPauseButton extends Button("")
       
       if (!current_level.in_a_round) {
         paused = false
-        
-        /*icon = pause_icon
+        icon = pause_icon
         rolloverIcon = pause_icon_rollover
-        println("Début round")
-        MainFrameGUI.visible*/
         MainFrameGUI.start_round
       }
-      /*else {
+      else {
         if (paused) { //le bouton change d'apparence lorsque l'on est dans un round. On peut alors faire une pause.
           paused = false
           MainFrameGUI.timer.start
@@ -156,17 +153,15 @@ object PlayPauseButton extends Button("")
           rolloverIcon = play_icon_rollover
         }
 
-      }*/
-      icon = pause_icon
-      println("clicked")
+      }
       MainFrameGUI.visible = true
     }
   }
 
   def actualize_end_round(){
     // on n'est plus dans un round. On doit donc mettre le bouton play
-    println("fin round")
-    //icon = play_icon
+    paused = true
+    action.icon = play_icon
     rolloverIcon = play_icon_rollover
     MainFrameGUI.visible = true
   }
