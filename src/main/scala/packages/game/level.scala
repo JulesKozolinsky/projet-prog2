@@ -62,6 +62,8 @@ class Level(file:String)
     else  {throw new Exception ("Round should be started before stopped")}
   }
 
+  /** Récupère les tirs du round en cours ; à appeler après un actualize (dans l'ordre : tour,monstre) */
+  def get_shots : Set[(Position,Position)] = {rounds.head.shots}
 
   /** Crée une nouvelle tour
     *
