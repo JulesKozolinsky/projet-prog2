@@ -24,7 +24,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   var monsters = Set[Monster] ()
 
   /** Variable qui évolue au cours des actalize et qui contient les positions des tours qui ont tiré, avec une position caractéristique du tir */
-  var shots = Set[(Position,Position)] () // EN COURS DE REFLEXION
+  var shots = Set[(Position,Position)] ()
 
   /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée
     *
@@ -112,11 +112,12 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       val p = new Position(l,c)
       if (Map.is_tower (p))
       {
-        var killed = (Map.get_tower (p)).apply
+	var tower = Map.get_tower(p)
+        var target = tower.tower_type.priority( Map.get_targets(tower) )
+        if (! target.isEmpty) {shots = shots + new Tuple2 (p , target(0).pos )}
+        var killed = tower.apply
         for (m <- killed) {money = money + m.monster_type.gold ; rem_monster(m)}
       }
-      else
-      {}
 
     }
   /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
