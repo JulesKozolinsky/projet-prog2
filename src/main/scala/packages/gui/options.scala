@@ -47,6 +47,17 @@ class GameOptions extends BorderPanel {
   /** Démarrage d'un round */
   var round_button = PlayPauseButton
 
+  var speed = 0
+  val acceleration = 2
+  val max_speed = 4
+  val min_speed = -4
+  def current_speed() : String = {  
+    if(speed >= 0) 
+     "x"+ (speed*acceleration)
+    else
+      "/"+ (-(speed*acceleration))
+  }
+
   /** Bouton permettant d'accélérer le jeu pendant la phase d'attaque des monstres */
   var next_button = new Button(""){
     action = new Action(""){
@@ -61,6 +72,17 @@ class GameOptions extends BorderPanel {
         if (tick == 0) {//invariant : tick >0
           tick = 1
         }
+        
+        if(speed < max_speed)
+          {
+            speed += 1
+            Log("Vitesse : x"+ acceleration +"<br/>Vitesse actuelle : " + current_speed)
+          }else
+          {
+            Log("La vitesse est déjà maximale. <br/>Vitesse actuelle :" + current_speed)
+          }
+
+        
         MainFrameGUI.timer.setDelay(tick)
       }
     }
@@ -77,10 +99,17 @@ class GameOptions extends BorderPanel {
 
       def apply() {
         tick = (tick*2).toInt 
+        if(speed > min_speed)
+          {
+            speed -= 1
+            Log("Vitesse : /" + acceleration +" <br/>Vitesse actuelle : " + current_speed)
+          }else
+          {
+            Log("La vitesse est déjà minimale. <br/>Vitesse actuelle : " + current_speed)
+          }
         MainFrameGUI.timer.setDelay(tick)
       }
     }
-    
   }
 
   val left_features = new BoxPanel(Orientation.Horizontal){
@@ -100,7 +129,8 @@ class GameOptions extends BorderPanel {
   def actualize()
   {
     life_info.set_text(game.life.toString)
-    money_info.set_text(game.money.toString)   
+    money_info.set_text(game.money.toString)
+    tower_choice.actualize
   }
 
   def actualize_end_round()
@@ -145,12 +175,14 @@ object PlayPauseButton extends Button("")
           MainFrameGUI.timer.start
           icon = pause_icon
           rolloverIcon = pause_icon_rollover
+          Log("Le jeu n'est plus en pause.")
         }
         else {
           paused = true
           MainFrameGUI.timer.stop
           icon = play_icon
           rolloverIcon = play_icon_rollover
+          Log("Le jeu est à présent en pause.")
         }
 
       }
@@ -168,6 +200,24 @@ object PlayPauseButton extends Button("")
 }
 
 /* ********************* Tower choice **********************/
+/** Bouton correspondant au choix d'un tour */
+class TowerChoiceButton(ts : TowerSkin) extends ToggleButton("")
+{
+  val tower_type = ts.tower_type
+
+  action = new Action(""){ //lorsqu'on clique sur un bouton de choix de la tour
+    background = new Color(170,170,170,255)
+    icon = ts.choice_icon
+    disabledIcon = icon
+    preferredSize = new Dimension(ts.choice_icon.getImage.getWidth(null),ts.choice_icon.getImage.getHeight(null))
+
+    def apply(){
+      current_tower_type = tower_type
+      InfoPanel.change_main_unit(current_tower_type) //on change l'info associée
+      MainFrameGUI.visible = true
+    }
+  }
+}
 
 /** Permet de choisir entre plusieurs tours
   *
@@ -181,20 +231,8 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
   /** Permet d'ajouter un choix de tour pour le foreach */
   private def add_button(ts : TowerSkin)
   { 
-    val new_button = new ToggleButton(""){
+    val new_button = new TowerChoiceButton(ts)
 
-      action = new Action(""){ //lorsqu'on clique sur un bouton de choix de la tour
-        background = new Color(170,170,170,255)
-        icon = ts.choice_icon
-        preferredSize = new Dimension(ts.choice_icon.getImage.getWidth(null),ts.choice_icon.getImage.getHeight(null))
-
-        def apply(){
-          current_tower_type = ts.tower_type
-          InfoPanel.change_main_unit(current_tower_type) //on change l'info associée
-          MainFrameGUI.visible = true
-        }
-      }
-    }
     if(need_default_button){
       default_button = new_button 
       need_default_button = false
@@ -217,6 +255,24 @@ class TowerChoice extends BoxPanel(Orientation.Horizontal) {
   {
     button_group.select(default_button)
     current_tower_type = tower_skins_array(0).tower_type
+  }
+
+  def actualize(){
+    def enough_money(b : AbstractButton){
+      b match {
+        case but : TowerChoiceButton => 
+          if (but.tower_type.price > game.money)
+            {
+              but.background =new Color(255,170,170,255)
+            }
+          else
+            {
+              but.background =new Color(170,200,170,255)
+            }   
+        case _ => throw new ClassCastException("Le bouton de choix de tour n'est pas de bon type")
+      }
+    }
+    button_group.buttons.foreach(enough_money)
   }
 }
 

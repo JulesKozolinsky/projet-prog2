@@ -59,6 +59,27 @@ object MainFrameGUI extends swing.MainFrame {
     repaint
   }
 
+   /*************** D"claration du timer ****************/
+  /** Fonction à appliquer à chaque tick du timer */
+  val taskPerformer = new ActionListener() {
+    def actionPerformed(evt:ActionEvent) {
+      send_tick
+    }
+  }
+
+  var timer = new Timer(tick, taskPerformer)
+  
+  def start_round(){
+    timer.start
+    current_level.start_round
+  }
+
+  def stop_round(){
+    timer.stop
+  }
+
+
+  /******************** Fonctions d'actualisation *****************/
   /** Permet une actualisation complète 
     * 
     * si on est dans un round, la fonction actualize correspond à un tick 
@@ -82,12 +103,14 @@ object MainFrameGUI extends swing.MainFrame {
         {
           game_won
           current_level = new Level("/test1.xml")
+          tick = default_tick
         }
         
       if(current_level.has_lost)
       {
         game_over
         current_level = new Level("/test1.xml")
+        tick = default_tick
         //game_over2
       }
       actualize_end_round
@@ -95,21 +118,8 @@ object MainFrameGUI extends swing.MainFrame {
     actualize
   }
 
-  /** Fonction à appliquer à chaque tick du timer */
-  val taskPerformer = new ActionListener() {
-    def actionPerformed(evt:ActionEvent) {
-      send_tick
-    }
-  }
-  var timer = new Timer(tick, taskPerformer)
-  def start_round(){
-    timer.start
-    current_level.start_round
-  }
 
-  def stop_round(){
-    timer.stop
-  }
+ 
 
 
   /****************** Game won et game over **/
@@ -158,9 +168,11 @@ object MainFrameGUI extends swing.MainFrame {
   reactor.reactions += {
     case WindowClosing(_) => //Permet à la fenêtre de se fermer (si on ne fait pas ça, elle se rouvre)
       stop_round
+      Log.kill
     case WindowDeactivated(_) => //Pause automatique lorsque le focus n'est plus sur la fenêtre
       if(current_level.in_a_round && !paused)
         timer.stop
+      Log.kill
     case WindowActivated(_) =>
       if(current_level.in_a_round && !paused)
         timer.start

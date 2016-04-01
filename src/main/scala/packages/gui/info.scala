@@ -13,9 +13,15 @@ import javax.swing._
 import java.awt.Dimension
 import java.awt.Font
 
+import java.awt.event.ActionListener
+import java.awt.event.ActionEvent
+import javax.swing.Timer
+
 object InfoPanel extends BoxPanel(Orientation.Vertical){
   contents += new InfoTower(Tower1Type)
   contents += new InfoTower(Tower1Type)
+  contents += Swing.VGlue
+  contents += Log
   preferredSize = new Dimension(250,preferredSize.height)
   
   /** Cette fonction permet de changer le type de tour ou de monstre dont les infos sont affichées dans le bloc principal */
@@ -29,8 +35,45 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
 
 }
 
+
+/** Cet objet permet d'afficher des messages temporaires en temps réel à destination de l'utilisateur */
+object Log extends BoxPanel(Orientation.Horizontal){
+  border = BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(0,0,0,100))
+
+  /** Fonction à appliquer à chaque tick du timer */
+  val taskPerformer = new ActionListener() {
+    def actionPerformed(evt:ActionEvent) {
+      log_text.setText("")
+      MainFrameGUI.actualize
+    }
+  }
+
+  /** Timer permettant de supprimer le message au bout d'un temps prédéfini*/
+  val timer = new Timer(3000,taskPerformer)
+  timer.setRepeats(false)
+
+
+  private val log_text = new JLabel(""){
+    setBorder(Swing.EmptyBorder(7,0,7,0))
+  }
+
+  peer.add(log_text)
+  /** Affiche le message que l'on souhaite pendant un temps déterminé*/
+  def apply(s : String) {
+    log_text.setText("<html><span style=\"font-weight:normal\">" + s + "</span></html>")
+    timer.restart
+  }
+
+  /** Permet d'enlever le log et de tuer le timer. Utile pour éteindre le jeu, par exemple*/
+  def kill(){
+    timer.stop
+    log_text.setText("")
+  }
+}
+
+
 class InfoUnit extends BoxPanel(Orientation.Vertical) {
-  border = BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0,0,0,100))
+  border = BorderFactory.createMatteBorder(4, 5, 2, 5, new Color(0,0,0,100))
   
  
   /** Permet d'ajouter une nouvelle information à la liste des informations */
@@ -44,11 +87,11 @@ class InfoUnit extends BoxPanel(Orientation.Vertical) {
 /** Permet de donner des informations sur une tour */
 class InfoTower(tower_type:TowerType) extends InfoUnit {
   val font_title = new Font("Courier New", Font.BOLD, 15)
-  contents += new Label(tower_type.name){
+  /*contents += new Label(tower_type.name){
     font = font_title
-  }
+  }*/
 
-  /* Titre aligné à gauche :
+  // Titre aligné à gauche :
 
    val title = new BoxPanel(Orientation.Horizontal) {
     border = Swing.EmptyBorder(0,10,0,0)
@@ -58,14 +101,14 @@ class InfoTower(tower_type:TowerType) extends InfoUnit {
     }
     contents += Swing.HGlue
   }
-  contents += title */
+  contents += title 
 
   add_attribute("Description : ", tower_type.description,"")
   add_attribute("Prix : ", tower_type.price.toString,"")
   
   add_attribute("Puissance d'attaque : ", tower_type.power.toString,"")
   add_attribute("Fréquence de tir : ", tower_type.frequency.toString,"")
-  contents += Swing.VGlue
+  //contents += Swing.VGlue
 
 }
 

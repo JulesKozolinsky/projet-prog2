@@ -127,7 +127,24 @@ class TowerCell(pos:Position) extends Cell(pos)
   action = new Action(""){
     //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
     def apply(){
-      current_level.create_new_tower(current_tower_type,pos)
+      if(!current_level.create_new_tower(current_tower_type,pos))
+        {
+          if(current_level.in_a_round)
+            Log("Vous ne pouvez pas placer de tour pendant un round.")
+          else{
+            if(Map.is_tower(pos))
+              Log("Vous ne pouvez pas placer de tour ici : une tour se trouve déjà sur cette case.")
+            else {
+              if(current_tower_type.price > game.money)
+                Log("Vous n'avez pas assez d'argent pour construire cette tour.")
+              else
+                Log("Vous ne pouvez pas placer de tour ici.")
+            }    
+          }
+        }else
+        {
+          Log("Vous avez créé la tour <i>" + current_tower_type.name + "</i> à la position (ligne : " + (pos.l + 1) +", colonne : " + (pos.c + 1) +").")
+        }
        MainFrameGUI.actualize()
     }
   }
