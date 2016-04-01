@@ -31,6 +31,11 @@ abstract class Tower () extends Actor
   /** Type de la tour */
   val tower_type : TowerType
 
+  /** Etat de la tour (correspondrait à la vie) */
+  var condition : Int
+
+  /** Retire des "points de vie" à la tour quand elle se fait attaquer par un monstre spécial */
+  def broken : Unit = {if (condition>1) {condition = condition - 1} else {Map.remove_tower(pos)}}
 
   /** le apply des tours est le fait de tirer sur un/des monstres ;
     *
@@ -97,23 +102,18 @@ abstract class Monster () extends Living
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
     var is_in_the_end = false
-    if (wait_since == monster_type.slowness)
+    if (wait_since == monster_type.slowness) // si il est bien temps d'agir
     {
-      if ((pos).c == (Map.width-1))
-      {
-        is_in_the_end = true
-      }
-      else
+      if ((pos).c == (Map.width-1)) {is_in_the_end = true} // si on était à la fin de la map on se signale
+      else                                                 // sinon on avance
       {
         Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
         pos = Map.next_case(pos,init_pos,path_choice)
         wait_since = 0
       }
     }
-    else
-    {
-      wait_since = wait_since + 1
-    }
+    else {wait_since = wait_since + 1}  // s'il n'était pas temps d'agir...
+
     is_in_the_end
   }
 
@@ -129,7 +129,7 @@ abstract class Monster () extends Living
 
 
 // PARTIE OU ON DEFINIT LES TYPES DES OBJETS
-// Attention si on ajoute des tours ou monstres penser à les rajouter dans game : package.scala
+// Attention si on ajoute des nouvelles tours ou monstres (9, 10, etc) penser à les rajouter dans game : package.scala
 
 abstract class TileableType ()
 {
@@ -327,8 +327,8 @@ case object Monster2Type extends MonsterType
   val gold = 6
   val max_life = 50
   val round_to_unlock = 1
-  val name = "Monstre 2"
-  val description = "ceci est un Monstre de type 2"
+  val name = "Battering ram"
+  val description = "Ce monstre avance en ligne droite et détruit les tours devant lui"
   val main_icon = "/monster2.png"
 }
 case object Monster3Type extends MonsterType
@@ -414,48 +414,56 @@ class Tower1 (position:Position) extends Tower
   val tower_type = Tower1Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower2 (position:Position) extends Tower
 {
   val tower_type = Tower2Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower3 (position:Position) extends Tower
 {
   val tower_type = Tower3Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower4 (position:Position) extends Tower
 {
   val tower_type = Tower4Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower5 (position:Position) extends Tower
 {
   val tower_type = Tower5Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower6 (position:Position) extends Tower
 {
   val tower_type = Tower6Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower7 (position:Position) extends Tower
 {
   val tower_type = Tower7Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 class Tower8 (position:Position) extends Tower
 {
   val tower_type = Tower8Type
   var pos = position
   var wait_since = 0
+  var condition = 4
 }
 
 
@@ -475,6 +483,34 @@ class Monster2 () extends Monster {
   var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
+
+  /** le apply du bélier le fait d'avancer s'il est temps, renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
+  override def apply () : Boolean  = {
+    var is_in_the_end = false
+    if (wait_since == monster_type.slowness)
+    {
+      if ((pos).c == (Map.width-1))
+      {
+        is_in_the_end = true
+      }
+      else
+      {
+	var front = new Position(pos.l,pos.c+1)
+	if (! Map.is_tower(front))
+	{
+          Map.move_monster (this,pos,front)
+          pos = front
+          wait_since = 0
+	}
+	else {Map.get_tower(front).broken}
+      }
+    }
+    else
+    {
+      wait_since = wait_since + 1
+    }
+    is_in_the_end
+  }
 }
 class Monster3 () extends Monster {
   val monster_type = Monster3Type
