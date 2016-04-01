@@ -129,6 +129,7 @@ abstract class Monster () extends Living
 
 
 // PARTIE OU ON DEFINIT LES TYPES DES OBJETS
+// Attention si on ajoute des tours ou monstres penser à les rajouter dans game : package.scala
 
 abstract class TileableType ()
 {
@@ -182,7 +183,7 @@ case object Tower1Type extends TowerType
   val price = 20
   val power = 5
   val round_to_unlock = 1
-  val name = "Tirs sur ambulances..."
+  val name = "Tirs sur ambulances"
   val description = "Tour avec une grande portée et qui vise en priorité les monstres ayant une vie faible"
   val main_icon = "/tower1.png"
   val choice_icon = "/choice_tower1.png"
