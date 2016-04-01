@@ -64,17 +64,18 @@ package object entities
   def line (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
     var t_pos = l_with_towerpos.head._1
-    var main_target = closest(l_with_towerpos)
+    var main_target = closest(l_with_towerpos) // main_target est la liste à 1 élément (voire 0 si tour isolée) qui contient un monstre parmi les plus proches
     var targets = List[Monster] ()
     if (! main_target.isEmpty)
     {
-      var target = main_target(0)
-      targets = target::targets
-      for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1) 
+      var target = main_target(0) // target est le monstre "cible principale"
+      //targets = target::targets
+      for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1) // parcours de la map entière
       {
        var current_pos = new Position (l,c)
-       if (current_pos.is_on_ray(t_pos,target.pos)) { Map.get_real_monsters(current_pos).foreach {(m:Monster) => targets = m::targets} }
+       if (current_pos.is_on_ray(t_pos,target.pos)) { Map.get_real_monsters(current_pos).foreach {(m:Monster) => if (m != target) {targets = m::targets} } }
       }
+      targets = target::targets
     }
     targets
   }
