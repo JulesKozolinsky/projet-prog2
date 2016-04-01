@@ -18,51 +18,25 @@ import scala.util.Random
 class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
 
   /** Nombre de tick depuis le début du round */
-  var compteur_tick = 0
+  private var compteur_tick = 0
 
   /** Ensemble des monstres en vie et présents sur la map */
-  var monsters = Set[Monster] ()
+  private var monsters = Set[Monster] ()
 
   /** Variable qui évolue au cours des actalize et qui contient les positions des tours qui ont tiré, avec une position caractéristique du tir */
   var shots = Set[(Position,Position)] ()
 
-  /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée
-    *
-    * @param l : liste de vagues de monstre triée par ordre d'apparition
-    * @param x : vague de monstres à placer dans la liste
-    */
-  def insertion (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , x:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) : List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] = {
-    if (l.isEmpty) {List(x)}
-    else {if (l.head._2 < x._2) {(l.head) :: (insertion (l.tail,x))}
-          else  {if (l.head._2 == x._2) {l} // cas pathologique qui n'est pas censé arriver
-		 else {x :: l}
-                }
-         }
-  }
-
-  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par insertion vu le faible nombre de vagues qui vont arriver)
-    *
-    * @param l : la liste non triée des vagues d'attaquants sans aucun doublon de date d'apparition (sinon on est foutus grave, ou il faut modifier le cas pathologique dans insertion)
-    * @return la même liste triée par ordre d'apparition
-    */
-  def sort_tupple_list (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) = {
-    var l_sorted = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] ()
-    var l_not_sorted = l
-    for (k <- 1 to l.size) {l_sorted = insertion (l_sorted,l_not_sorted.head) ; l_not_sorted = l_not_sorted.tail}
-    l_sorted
-  }
-
   /** Les différentes vagues d'attaquants qui vont entrer à un moment donné sur la map durant le round */
-  var waves = sort_tupple_list (wave)
+  private var waves = sort_tupple_list (wave)
 
   /** Fonction qui retire un monstre de monsters */
-  def rem_monster (monster:Monster) : Unit = {
+  private def rem_monster (monster:Monster) : Unit = {
     monsters = monsters - monster
     Map.remove_monster(monster,monster.pos)
   }
 
   /** Fonction auxiliaire utilisée pour les vagues */
-  def add_monsters_waves (t:MonsterType,n:Int) : Unit = {
+  private def add_monsters_waves (t:MonsterType,n:Int) : Unit = {
     var k = 1
     val rand = new Random()
 
@@ -85,6 +59,12 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       monsters = monsters + m
     }
   }
+
+  /** Permet de savoir quand le round est terminé
+    *
+    *  @return true si le round est fini, false sinon.
+    */
+  private def is_finished () : Boolean = {(monsters.isEmpty && waves.isEmpty) || (life == 0)}
 
   /** Actualise l'état de l'objet.
     *
@@ -128,9 +108,33 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   }
 
 
-  /** Permet de savoir quand le round est terminé
+
+
+
+  /** Fonction d'aide au tri : insère un élément dans la liste de façon à ce qu'elle reste triée
     *
-    *  @return true si le round est fini, false sinon.
+    * @param l : liste de vagues de monstre triée par ordre d'apparition
+    * @param x : vague de monstres à placer dans la liste
     */
-  def is_finished () : Boolean = {(monsters.isEmpty && waves.isEmpty) || (life == 0)}
+  private def insertion (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , x:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) : List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] = {
+    if (l.isEmpty) {List(x)}
+    else {if (l.head._2 < x._2) {(l.head) :: (insertion (l.tail,x))}
+          else  {if (l.head._2 == x._2) {l} // cas pathologique qui n'est pas censé arriver
+		 else {x :: l}
+                }
+         }
+  }
+
+  /** Fonction qui ordonne la liste des vagues d'attaquants (tri par insertion vu le faible nombre de vagues qui vont arriver)
+    *
+    * @param l : la liste non triée des vagues d'attaquants sans aucun doublon de date d'apparition (sinon on est foutus grave, ou il faut modifier le cas pathologique dans insertion)
+    * @return la même liste triée par ordre d'apparition
+    */
+  private def sort_tupple_list (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) = {
+    var l_sorted = List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] ()
+    var l_not_sorted = l
+    for (k <- 1 to l.size) {l_sorted = insertion (l_sorted,l_not_sorted.head) ; l_not_sorted = l_not_sorted.tail}
+    l_sorted
+  }
+
 }
