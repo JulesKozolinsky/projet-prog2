@@ -81,11 +81,13 @@ object MainFrameGUI extends swing.MainFrame {
        if(current_level.has_won)
         {
           game_won
+          current_level = new Level("/test1.xml")
         }
         
       if(current_level.has_lost)
       {
         game_over
+        current_level = new Level("/test1.xml")
         //game_over2
       }
       actualize_end_round
