@@ -39,36 +39,28 @@ abstract class Tower () extends Actor
 
   /** le apply des tours est le fait de tirer sur un/des monstres ;
     *
-    * targets est une liste contenant toutes les cibles sur qui la tour va tirer ; si la liste	 est vide le wait_since peut augmenter mais ne retombe pas à 0
+    * targets est une liste contenant toutes les cibles sur qui la tour va tirer ; si la liste est vide le wait_since peut augmenter mais ne retombe pas à 0
     * @return la liste des monstres tués par la tour pendant l'éxécution
     */
   def apply () : List[Monster] = {
     var L : List[Monster] = List()
+
     if (wait_since == tower_type.frequency)
     {
       var targets = tower_type.priority ( Map.get_targets(this) )
-      if (targets.isEmpty)
-      {
-        wait_since = math.min( tower_type.frequency , (1 + wait_since) )
-      }
+      if (targets.isEmpty) {wait_since = math.min( tower_type.frequency , (1 + wait_since) )}
       else
       {
-        targets.foreach ((m:Monster) =>
+        wait_since = 0
+        targets.foreach {(m:Monster) =>
           {
             m.receive_damages (tower_type.power)
-            if (m.life == 0)
-            {
-              L=m::L
-            }
-          })
-
-        wait_since = 0
+            if (m.life == 0) {L=m::L}
+          }
+        }
       }
     }
-    else
-    {
-      wait_since = 1 + wait_since
-    }
+    else {wait_since = 1 + wait_since}
     L
   }
 
