@@ -187,6 +187,7 @@ case object Tower1Type extends TowerType
   val description = "Tour avec une grande portée et qui vise en priorité les monstres ayant une vie faible"
   val main_icon = "/tower1.png"
   val choice_icon = "/choice_tower1.png"
+  val color = (0,0,0)
 }
 case object Tower2Type extends TowerType
 {
@@ -201,6 +202,7 @@ case object Tower2Type extends TowerType
   val description = "Une espèce de gros canon lent à charger, voit pas loin mais puissant et bouzille toute une case "
   val main_icon = "/tower2.png"
   val choice_icon = "/choice_tower2.png"
+  val color = (255,0,0)
 
 }
 case object Tower3Type extends TowerType
@@ -216,6 +218,7 @@ case object Tower3Type extends TowerType
   val description = "ceci est une Tour de type 3"
   val main_icon = "/tower3.png"
   val choice_icon = "/choice_tower3.png"
+  val color = (0,255,0)
 }
 case object Tower4Type extends TowerType
 {
@@ -230,6 +233,7 @@ case object Tower4Type extends TowerType
   val description = "ceci est une Tour de type 4"
   val main_icon = "/tower4.png"
   val choice_icon = "/choice_tower4.png"
+  val color = (0,230,255)
 }
 case object Tower5Type extends TowerType
 {
@@ -244,6 +248,7 @@ case object Tower5Type extends TowerType
   val description = "ceci est une Tour de type 5"
   val main_icon = "/tower5.png"
   val choice_icon = "/choice_tower5.png"
+  val color = (255,126,0)
 }
 case object Tower6Type extends TowerType
 {
@@ -258,6 +263,7 @@ case object Tower6Type extends TowerType
   val description = "ceci est une Tour de type 6"
   val main_icon = "/tower6.png"
   val choice_icon = "/choice_tower6.png"
+  val color = (122,13,123)
 }
 case object Tower7Type extends TowerType
 {
@@ -272,6 +278,7 @@ case object Tower7Type extends TowerType
   val description = "ceci est une Tour de type 7"
   val main_icon = "/tower7.png"
   val choice_icon = "/choice_tower7.png"
+  val color = (252,0,255)
 }
 case object Tower8Type extends TowerType
 {
@@ -286,6 +293,7 @@ case object Tower8Type extends TowerType
   val description = "ceci est une Tour de type 8"
   val main_icon = "/tower8.png"
   val choice_icon = "/choice_tower8.png"
+  val color = (135,42,42)
 }
 
 
