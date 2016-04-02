@@ -175,6 +175,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
     //lorsqu'on clique sur une case avec des monstres
     def apply(){
       println("Vous avez cliqué sur un monstre.")
+      MainFrameGUI.actualize()
     }
   }
 
@@ -189,7 +190,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
         i += 1
       }
     )
-    MainFrameGUI.actualize()
+    
   }
 }
 
