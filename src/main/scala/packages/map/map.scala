@@ -13,7 +13,13 @@ object Map
   val height : Int = 10
 
   /** largeur de la carte */
-  val width : Int = 20
+  val width : Int = 21
+
+  /** hauteur de la carte pour la GUI */
+  val get_height_GUI : Int = height
+
+  /** largeur de la carte pour la GUI */
+  val get_width_GUI : Int = width-1
 
   /** la carte ground représente les obstacles, i.e. ce qui ne bouge a priori pas */
   private var ground = initialize_matrix_ground(height,width)
@@ -144,7 +150,7 @@ object Map
         !((towers(p.l)(p.c)).isEmpty)
       }
       else {
-        throw new IllegalArgumentException("wrong position : out of bounds ")
+        throw new IllegalArgumentException("Wrong position. line : " + p.l + " column : " + p.c)
       }
     }
 
