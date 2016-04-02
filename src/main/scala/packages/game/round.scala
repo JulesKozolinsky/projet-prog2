@@ -66,6 +66,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     */
   private def is_finished () : Boolean = {(monsters.isEmpty && waves.isEmpty) || (life == 0)}
 
+
   /** Actualise l'état de l'objet.
     *
     * Cette méthode est appelée à chaque tick par level
@@ -74,19 +75,20 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   def actualize (): Boolean = {
     var l = 0
     var c = 0
+    shots = shots.empty
 
-  /* ici on ajoute dans le set de monstres une éventuelle nouvelle vague */
-  if (!waves.isEmpty) // pour pas bugger sur la commande suivante
+    /* ici on ajoute dans le set de monstres une éventuelle nouvelle vague */
+    if (!waves.isEmpty) // pour pas bugger sur la commande suivante
     {
-     if (waves.head._2*10 == compteur_tick) // s'il est temps
-       {
-	 for (x <- waves.head._1) {add_monsters_waves(x._1,x._2)}
-         waves = waves.tail
-       }
+      if (waves.head._2*10 == compteur_tick) // s'il est temps
+      {
+	for (x <- waves.head._1) {add_monsters_waves(x._1,x._2)}
+        waves = waves.tail
+      }
     }
 
 
-  /* cette première boucle parcourt la map, trouve les tours et les fait tirer  */
+    /* cette première boucle parcourt la map, trouve les tours et les fait tirer  */
     for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1)
     {
       val p = new Position(l,c)
@@ -100,7 +102,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       }
 
     }
-  /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
+    /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
     monsters.foreach { (m:Monster) => if (m.apply) {life = math.max(0,life-1) ; rem_monster(m)} }
 
     compteur_tick = compteur_tick + 1
@@ -119,10 +121,10 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   private def insertion (l:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] , x:Tuple2[Set[Tuple2[MonsterType,Int]],Int]) : List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]] = {
     if (l.isEmpty) {List(x)}
     else {if (l.head._2 < x._2) {(l.head) :: (insertion (l.tail,x))}
-          else  {if (l.head._2 == x._2) {l} // cas pathologique qui n'est pas censé arriver
-		 else {x :: l}
-                }
-         }
+    else  {if (l.head._2 == x._2) {l} // cas pathologique qui n'est pas censé arriver
+    else {x :: l}
+    }
+    }
   }
 
   /** Fonction qui ordonne la liste des vagues d'attaquants (tri par insertion vu le faible nombre de vagues qui vont arriver)

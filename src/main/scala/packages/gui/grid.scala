@@ -33,6 +33,19 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     }
   }
 
+
+    /** Renvoie la position en pixels du centre d'une cellule
+    * 
+    * @param pos Position de la cellule considérée (mais cette fois pas en pixel)
+    */
+  def center_of_cell(pos:Position):Position = {
+    //taille en pixels d'une cellule de la grille
+    val cell_size = contents(0).size
+    new Position(pos.l * cell_size.height + cell_size.height/2 ,
+      pos.c * cell_size.width + cell_size.width/2
+    )
+  }
+
   /** Permet de peindre un laser allant d'une case vers une autre*/
   private def paintLaser(g: Graphics2D, cell1 : Position , cell2 :Position, color : java.awt.Color )
   {
@@ -46,7 +59,10 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     //anticrénelage pour les lasers
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
     super.paint(g)
-    paintLaser(g, new Position(0,0), new Position(5,5),new java.awt.Color(255,0,255))
+    for(s <- current_level.get_shots){
+      val col = (Map.get_tower(s._1).tower_type.color)
+      paintLaser(g,s._1,s._2, new java.awt.Color(col._1, col._2, col._3))
+    }
   }
 
   /** Actualise la grille en fonction de l'état de la Map.*/
@@ -71,19 +87,6 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       }}
     repaint
   }
-
-  /** Renvoie la position en pixels du centre d'une cellule
-    * 
-    * @param pos Position de la cellule considérée (mais cette fois pas en pixel)
-    */
-  def center_of_cell(pos:Position):Position = {
-    //taille en pixels d'une cellule de la grille
-    val cell_size = contents(0).size
-    new Position(pos.c * cell_size.height + cell_size.height/2   ,
-      pos.l * cell_size.width + cell_size.width/2 
-    )
-  }
-
 }
 
 
@@ -186,6 +189,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
         i += 1
       }
     )
+    MainFrameGUI.actualize()
   }
 }
 

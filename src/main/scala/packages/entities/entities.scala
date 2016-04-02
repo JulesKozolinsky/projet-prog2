@@ -163,6 +163,9 @@ abstract class TowerType extends TileableType {
   /** icône du bouton sélécteur de tour à poser */
   val choice_icon : String
 
+  /** Couleur associée à la tour */
+  val color : Tuple3[Int,Int,Int]
+
 }
 
 

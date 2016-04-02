@@ -59,7 +59,7 @@ object MainFrameGUI extends swing.MainFrame {
     repaint
   }
 
-   /*************** D"claration du timer ****************/
+   /*************** Déclaration du timer ****************/
   /** Fonction à appliquer à chaque tick du timer */
   val taskPerformer = new ActionListener() {
     def actionPerformed(evt:ActionEvent) {
