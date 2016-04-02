@@ -102,6 +102,10 @@ class Cell(pos_a:Position) extends Button("")
     g.setColor(new java.awt.Color(100,100,100))
     g.drawRect (0, 0, size.width-1, size.height-1); 
   }
+
+  def click_action(){
+    InfoPanel.change_main_unit_cell(pos)
+  }
 }
 
 /** Cellule de la grille contenant un bouton permettant d'ajouter des tours 
@@ -127,28 +131,35 @@ class TowerCell(pos:Position) extends Cell(pos)
     is_tower = true
   }
 
+  override def click_action(){
+    
+    if(!current_level.create_new_tower(current_tower_type,pos))
+    {
+      super.click_action
+      if(current_level.in_a_round)
+        Log("Vous ne pouvez pas placer de tour pendant un round.")
+      else{
+        if(Map.is_tower(pos))
+          Log("Vous ne pouvez pas placer de tour ici : une tour se trouve déjà sur cette case.")
+        else {
+          if(current_tower_type.price > game.money)
+            Log("Vous n'avez pas assez d'argent pour construire cette tour.")
+          else
+            Log("Vous ne pouvez pas placer de tour ici.")
+        }
+      }
+    }else
+    {
+      Log("Vous avez créé la tour <i>" + current_tower_type.name + "</i> à la position (ligne : " + (pos.l + 1) +", colonne : " + (pos.c + 1) +").")
+    }
+    MainFrameGUI.actualize()
+  }
+
+
   action = new Action(""){
     //lorsqu'on clique sur le bouton, une tour est crée si level l'autorise
     def apply(){
-      if(!current_level.create_new_tower(current_tower_type,pos))
-        {
-          if(current_level.in_a_round)
-            Log("Vous ne pouvez pas placer de tour pendant un round.")
-          else{
-            if(Map.is_tower(pos))
-              Log("Vous ne pouvez pas placer de tour ici : une tour se trouve déjà sur cette case.")
-            else {
-              if(current_tower_type.price > game.money)
-                Log("Vous n'avez pas assez d'argent pour construire cette tour.")
-              else
-                Log("Vous ne pouvez pas placer de tour ici.")
-            }    
-          }
-        }else
-        {
-          Log("Vous avez créé la tour <i>" + current_tower_type.name + "</i> à la position (ligne : " + (pos.l + 1) +", colonne : " + (pos.c + 1) +").")
-        }
-       MainFrameGUI.actualize()
+      click_action
     }
   }
 
@@ -161,6 +172,8 @@ class TowerCell(pos:Position) extends Cell(pos)
 }
 
 
+
+
 /** Cellule de la grille contenant autant de monstres qu'on le souhaite
   * 
   * @param pos Position de la cellule dans la grille
@@ -170,12 +183,17 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
   /**Définit la racine carrée du nombre maximal de monstres par case*/
   var scale = 3//Math.sqrt(wave.size).ceil.toInt
   val monsters = wave
+
+  override def click_action(){
+    super.click_action
+    Log("Vous avez cliqué sur un monstre.")
+    MainFrameGUI.actualize()
+  }
   
   action = new Action(""){
     //lorsqu'on clique sur une case avec des monstres
     def apply(){
-      println("Vous avez cliqué sur un monstre.")
-      MainFrameGUI.actualize()
+      click_action
     }
   }
 
@@ -189,8 +207,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
         g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth, (i /scale)* skin().getHeight)
         i += 1
       }
-    )
-    
+    )   
   }
 }
 

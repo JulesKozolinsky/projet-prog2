@@ -9,7 +9,7 @@ import entities._
 package object game {
 
   /** Argent initial du joueur */
-  val money_default = 200
+  val money_default = 1000
 
   /** Argent du joueur */
   var money = money_default
