@@ -19,7 +19,7 @@ object Map
   val get_height_GUI : Int = height
 
   /** largeur de la carte pour la GUI */
-  val get_width_GUI : Int = width-1
+  val get_width_GUI : Int = width
 
   /** la carte ground représente les obstacles, i.e. ce qui ne bouge a priori pas */
   private var ground = initialize_matrix_ground(height,width)
@@ -86,33 +86,33 @@ object Map
       var res_list = List[List[Position]]()
       // on parcourt les cases de sorties
       for (j <- 0 to (height-1)) {
+        if (towers(j)(width-1).isEmpty) {
+          // calcule le plus court chemin avec dijkstra
+          val start = m(i)(0)
+          val target = m(j)(width-1)
+          val (path_dijkstra,distance) = Dijkstra_algo.compute_dijkstra(g,start,target)
 
-        // calcule le plus court chemin avec dijkstra
-        val start = m(i)(0)
-        val target = m(j)(width-1)
-        val (path_dijkstra,distance) = Dijkstra_algo.compute_dijkstra(g,start,target)
-
-        // on regarde si c'est le chemin le plus court jusqu'à présent
-        if (distance < distance_min) {
-          // la distance minimale est changée
-          distance_min = distance
-          // liste résultat
-          var res = List[Position]()
-          //Calcule les positions à partir des noeuds
-          path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
-          res_list = List(res)
-        }
-        else {
-          if (distance == distance_min) {
-            //liste resultat
+          // on regarde si c'est le chemin le plus court jusqu'à présent
+          if (distance < distance_min) {
+            // la distance minimale est changée
+            distance_min = distance
+            // liste résultat
             var res = List[Position]()
             //Calcule les positions à partir des noeuds
             path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
-            // on ajoute un nouveau plus court chemin
-            res_list = res::res_list
+            res_list = List(res)
+          }
+          else {
+            if (distance == distance_min) {
+              //liste resultat
+              var res = List[Position]()
+              //Calcule les positions à partir des noeuds
+              path_dijkstra.foreach { (n : WeightedGraph#Node) => res = (n.pos)::res }
+              // on ajoute un nouveau plus court chemin
+              res_list = res::res_list
+            }
           }
         }
-
       }
       // on ajoute le résultat
       path(i) = res_list.toArray
