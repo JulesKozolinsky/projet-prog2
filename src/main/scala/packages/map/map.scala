@@ -30,7 +30,7 @@ object Map
   var path : Array[Array[List[Position]]] = initialize_path(height)
 
   /** L'ensemble des positions de la map */
-  var set_positions : Set[Position] = 
+  var set_positions : Set[Position] =
   {
     var pre_set = Set[Position]()
     for (l <- 0 to (height-1) ; c <- 0 to (width-1) ) {pre_set = pre_set + new Position(l,c)}
@@ -183,7 +183,7 @@ object Map
           (towers(p.l)(p.c)).head
         }
         else {
-          throw new IllegalArgumentException("There is no tower here")
+          throw new IllegalArgumentException("There is no tower here : line : " + p.l + " column : " + p.c)
         }
     }
 
