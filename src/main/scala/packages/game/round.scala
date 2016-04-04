@@ -89,7 +89,10 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
 
 
     /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
-    monsters.foreach { (m:Monster) => if (m.apply) {life = math.max(0,life-m.monster_type.damages) ; rem_monster(m)} }
+    monsters.foreach { (m:Monster) => try {if (m.apply) {life = math.max(0,life-m.monster_type.damages) ; rem_monster(m)} }
+                                      catch { case e : Exception => {var l_to_give = Set[Position] () /*; monsters.foreach {(m:Monster) => {m.init_pos = m.pos ; l_to_give = l_to_give + m.pos }} ; Map.recompute_path(l_to_give) */ }   }
+
+                     }
 
     /* cette première boucle parcourt la map, trouve les tours et les fait tirer  */
     for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1)

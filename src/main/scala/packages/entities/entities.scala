@@ -36,7 +36,7 @@ abstract class Tower () extends Actor
   var condition : Int
 
   /** Retire des "points de vie" à la tour quand elle se fait attaquer par un monstre spécial */
-  def broken : Unit = {if (condition>1) {condition = condition - 1} else {Map.remove_tower(pos)}}
+  def broken : Unit = {if (condition>1) {condition = condition - 1} else {Map.remove_tower(pos) ; throw new Exception ("tower in position "+ pos.l + ";" + pos.c + " removed")}}
 
   /** le apply des tours est le fait de tirer sur un/des monstres ;
     *
@@ -367,13 +367,13 @@ case object Monster4Type extends MonsterType
 case object Monster5Type extends MonsterType
 {
   def get_instance () = new Monster5()
-  val slowness = 5
+  val slowness = 2
   val gold = 6
-  val max_life = 50
+  val max_life = 16
   val round_to_unlock = 1
   val damages = 1
-  val name = "Monstre 5"
-  val description = "ceci est un Monstre de type 5"
+  val name = "Soldat à chaval"
+  val description = "Doté de peu de vie, cet ennemi avance très rapidemment"
   val main_icon = "/monster5.png"
 }
 case object Monster6Type extends MonsterType
