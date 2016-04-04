@@ -208,10 +208,10 @@ case object Tower3Type extends TowerType
   val priority = line _
   val range = 3
   val price = 35
-  val power = 6
+  val power = 10
   val round_to_unlock = 1
-  val name = "Tour 3"
-  val description = "ceci est une Tour de type 3"
+  val name = "Tir laser"
+  val description = "Cette tour trouve le monstre le plus en avance dans le chemin et tire sur tous les monstres dans la lignée de celui-ci"
   val main_icon = "/tower3.png"
   val choice_icon = "/choice_tower3.png"
   val color = (0,255,0)
@@ -226,7 +226,7 @@ case object Tower4Type extends TowerType
   val power = 6
   val round_to_unlock = 1
   val name = "Tour 4"
-  val description = "ceci est une Tour de type 4"
+  val description = "Cette tour tire sur tous les monstres présents à la case la plus proche de la fin"
   val main_icon = "/tower4.png"
   val choice_icon = "/choice_tower4.png"
   val color = (0,230,255)
@@ -238,7 +238,7 @@ case object Tower5Type extends TowerType
   val priority = closest _
   val range = 3
   val price = 35
-  val power = 6
+  val power = 12
   val round_to_unlock = 1
   val name = "Tour 5"
   val description = "ceci est une Tour de type 5"
@@ -372,7 +372,7 @@ case object Monster5Type extends MonsterType
   val max_life = 16
   val round_to_unlock = 1
   val damages = 1
-  val name = "Soldat à chaval"
+  val name = "Soldat à cheval"
   val description = "Doté de peu de vie, cet ennemi avance très rapidemment"
   val main_icon = "/monster5.png"
 }

@@ -48,7 +48,7 @@ package object entities
     var l = l_with_towerpos.tail
     var targets = List[Monster] ()
     var current_min = -1
-    l.foreach {(x:(Position,List[Monster])) => {if (find_distance (x._1) > current_min) {current_min = find_distance (x._1) ; targets = x._2}}}
+    l.foreach {(x:(Position,List[Monster])) => {if (find_distance (x._1) < current_min) {current_min = find_distance (x._1) ; targets = x._2}}}
 
     targets
   }
