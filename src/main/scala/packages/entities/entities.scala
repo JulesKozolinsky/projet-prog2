@@ -3,6 +3,7 @@ package entities
 
 import sugar._
 import map._
+import scala.util.Random
 
 
 
@@ -204,7 +205,7 @@ case object Tower3Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower3(pos)
   val frequency =  8
-  val priority = lazi _
+  val priority = line _
   val range = 3
   val price = 35
   val power = 6
@@ -219,7 +220,7 @@ case object Tower4Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower4(pos)
   val frequency =  8
-  val priority = lazi _
+  val priority = case_closest _
   val range = 3
   val price = 35
   val power = 6
@@ -234,7 +235,7 @@ case object Tower5Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower5(pos)
   val frequency =  8
-  val priority = lazi _
+  val priority = closest _
   val range = 3
   val price = 35
   val power = 6
@@ -249,7 +250,7 @@ case object Tower6Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower6(pos)
   val frequency =  8
-  val priority = lazi _
+  val priority = coward _
   val range = 3
   val price = 35
   val power = 6
@@ -263,11 +264,11 @@ case object Tower6Type extends TowerType
 case object Tower7Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower7(pos)
-  val frequency =  8
+  val frequency =  4
   val priority = lazi _
-  val range = 3
+  val range = 5
   val price = 35
-  val power = 6
+  val power = 4
   val round_to_unlock = 1
   val name = "Tour 7"
   val description = "ceci est une Tour de type 7"
@@ -310,6 +311,9 @@ abstract class MonsterType extends TileableType
 
   /** le round à partir duquel la tour est susceptible d'apparaître (indéxés depuis 1) */
   val round_to_unlock : Int
+
+  /** le nombre de vies que le monstre enlève au joueur quand il arrive en fin de map */
+  val damages : Int
 }
 
 case object Monster1Type extends MonsterType
@@ -317,10 +321,11 @@ case object Monster1Type extends MonsterType
   def get_instance () = new Monster1()
   val slowness = 5
   val gold = 6
-  val max_life = 40
+  val max_life = 50
   val round_to_unlock = 1
-  val name = "Monstre 1"
-  val description = "ceci est un Monstre de type 1"
+  val damages = 1
+  val name = "Éclaireur"
+  val description = "Un ennemi tout ce qu'il y a de plus commun"
   val main_icon = "/monster1.png"
 }
 case object Monster2Type extends MonsterType
@@ -330,19 +335,21 @@ case object Monster2Type extends MonsterType
   val gold = 6
   val max_life = 50
   val round_to_unlock = 1
-  val name = "Battering ram"
-  val description = "Ce monstre avance en ligne droite et détruit les tours devant lui"
+  val damages = 1
+  val name = "Bélier"
+  val description = "Le bélier avance en ligne droite et détruit les tours devant lui"
   val main_icon = "/monster2.png"
 }
 case object Monster3Type extends MonsterType
 {
   def get_instance () = new Monster3()
-  val slowness = 5
+  val slowness = 20
   val gold = 6
-  val max_life = 50
+  val max_life = 80
   val round_to_unlock = 1
-  val name = "Monstre 3"
-  val description = "ceci est un Monstre de type 3"
+  val damages = 4
+  val name = "Tank"
+  val description = "Le tank est très lent mais possède beaucoup de vies et fait perdre 4 points de vies au joueur s'il arrive en fin de map"
   val main_icon = "/monster3.png"
 }
 case object Monster4Type extends MonsterType
@@ -350,10 +357,11 @@ case object Monster4Type extends MonsterType
   def get_instance () = new Monster4()
   val slowness = 5
   val gold = 6
-  val max_life = 50
+  val max_life = 1
   val round_to_unlock = 1
-  val name = "Monstre 4"
-  val description = "ceci est un Monstre de type 4"
+  val damages = 1
+  val name = "Fantôme"
+  val description = "Le fontôme est très faible, mais... arriverez vous à le toucher ?"
   val main_icon = "/monster4.png"
 }
 case object Monster5Type extends MonsterType
@@ -363,6 +371,7 @@ case object Monster5Type extends MonsterType
   val gold = 6
   val max_life = 50
   val round_to_unlock = 1
+  val damages = 1
   val name = "Monstre 5"
   val description = "ceci est un Monstre de type 5"
   val main_icon = "/monster5.png"
@@ -374,6 +383,7 @@ case object Monster6Type extends MonsterType
   val gold = 6
   val max_life = 50
   val round_to_unlock = 1
+  val damages = 1
   val name = "Monstre 6"
   val description = "ceci est un Monstre de type 6"
   val main_icon = "/monster6.png"
@@ -385,6 +395,7 @@ case object Monster7Type extends MonsterType
   val gold = 6
   val max_life = 50
   val round_to_unlock = 1
+  val damages = 1
   val name = "Monstre 7"
   val description = "ceci est un Monstre de type 7"
   val main_icon = "/monster7.png"
@@ -393,11 +404,12 @@ case object Monster8Type extends MonsterType
 {
   def get_instance () = new Monster8()
   val slowness = 5
-  val gold = 6
-  val max_life = 50
+  val gold = 90
+  val max_life = 90
   val round_to_unlock = 1
-  val name = "Monstre 8"
-  val description = "ceci est un Monstre de type 8"
+  val damages = 0
+  val name = "Victime"
+  val description = "Ce monstre possède une grande vie mais ne représente aucun risque pour vous, et vous possède toujours beaucoup d'argent sur lui"
   val main_icon = "/monster8.png"
 }
 
@@ -530,6 +542,10 @@ class Monster4 () extends Monster {
   var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
+  val rand = new Random()
+
+  /** le receive_damages du fantôme fait que le fantôme n'est touché qu'une fois sur 7 */
+  override def receive_damages(dam:Int):Unit = {if (rand.nextInt(7) == 0) {this.life = math.max (0,this.life - dam)}}
 }
 class Monster5 () extends Monster {
   val monster_type = Monster5Type

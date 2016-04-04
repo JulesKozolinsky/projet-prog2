@@ -88,6 +88,9 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
     }
 
 
+    /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
+    monsters.foreach { (m:Monster) => if (m.apply) {life = math.max(0,life-m.monster_type.damages) ; rem_monster(m)} }
+
     /* cette première boucle parcourt la map, trouve les tours et les fait tirer  */
     for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1)
     {
@@ -102,11 +105,10 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       }
 
     }
-    /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
-    monsters.foreach { (m:Monster) => if (m.apply) {life = math.max(0,life-1) ; rem_monster(m)} }
 
     compteur_tick = compteur_tick + 1
     is_finished ()
+
   }
 
 

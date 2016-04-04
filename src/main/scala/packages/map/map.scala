@@ -193,7 +193,7 @@ object Map
         }
     }
 
-    /** renvoie une liste des cases visibles par la tour avec les monstres à l'intérieur de chaque case (format liste [tuple2]) et dont le premier élément est la position de la tour ; les positions ne comprenant pas de monstres ne sont pas intégrées à la liste (IMPORTANT) */
+    /** renvoie une liste des cases visibles par la tour avec les monstres à l'intérieur de chaque case (format liste [tuple2]) et dont le premier élément est la position de la tour ; les positions ne comprenant pas de monstres ne sont pas intégrées à la liste (IMPORTANT  !!!!!!  ) */
     def get_targets (tower:Tower) : List[(Position,List[Monster])] = {
       // On calcule les cases à portée de la tour
       var distance_of_case = List[Position]()

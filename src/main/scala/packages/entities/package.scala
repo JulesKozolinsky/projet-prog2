@@ -9,11 +9,25 @@ import map._
 
 package object entities
 {
+  /* trouve la distance à parcourir entre la position pos et la fin (-1 si pas de monstre sur la case car path pas encore abouti) */
+  def find_distance (pos:Position) : Int = 
+  {
+    var monsters = Map.get_real_monsters (pos)
+    if (monsters.isEmpty) {-1}
+    else
+    {
+      var m = monsters.head
+      var l = Map.path(m.init_pos.l)(m.path_choice)
+      var monster_found = false
+      var dist = 0
+      l.foreach {(p:Position) => if (monster_found) {dist = dist+1} else {if (p == pos) {monster_found = true}}}
+      dist
+    }
+  }
 
   /** Cette fonction renvoie le premier monstre qui apparaît dans la liste des cibles (on va dire aléatoire car compliqué) */
   def lazi (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
-    var t_pos = l_with_towerpos.head
     var l = l_with_towerpos.tail
     if (l.isEmpty) {List[Monster]()}
     else {List[Monster] (l(0)._2(0))}
@@ -22,42 +36,32 @@ package object entities
   /** Cette fonction renvoie les monstres se trouvant sur la case la plus peuplée parmis les cases visibles */
   def case_max (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
-    var t_pos = l_with_towerpos.head
     var l = l_with_towerpos.tail
     var targets = List[Monster]()
     l.foreach {(x:(Position,List[Monster])) => if (x._2.size > targets.size) {targets = x._2}}
     targets
   }
 
-  /** Cette fonction renvoie les monstres se trouvant sur la case la plus avancée dans le parcours des monstres vers La Commune */
+  /** Cette fonction renvoie les monstres se trouvant sur une des cases parmis les plus avancées dans le parcours des monstres vers La Commune */
   def case_closest (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
-    var t_pos = l_with_towerpos.head
     var l = l_with_towerpos.tail
     var targets = List[Monster] ()
-    var path_it = Map.path
-    while (! path_it.isEmpty) // while plus que foreach pour parcourir la liste dans le bon ordre (même si c'est probablement ce que fait foreach sur les listes)
-    {
-      l.foreach {(x:(Position,List[Monster])) => {if (x._1 == path_it.head) {targets = x._2}}}
-      path_it = path_it.tail
-    }
+    var current_min = -1
+    l.foreach {(x:(Position,List[Monster])) => {if (find_distance (x._1) > current_min) {current_min = find_distance (x._1) ; targets = x._2}}}
+
     targets
   }
 
   /** Cette fonction renvoie un monstre se trouvant sur la case la plus avancée dans le parcours des monstres vers La Commune */
   def closest (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
-    var t_pos = l_with_towerpos.head
     var l = l_with_towerpos.tail
     var targets = List[Monster] ()
-    var path_it = Map.path
-    while (! path_it.isEmpty) // while plus que foreach pour parcourir la liste dans le bon ordre (même si c'est probablement ce que fait foreach sur les listes)
-    {
-      l.foreach {(x:(Position,List[Monster])) => {if (x._1 == path_it.head) {targets = x._2}}}
-      path_it = path_it.tail
-    }
-    if (targets.isEmpty) {List[Monster]()}
-    else {List[Monster] (targets(0))}
+    var current_min = -1
+    l.foreach {(x:(Position,List[Monster])) => {if (find_distance (x._1) < current_min) {current_min = find_distance (x._1) ; targets = List[Monster](x._2(0))}}}
+
+    targets
   }
 
   /** Cette fonction renvoie les monstres se trouvant dans la lignée du monstre le plus avancé */
@@ -69,7 +73,6 @@ package object entities
     if (! main_target.isEmpty)
     {
       var target = main_target(0) // target est le monstre "cible principale"
-      //targets = target::targets
       for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1) // parcours de la map entière
       {
        var current_pos = new Position (l,c)
@@ -83,16 +86,16 @@ package object entities
   /** Cette fonction renvoie le monstre avec la vie la plus basse, avec en plus en cas d'égalité choix du monstre le plus loin dans le parcours */
   def coward (l_with_towerpos:List[(Position,List[Monster])]) : List[Monster] =
   {
-    var t_pos = l_with_towerpos.head
     var l = l_with_towerpos.tail
-    var min_life = 90000
     var targets = List[Monster] ()
-    var path_it = Map.path
-    while (! path_it.isEmpty) // while plus que foreach pour parcourir la liste dans le bon ordre (même si c'est probablement ce que fait foreach sur les listes)
-    {
-      l.foreach {(x:(Position,List[Monster])) => x._2.foreach {(m:Monster) => {if (m.life <= min_life) {targets = List[Monster](m)}}}}
-      path_it = path_it.tail
-    }
+    var current_min = -1
+    var min_life = 90000
+
+    l.foreach {(x:(Position,List[Monster])) => {x._2.foreach {(m:Monster) => {
+      if (m.life < min_life) {targets = List[Monster](m) ; min_life = m.life}
+      else {if (m.life == min_life && find_distance (x._1) < current_min ) {targets = List[Monster](m)}}
+    }}}}
+
     targets
   }
 
