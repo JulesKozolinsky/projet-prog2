@@ -81,6 +81,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
 
 
     /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
+    val rand = new Random()
     monsters.foreach {
       (m:Monster) => try {if (m.apply) {life = math.max(0,life-m.monster_type.damages) ; rem_monster(m)} }
                      catch {
@@ -88,6 +89,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
                          var s_to_give = Set[Position] ()
                          monsters.foreach {(m:Monster) => {m.init_pos = m.pos ; s_to_give = s_to_give + m.pos }}
                          Map.compute_path(s_to_give)
+                         monsters.foreach {(m:Monster) => {m.path_choice = Map.choose_path(m.init_pos,rand)}}
                        }
                      }
     }
