@@ -44,7 +44,10 @@ class Level(file:String)
     */
   def start_round():Unit =
   {
-    if (!rounds.isEmpty) {in_a_round = true }
+    if (!rounds.isEmpty) {
+      in_a_round = true
+      Map.path_reinitialize()
+    }
     else {throw new Exception ("There are no more rounds")}
   }
 

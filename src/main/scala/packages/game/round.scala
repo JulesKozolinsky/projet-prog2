@@ -38,21 +38,13 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   /** Fonction auxiliaire utilisée pour les vagues */
   private def add_monsters_waves (t:MonsterType,n:Int) : Unit = {
     var k = 1
-    val rand = new Random()
+    val rand = new Random() //necessaire de le passer en argument pour l'uniformité
 
     for (k <- 1 to n) {
       // On crée le monstre
       var m = t.get_instance()
-      // On considère la position initiale  A CHANGER QUAND PARSER
-      val initial_position = m.init_pos
-      // le tableau des chemins les plus courts disponibles
-      val tab = Map.path(initial_position.l)
-
-      // on choisit aléatoirement un chemin
-      val random_index = rand.nextInt(tab.length)
-
-      // on attribue le chemin au monstre considéré
-      m.path_choice = random_index
+      // on attribue un choix de chemin au monstre considéré
+      m.path_choice = Map.choose_path(m.init_pos,rand)
 
       // On ajoute le monstre à la carte et à l'ensemble monsters
       Map.new_monster (m)
@@ -89,10 +81,16 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
 
 
     /* ici on parcourt les monstres : on les fait avancer, et éventuellement enlever une vie au joueur */
-    monsters.foreach { (m:Monster) => try {if (m.apply) {life = math.max(0,life-m.monster_type.damages) ; rem_monster(m)} }
-                                      catch { case e : Exception => {var l_to_give = Set[Position] () /*; monsters.foreach {(m:Monster) => {m.init_pos = m.pos ; l_to_give = l_to_give + m.pos }} ; Map.recompute_path(l_to_give) */ }   }
-
+    monsters.foreach {
+      (m:Monster) => try {if (m.apply) {life = math.max(0,life-m.monster_type.damages) ; rem_monster(m)} }
+                     catch {
+                       case e : Exception => {
+                         var s_to_give = Set[Position] ()
+                         monsters.foreach {(m:Monster) => {m.init_pos = m.pos ; s_to_give = s_to_give + m.pos }}
+                         Map.compute_path(s_to_give)
+                       }
                      }
+    }
 
     /* cette première boucle parcourt la map, trouve les tours et les fait tirer  */
     for (l <- 0 to Map.height - 1 ; c <- 0 to Map.width - 1)

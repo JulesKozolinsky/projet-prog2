@@ -34,11 +34,21 @@ package object map
   }
 
   /** initialise le chemin */
-  def initialize_path (n:Int) = {
-    var tab1 = new Array[Array[List[Position]]](n)
-    for (l <- 0 to (n-1)) {
-      tab1(l) = new Array[List[Position]](0)
+  def initialize_path (n:Int,p:Int) = {
+    var matrix = Array.ofDim[Array[List[Position]]](n,p)
+    for (l <- 0 to (n-1) ; c <- 0 to (p-1)) {
+      matrix(l)(c) = new Array[List[Position]](0)
     }
-    tab1
+    matrix
   }
+
+  /** initialise les cases de départ */
+  def initialize_origin (n : Int) : Set[Position] = {
+   var set =  Set[Position]()
+   for (k <- 0 to n-1) {
+     set = set + (new Position(k,0))
+   }
+   set
+ }
+
 }

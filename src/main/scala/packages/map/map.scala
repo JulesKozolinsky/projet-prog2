@@ -5,6 +5,7 @@ import entities._
 import sugar._
 import graph._
 import dijkstra._
+import scala.util.Random
 
 /** Crée l'object Map, qui gère le déplacement des monstres */
 object Map
@@ -32,8 +33,11 @@ object Map
     */
   private var monsters = initialize_matrix_monsters(height,width)
 
+  /** les cases d'entrées des monstres */
+  private var origin = initialize_origin (height)
+
   /** le chemin où les monstrers peuvent se déplacer */
-  var path : Array[Array[List[Position]]] = initialize_path(height)
+  var path = initialize_path(height,width)
 
   /** L'ensemble des positions de la map */
   var set_positions : Set[Position] =
@@ -48,7 +52,13 @@ object Map
     ground = initialize_matrix_ground(height,width)
     towers = initialize_matrix_towers(height,width)
     monsters = initialize_matrix_monsters(height,width)
-    compute_path
+    path_reinitialize()
+  }
+
+  /** Réinitialise les chemins */
+  def path_reinitialize():Unit = {
+    path = initialize_path(height,width)
+    compute_path(origin)
   }
 
 
@@ -56,8 +66,10 @@ object Map
 
 /******************* CALCUL DE CHEMIN **************************/
 
-  /** Calcule le chemin avec les tours existantes à l'aide d'un algorithme de plus court chemin */
-  def compute_path : Unit = {
+
+  /** Calcule les chemins à partir des positions données en entrée */
+
+  def compute_path (s : Set[Position]) : Unit = {
     // définie le graphe sur lequel les monstres peuvent bouger
     val g = new WeightedGraph(1)
     // définie une matrice où les noeuds sont stockés
@@ -78,7 +90,7 @@ object Map
       }
     }
     // on parcourt les cases de départ
-    for (i <- 0 to (height-1)) {
+    s.foreach { (p : Position) =>
 
       // distance minimale initiale
       var distance_min = height*width
@@ -88,7 +100,7 @@ object Map
       for (j <- 0 to (height-1)) {
         if (towers(j)(width-1).isEmpty) {
           // calcule le plus court chemin avec dijkstra
-          val start = m(i)(0)
+          val start = m(p.l)(p.c)
           val target = m(j)(width-1)
           val (path_dijkstra,distance) = Dijkstra_algo.compute_dijkstra(g,start,target)
 
@@ -115,9 +127,10 @@ object Map
         }
       }
       // on ajoute le résultat
-      path(i) = res_list.toArray
+      path(p.l)(p.c) = res_list.toArray
     }
   }
+
 
 
   /** Donne la case suivante d'un monster à partir du chemin*/
@@ -125,7 +138,7 @@ object Map
     if (p.c == width-1) {
       throw new Exception("monster will go off the grid")}
     else {
-      var temp = (path(o.l))(c)
+      var temp = (path(o.l)(o.c))(c)
       while (!(temp.isEmpty) && !(temp.head == p)) {
         temp = temp.tail
       }
@@ -137,8 +150,33 @@ object Map
   }
 
 
+  /** Choisit un chemin aléatoirement. Prend en argument la position initiale
+    * et renvoie un index
+    */
+  def choose_path ( p:Position, x : Random) : Int = {
+    // le tableau des chemins les plus courts disponibles
+    val tab = path(p.l)(p.c)
+    // on choisit aléatoirement un chemin
+    x.nextInt(tab.length)
+  }
 
-
+  /* trouve la distance à parcourir entre la position pos et la fin (-1
+   * si pas de monstre sur la case car path pas encore abouti)
+   */
+  def find_distance (pos:Position) : Int =
+  {
+    var monsters = get_real_monsters (pos)
+    if (monsters.isEmpty) {-1}
+    else
+    {
+      var m = monsters.head
+      var l = path(m.init_pos.l)(m.init_pos.c)(m.path_choice)
+      var monster_found = false
+      var dist = 0
+      l.foreach {(p:Position) => if (monster_found) {dist = dist+1} else {if (p == pos) {monster_found = true}}}
+      dist
+    }
+  }
 
 
 
@@ -162,7 +200,7 @@ object Map
           var tower = t.get_instance(p)
           towers(p.l)(p.c) = tower::(towers(p.l)(p.c))
           var b = true
-          try { compute_path
+          try { compute_path(origin)
           } catch {
               case e : NoSuchElementException => {
                 remove_tower(p)
@@ -248,7 +286,7 @@ object Map
     /** Renvoie l'ensemble des type de monstres situés à la position (l,c), et la quantité de chaque */
     def get_monsters (p:Position) : Set[Tuple2[MonsterType,Int]] = {
       var map_set = monsters(p.l)(p.c) //Set[Monster]
-//version gab
+
       var monster_set = Set[Tuple2[MonsterType,Int]]() // l'ensemble que l'on va remplir
       map_set.foreach {(monster:Monster) => // on parcourt la case
        {
@@ -263,38 +301,7 @@ object Map
       }
       monster_set
     }
-//fin version gab
 
-//ancienne version
-/*
-      while (!map_set.isEmpty) {
-        var m = (map_set.head).monster_type //m est le type du monstre
-        // On parcourt le set "monster_set"
-        var monster_set_rest = monster_set
-        monster_set = Set[Tuple2[MonsterType,Int]]()
-        var monster_type_founded = false
-        while (!monster_set_rest.isEmpty ) {
-          var t = monster_set_rest.head
-          var x = t._1
-          if (x == m) {
-            // le MonsterType est déjà présent dans le set du résultat,
-            // on augmente le nombre d'un
-            t = new Tuple2(m,t._2 + 1)
-            monster_type_founded = true
-          }
-          monster_set = monster_set.+(t)
-          monster_set_rest = monster_set_rest.tail
-        }
-        // le monsterType n'est pas encore présent dans le set du résultat,
-        // on l'ajoute donc
-        if (!monster_type_founded) {
-          monster_set = monster_set.+(new Tuple2(m,1))
-        }
-        map_set = map_set.tail
-      }
-      monster_set
-    }
-*/
 
     /** Renvoie l'ensemble des monstres situés à la position (l,c) */
     def get_real_monsters (p:Position) : Set[Monster] = {monsters(p.l)(p.c)}
