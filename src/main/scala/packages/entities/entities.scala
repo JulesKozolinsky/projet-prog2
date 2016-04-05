@@ -75,7 +75,7 @@ abstract class Living () extends Actor
   var life : Int
 
   /** fonction retirant une quantité de point de vie au Living */
-  def receive_damages(dam:Int):Unit = {this.life = math.max (0,this.life - dam)}
+  def receive_damages(dam:Int):Unit = {this.life = math.max (0,life - dam)}
 }
 
 
@@ -91,6 +91,9 @@ abstract class Monster () extends Living
 
   /** type du monstre en question */
   val monster_type : MonsterType
+
+  /* fonction rendant des points de vie au monstre */
+  def receive_life(qty:Int) : Unit = {this.life = math.min(life + qty, monster_type.max_life)}
 
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   def apply () : Boolean  = {
@@ -319,7 +322,7 @@ abstract class MonsterType extends TileableType
 case object Monster1Type extends MonsterType
 {
   def get_instance () = new Monster1()
-  val slowness = 5
+  val slowness = 4
   val gold = 6
   val max_life = 50
   val round_to_unlock = 1
@@ -331,8 +334,8 @@ case object Monster1Type extends MonsterType
 case object Monster2Type extends MonsterType
 {
   def get_instance () = new Monster2()
-  val slowness = 5
-  val gold = 6
+  val slowness = 6
+  val gold = 12
   val max_life = 50
   val round_to_unlock = 1
   val damages = 1
@@ -344,7 +347,7 @@ case object Monster3Type extends MonsterType
 {
   def get_instance () = new Monster3()
   val slowness = 20
-  val gold = 6
+  val gold = 10
   val max_life = 80
   val round_to_unlock = 1
   val damages = 4
@@ -356,7 +359,7 @@ case object Monster4Type extends MonsterType
 {
   def get_instance () = new Monster4()
   val slowness = 5
-  val gold = 6
+  val gold = 0
   val max_life = 1
   val round_to_unlock = 1
   val damages = 1
@@ -379,37 +382,37 @@ case object Monster5Type extends MonsterType
 case object Monster6Type extends MonsterType
 {
   def get_instance () = new Monster6()
-  val slowness = 5
-  val gold = 6
-  val max_life = 50
+  val slowness = 4
+  val gold = 3
+  val max_life = 30
   val round_to_unlock = 1
   val damages = 1
-  val name = "Monstre 6"
-  val description = "ceci est un Monstre de type 6"
+  val name = "Secours"
+  val description = "Ce monstre soigne les monstres sur sa case"
   val main_icon = "/monster6.png"
 }
 case object Monster7Type extends MonsterType
 {
   def get_instance () = new Monster7()
-  val slowness = 5
-  val gold = 6
-  val max_life = 50
+  val slowness = 6
+  val gold = 600
+  val max_life = 600
   val round_to_unlock = 1
-  val damages = 1
-  val name = "Monstre 7"
-  val description = "ceci est un Monstre de type 7"
+  val damages = 9
+  val name = "Développeur"
+  val description = "Ce monstre est presque invincible..."
   val main_icon = "/monster7.png"
 }
 case object Monster8Type extends MonsterType
 {
   def get_instance () = new Monster8()
-  val slowness = 5
+  val slowness = 2
   val gold = 90
   val max_life = 90
   val round_to_unlock = 1
   val damages = 0
-  val name = "Victime"
-  val description = "Ce monstre possède une grande vie mais ne représente aucun risque pour vous, et vous possède toujours beaucoup d'argent sur lui"
+  val name = "Bourgeois à dépouiller"
+  val description = "Ce monstre possède peu de vie, est très rapide, ne représente aucun risque pour vous, et vous possède toujours beaucoup d'argent sur lui"
   val main_icon = "/monster8.png"
 }
 
@@ -562,6 +565,25 @@ class Monster6 () extends Monster {
   var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
+  
+  /** le apply du soigneur le fait soigner ses comparses */
+  override def apply () : Boolean  = {
+    var is_in_the_end = false
+    if (wait_since == monster_type.slowness) // si il est bien temps d'agir
+    {
+      if ((pos).c == (Map.width-1)) {is_in_the_end = true} // si on était à la fin de la map on se signale
+      else                                                 // sinon on avance
+      {
+        Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
+        pos = Map.next_case(pos,init_pos,path_choice)
+	(Map.get_real_monsters(pos)).foreach {(m:Monster) => {m.receive_life(6)}}
+        wait_since = 0
+      }
+    }
+    else {wait_since = wait_since + 1}  // s'il n'était pas temps d'agir...
+
+    is_in_the_end
+  }
 }
 class Monster7 () extends Monster {
   val monster_type = Monster7Type
