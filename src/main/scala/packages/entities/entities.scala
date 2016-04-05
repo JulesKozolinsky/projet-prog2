@@ -177,7 +177,7 @@ case object Tower1Type extends TowerType
   val priority = coward_smart _
   val range = 5
   val price = 20
-  val power = 5
+  val power = 16
   val round_to_unlock = 1
   val name = "Tirs sur ambulances"
   val description = "Tour avec une grande portée et qui vise en priorité les monstres ayant une vie faible"
@@ -192,10 +192,10 @@ case object Tower2Type extends TowerType
   val priority = case_max _
   val range = 2
   val price = 35
-  val power = 10
+  val power = 17
   val round_to_unlock = 1
   val name = "Grosse Bertha"
-  val description = "Une espèce de gros canon lent à charger, voit pas loin mais puissant et bouzille toute une case "
+  val description = "Une espèce de gros canon lent à charger, qui tire sur la case la plus peuplée"
   val main_icon = "/tower2.png"
   val choice_icon = "/choice_tower2.png"
   val color = (255,0,0)
@@ -204,14 +204,14 @@ case object Tower2Type extends TowerType
 case object Tower3Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower3(pos)
-  val frequency =  8
+  val frequency =  6
   val priority = line _
   val range = 3
-  val price = 35
+  val price = 50
   val power = 10
   val round_to_unlock = 1
   val name = "Tir laser"
-  val description = "Cette tour trouve le monstre le plus en avance dans le chemin et tire sur tous les monstres dans la lignée de celui-ci"
+  val description = "Cette tour trouve le monstre le plus avancé dans le chemin et tire sur tous les monstres dans la lignée de celui-ci"
   val main_icon = "/tower3.png"
   val choice_icon = "/choice_tower3.png"
   val color = (0,255,0)
@@ -219,13 +219,13 @@ case object Tower3Type extends TowerType
 case object Tower4Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower4(pos)
-  val frequency =  8
+  val frequency = 22
   val priority = case_closest _
   val range = 3
   val price = 35
   val power = 6
   val round_to_unlock = 1
-  val name = "Tour 4"
+  val name = "Mortier"
   val description = "Cette tour tire sur tous les monstres présents à la case la plus proche de la fin"
   val main_icon = "/tower4.png"
   val choice_icon = "/choice_tower4.png"
@@ -234,14 +234,14 @@ case object Tower4Type extends TowerType
 case object Tower5Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower5(pos)
-  val frequency =  8
+  val frequency = 6
   val priority = closest _
   val range = 3
-  val price = 35
+  val price = 14
   val power = 12
   val round_to_unlock = 1
-  val name = "Tour 5"
-  val description = "ceci est une Tour de type 5"
+  val name = "Tir de précision"
+  val description = "Cette tour tire sur un des monstres les plus avancé dans le chemin"
   val main_icon = "/tower5.png"
   val choice_icon = "/choice_tower5.png"
   val color = (255,126,0)
@@ -249,14 +249,14 @@ case object Tower5Type extends TowerType
 case object Tower6Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower6(pos)
-  val frequency =  8
+  val frequency = 8
   val priority = coward _
-  val range = 3
-  val price = 35
-  val power = 6
+  val range = 5
+  val price = 18
+  val power = 12
   val round_to_unlock = 1
-  val name = "Tour 6"
-  val description = "ceci est une Tour de type 6"
+  val name = "Les faibles d'abord"
+  val description = "Cette tour tire sur un des monstres ayant la vie la plus faible, en cas d'égalilté sur celui le plus avancé"
   val main_icon = "/tower6.png"
   val choice_icon = "/choice_tower6.png"
   val color = (122,13,123)
@@ -264,14 +264,14 @@ case object Tower6Type extends TowerType
 case object Tower7Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower7(pos)
-  val frequency =  4
-  val priority = lazi _
-  val range = 5
-  val price = 35
-  val power = 4
+  val frequency = 4
+  val priority = coward _
+  val range = 15
+  val price = 20
+  val power = 16
   val round_to_unlock = 1
-  val name = "Tour 7"
-  val description = "ceci est une Tour de type 7"
+  val name = "Sniper"
+  val description = "Tour avec une portée énorme, qui se comporte comme \"Tir de précision\""
   val main_icon = "/tower7.png"
   val choice_icon = "/choice_tower7.png"
   val color = (252,0,255)
@@ -279,14 +279,14 @@ case object Tower7Type extends TowerType
 case object Tower8Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower8(pos)
-  val frequency =  8
-  val priority = lazi _
+  val frequency =  2
+  val priority = closest _
   val range = 3
   val price = 35
-  val power = 6
+  val power = 5
   val round_to_unlock = 1
-  val name = "Tour 8"
-  val description = "ceci est une Tour de type 8"
+  val name = "Sulfatteuse"
+  val description = "Cette tour est peu puissante, mais tire à toute vitesse"
   val main_icon = "/tower8.png"
   val choice_icon = "/choice_tower8.png"
   val color = (135,42,42)
