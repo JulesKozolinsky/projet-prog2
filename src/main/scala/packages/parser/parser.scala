@@ -43,10 +43,10 @@ object Parser
     r4 = (Set((m5,16)) , 1)::r4
     r4 = (Set((m6,12)) , 3)::r4
 
-    r5 = (Set((m7,1)) , 1)::r5
+    //r5 = (Set((m7,1)) , 1)::r5
 
 
-    var list_of_rounds : (List[Round],String) = (List(new Round(r1),new Round(r2),new Round(r3),new Round(r4),new Round(r5)) , "Niveau unique")
+    var list_of_rounds : (List[Round],String) = (List(new Round(r1),new Round(r2),new Round(r3),new Round(r4)) , "Niveau unique")
 
 
     //var file_level = scala.xml.XML.loadFile(getClass.getResource(file).toString)
