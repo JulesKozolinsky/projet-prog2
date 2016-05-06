@@ -87,6 +87,11 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       }}
     repaint
   }
+
+  def actualize_cont()
+  {
+  
+  }
 }
 
 
@@ -204,7 +209,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
     wave.foreach(
       m =>{
         val skin = monster_skins(m._1);
-        g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth, (i /scale)* skin().getHeight)
+        g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth , (i /scale)* skin().getHeight)
         i += 1
       }
     )   

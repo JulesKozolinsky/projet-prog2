@@ -21,7 +21,7 @@ import javax.swing.Timer
 
 object InfoPanel extends BoxPanel(Orientation.Vertical){
   contents += new TowerTypeInfo(current_tower_type)
-  contents += new TowerTypeInfo(current_tower_type)
+  contents += Swing.VGlue
   contents += Swing.VGlue
   contents += Log
   preferredSize = new Dimension(250,preferredSize.height)

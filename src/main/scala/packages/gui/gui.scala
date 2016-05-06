@@ -64,6 +64,7 @@ object MainFrameGUI extends swing.MainFrame {
   val taskPerformer = new ActionListener() {
     def actionPerformed(evt:ActionEvent) {
       send_tick
+      
     }
   }
 
@@ -78,6 +79,15 @@ object MainFrameGUI extends swing.MainFrame {
     timer.stop
   }
 
+  val taskPerformer_cont = new ActionListener(){
+    def actionPerformed(evt:ActionEvent){
+
+    }
+  }
+
+  var timer_cont = new Timer(17,taskPerformer_cont)
+
+
 
   /******************** Fonctions d'actualisation *****************/
   /** Permet une actualisation complète 
@@ -86,6 +96,11 @@ object MainFrameGUI extends swing.MainFrame {
     */
   def actualize() {
     frame.actualize()
+    MainFrameGUI.visible = true
+  }
+
+  def actualize_cont(){
+    frame.actualize_cont()
     MainFrameGUI.visible = true
   }
 
@@ -208,6 +223,10 @@ class GamePanel extends BorderPanel {
   def actualize() {
     game_opt.actualize()
     game_grid.actualize()
+  }
+
+  def actualize_cont() {
+    game_grid.actualize_cont()
   }
 
   def actualize_end_round(){
