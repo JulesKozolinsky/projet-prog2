@@ -146,7 +146,10 @@ abstract class TowerType extends TileableType {
   /** fonction qui permet de construire une tour du type en question à la position pos */
   def get_instance (pos:Position) : Tower
 
-  /** la fréquence d'une tour est le nombre de tick entre deux tirs */
+  /**Identifiant de la tour **/
+  val id : Int
+
+ /** la fréquence d'une tour est le nombre de tick entre deux tirs */
   val frequency : Int
 
   /** la priorité d'une tour est une fonction qui prend en entrée les monstres accessibles par la tour et renvoie la liste des monstres attaqués par la tour */
@@ -176,6 +179,7 @@ abstract class TowerType extends TileableType {
 case object Tower1Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower1(pos)
+  val id = 1
   val frequency =  15
   val priority = coward_smart _
   val range = 5
@@ -191,6 +195,7 @@ case object Tower1Type extends TowerType
 case object Tower2Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower2(pos)
+  val id = 2
   val frequency =  50
   val priority = case_max _
   val range = 2
@@ -207,6 +212,7 @@ case object Tower2Type extends TowerType
 case object Tower3Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower3(pos)
+  val id = 3
   val frequency =  6
   val priority = line _
   val range = 3
@@ -222,6 +228,7 @@ case object Tower3Type extends TowerType
 case object Tower4Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower4(pos)
+  val id = 4
   val frequency = 22
   val priority = case_closest _
   val range = 3
@@ -237,6 +244,7 @@ case object Tower4Type extends TowerType
 case object Tower5Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower5(pos)
+  val id = 5
   val frequency = 6
   val priority = closest _
   val range = 3
@@ -252,6 +260,7 @@ case object Tower5Type extends TowerType
 case object Tower6Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower6(pos)
+  val id = 6
   val frequency = 8
   val priority = coward _
   val range = 5
@@ -267,6 +276,7 @@ case object Tower6Type extends TowerType
 case object Tower7Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower7(pos)
+  val id = 7
   val frequency = 4
   val priority = coward _
   val range = 15
@@ -282,6 +292,7 @@ case object Tower7Type extends TowerType
 case object Tower8Type extends TowerType
 {
   def get_instance (pos:Position) = new Tower8(pos)
+  val id = 8
   val frequency =  2
   val priority = closest _
   val range = 3
@@ -303,6 +314,9 @@ abstract class MonsterType extends TileableType
   /** fonction qui permet de construire un monstre du type en question à la position de début de map */
   def get_instance () : Monster
 
+  /**Identifiant du monstre **/
+  val id : Int
+
   /** la lenteur d'un monstre est le nombre de tick entre deux déplacements */
   val slowness : Int
 
@@ -322,6 +336,7 @@ abstract class MonsterType extends TileableType
 case object Monster1Type extends MonsterType
 {
   def get_instance () = new Monster1()
+  val id = 1
   val slowness = 4
   val gold = 6
   val max_life = 50
@@ -334,6 +349,7 @@ case object Monster1Type extends MonsterType
 case object Monster2Type extends MonsterType
 {
   def get_instance () = new Monster2()
+  val id = 2
   val slowness = 6
   val gold = 12
   val max_life = 50
@@ -346,6 +362,7 @@ case object Monster2Type extends MonsterType
 case object Monster3Type extends MonsterType
 {
   def get_instance () = new Monster3()
+  val id = 3
   val slowness = 20
   val gold = 10
   val max_life = 80
@@ -358,6 +375,7 @@ case object Monster3Type extends MonsterType
 case object Monster4Type extends MonsterType
 {
   def get_instance () = new Monster4()
+  val id = 4
   val slowness = 5
   val gold = 0
   val max_life = 1
@@ -370,6 +388,7 @@ case object Monster4Type extends MonsterType
 case object Monster5Type extends MonsterType
 {
   def get_instance () = new Monster5()
+  val id = 5
   val slowness = 2
   val gold = 6
   val max_life = 16
@@ -382,6 +401,7 @@ case object Monster5Type extends MonsterType
 case object Monster6Type extends MonsterType
 {
   def get_instance () = new Monster6()
+  val id = 6
   val slowness = 4
   val gold = 3
   val max_life = 30
@@ -394,6 +414,7 @@ case object Monster6Type extends MonsterType
 case object Monster7Type extends MonsterType
 {
   def get_instance () = new Monster7()
+  val id = 7
   val slowness = 6
   val gold = 600
   val max_life = 600
@@ -406,6 +427,7 @@ case object Monster7Type extends MonsterType
 case object Monster8Type extends MonsterType
 {
   def get_instance () = new Monster8()
+  val id = 8
   val slowness = 2
   val gold = 90
   val max_life = 90
