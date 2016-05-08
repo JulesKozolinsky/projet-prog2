@@ -22,7 +22,7 @@ abstract class Tileable ()
 abstract class Actor() extends Tileable
 {
   /** temps depuis lequel l'Actor n'a pas agit */
-  var wait_since : Int
+  var wait_since : Int = 0
 }
 
 
@@ -91,6 +91,24 @@ abstract class Monster () extends Living
 
   /** type du monstre en question */
   val monster_type : MonsterType
+
+  /** déplacement horizontal (-1 vers la gauche, 0 non déplacement, 1 pour la droite) */
+  var orientation_h : Int = 0
+
+  /** déplacement vertical (-1 vers le haut, 0 non déplacement, 1 vers le bas) */
+  var orientation_v : Int = 0
+
+  /** vitesse en pixel horizontale */
+  var speed_pix_h : Int = 0
+
+  /* vitesse en pixel verticale */
+  var speed_pix_v : Int = 0
+
+  /* padding absolu sur la grille horizontal */
+  var absolute_padding_h : Int = 0
+
+  /* padding absolu sur la grille vertical */
+  var absolute_padding_v : Int = 0
 
   /* fonction rendant des points de vie au monstre */
   def receive_life(qty:Int) : Unit = {this.life = math.min(life + qty, monster_type.max_life)}
@@ -453,56 +471,48 @@ class Tower1 (position:Position) extends Tower
 {
   val tower_type = Tower1Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower2 (position:Position) extends Tower
 {
   val tower_type = Tower2Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower3 (position:Position) extends Tower
 {
   val tower_type = Tower3Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower4 (position:Position) extends Tower
 {
   val tower_type = Tower4Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower5 (position:Position) extends Tower
 {
   val tower_type = Tower5Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower6 (position:Position) extends Tower
 {
   val tower_type = Tower6Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower7 (position:Position) extends Tower
 {
   val tower_type = Tower7Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 class Tower8 (position:Position) extends Tower
 {
   val tower_type = Tower8Type
   var pos = position
-  var wait_since = 0
   var condition = 4
 }
 
@@ -510,7 +520,6 @@ class Tower8 (position:Position) extends Tower
 
 class Monster1 () extends Monster {
   val monster_type = Monster1Type
-  var wait_since = 0
   var init_pos = new Position (1,0)
   var path_choice = 0
   var pos = init_pos
@@ -518,7 +527,6 @@ class Monster1 () extends Monster {
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
@@ -554,7 +562,6 @@ class Monster2 () extends Monster {
 }
 class Monster3 () extends Monster {
   val monster_type = Monster3Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
@@ -562,7 +569,6 @@ class Monster3 () extends Monster {
 }
 class Monster4 () extends Monster {
   val monster_type = Monster4Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
@@ -574,7 +580,6 @@ class Monster4 () extends Monster {
 }
 class Monster5 () extends Monster {
   val monster_type = Monster5Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
@@ -582,12 +587,11 @@ class Monster5 () extends Monster {
 }
 class Monster6 () extends Monster {
   val monster_type = Monster6Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
-  
+
   /** le apply du soigneur le fait soigner ses comparses */
   override def apply () : Boolean  = {
     var is_in_the_end = false
@@ -609,7 +613,6 @@ class Monster6 () extends Monster {
 }
 class Monster7 () extends Monster {
   val monster_type = Monster7Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
@@ -617,7 +620,6 @@ class Monster7 () extends Monster {
 }
 class Monster8 () extends Monster {
   val monster_type = Monster8Type
-  var wait_since = 0
   var init_pos = new Position (Map.height / 2,0)
   var path_choice = 0
   var pos = init_pos
