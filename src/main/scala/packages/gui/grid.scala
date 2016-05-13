@@ -49,7 +49,9 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
   /** Renvoie la position dans la grille d'un monstre*/
   def get_pos(monster:Monster) = {
     val cell_size = contents(0).size
-    new Position(0,0)//pos.l * cell_size.height + monster.absolute_padding_h)
+    new Position(monster.pos.l * cell_size.height + monster.absolute_padding_h + monster.monster_type.in_cell_pos.l * cell_size.height /3,
+      monster.pos.c * cell_size.width + monster.absolute_padding_v + monster.monster_type.in_cell_pos.c * cell_size.width /3
+    )
   }
 
   /** Permet de peindre un laser allant d'une case vers une autre*/

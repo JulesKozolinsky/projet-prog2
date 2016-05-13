@@ -110,9 +110,6 @@ abstract class Monster () extends Living
   /** padding absolu sur la grille vertical */
   var absolute_padding_v : Int = 0
 
-  /** Position dans la cellule (3x3)*/
-  //val in_cell_pos : Position
-
   /** fonction rendant des points de vie au monstre */
   def receive_life(qty:Int) : Unit = {this.life = math.min(life + qty, monster_type.max_life)}
 
@@ -356,6 +353,9 @@ abstract class MonsterType extends TileableType
 
   /** le nombre de vies que le monstre enlève au joueur quand il arrive en fin de map */
   val damages : Int
+
+  /** Position dans la cellule (3x3)*/
+  val in_cell_pos : Position
 }
 
 case object Monster1Type extends MonsterType
@@ -370,6 +370,7 @@ case object Monster1Type extends MonsterType
   val name = "Éclaireur"
   val description = "Un ennemi tout ce qu'il y a de plus commun"
   val main_icon = "/monster1.png"
+  val in_cell_pos = new Position(0,0)
 }
 case object Monster2Type extends MonsterType
 {
@@ -383,6 +384,7 @@ case object Monster2Type extends MonsterType
   val name = "Bélier"
   val description = "Le bélier avance en ligne droite et détruit les tours devant lui"
   val main_icon = "/monster2.png"
+  val in_cell_pos = new Position(0,1)
 }
 case object Monster3Type extends MonsterType
 {
@@ -396,6 +398,7 @@ case object Monster3Type extends MonsterType
   val name = "Tank"
   val description = "Le tank est très lent mais possède beaucoup de vies et fait perdre 4 points de vies au joueur s'il arrive en fin de map"
   val main_icon = "/monster3.png"
+  val in_cell_pos = new Position(0,2)
 }
 case object Monster4Type extends MonsterType
 {
@@ -409,6 +412,7 @@ case object Monster4Type extends MonsterType
   val name = "Fantôme"
   val description = "Le fontôme est très faible, mais... arriverez vous à le toucher ?"
   val main_icon = "/monster4.png"
+  val in_cell_pos = new Position(1,0)
 }
 case object Monster5Type extends MonsterType
 {
@@ -422,6 +426,7 @@ case object Monster5Type extends MonsterType
   val name = "Soldat à cheval"
   val description = "Doté de peu de vie, cet ennemi avance très rapidemment"
   val main_icon = "/monster5.png"
+  val in_cell_pos = new Position(1,1)
 }
 case object Monster6Type extends MonsterType
 {
@@ -435,6 +440,7 @@ case object Monster6Type extends MonsterType
   val name = "Secours"
   val description = "Ce monstre soigne les monstres sur sa case"
   val main_icon = "/monster6.png"
+  val in_cell_pos = new Position(1,2)
 }
 case object Monster7Type extends MonsterType
 {
@@ -448,6 +454,7 @@ case object Monster7Type extends MonsterType
   val name = "Développeur"
   val description = "Ce monstre est presque invincible..."
   val main_icon = "/monster7.png"
+  val in_cell_pos = new Position(2,0)
 }
 case object Monster8Type extends MonsterType
 {
@@ -461,6 +468,7 @@ case object Monster8Type extends MonsterType
   val name = "Bourgeois à dépouiller"
   val description = "Ce monstre possède peu de vie, est très rapide, ne représente aucun risque pour vous, et vous possède toujours beaucoup d'argent sur lui"
   val main_icon = "/monster8.png"
+  val in_cell_pos = new Position(2,1)
 }
 
 
@@ -530,12 +538,14 @@ class Monster1 () extends Monster {
   var init_pos = new Position (1,0)
   var pos = init_pos
   var life = monster_type.max_life
+  
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
+  val in_cell_pos = new Position(0,1)
 
   /** le apply du bélier le fait d'avancer s'il est temps, renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
   override def apply () : Boolean  = {
@@ -571,6 +581,7 @@ class Monster3 () extends Monster {
   var pos = init_pos
   var life = monster_type.max_life
 }
+
 class Monster4 () extends Monster {
   val monster_type = Monster4Type
   var init_pos = new Position (Map.height / 2,0)
@@ -580,6 +591,7 @@ class Monster4 () extends Monster {
 
   /** le receive_damages du fantôme fait que le fantôme n'est touché qu'une fois sur 7 */
   override def receive_damages(dam:Int):Unit = {if (rand.nextInt(7) == 0) {this.life = math.max (0,this.life - dam)}}
+
 }
 class Monster5 () extends Monster {
   val monster_type = Monster5Type
@@ -587,6 +599,7 @@ class Monster5 () extends Monster {
   var pos = init_pos
   var life = monster_type.max_life
 }
+
 class Monster6 () extends Monster {
   val monster_type = Monster6Type
   var init_pos = new Position (Map.height / 2,0)
@@ -618,6 +631,7 @@ class Monster7 () extends Monster {
   var pos = init_pos
   var life = monster_type.max_life
 }
+
 class Monster8 () extends Monster {
   val monster_type = Monster8Type
   var init_pos = new Position (Map.height / 2,0)
