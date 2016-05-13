@@ -284,19 +284,24 @@ object Map
 
 
     /** Renvoie l'ensemble des type de monstres situés à la position (l,c), et la quantité de chaque */
-    def get_monsters (p:Position) : Set[Tuple2[MonsterType,Int]] = {
+    def get_monsters (p:Position) : Set[Tuple2[Monster,Int]] = {
       var map_set = monsters(p.l)(p.c) //Set[Monster]
 
-      var monster_set = Set[Tuple2[MonsterType,Int]]() // l'ensemble que l'on va remplir
+      var monster_set = Set[Tuple2[Monster,Int]]() // l'ensemble que l'on va remplir
       map_set.foreach {(monster:Monster) => // on parcourt la case
        {
          var m_type = monster.monster_type // le type du monstre en cours
-         var monster_type_found = false // à priori pas encore dans notre ensemble
-         var old_t = (m_type,0) // valeurs inutiles, sert à transmettre l'information de
-         var new_t = (m_type,0) // la ligne suivante à l'extérieur du "monster_set.foreach"
+         var new_found = false // à priori pas encore dans notre ensemble
+         var old_t = (monster,0) // valeurs inutiles, sert à transmettre l'information de
+         var new_t = (monster,0) // la ligne suivante à l'extérieur du "monster_set.foreach"
 	 // on parcourt notre ensemble en cours de remplissage, si on trouve dedans le type du monstre en cours on stock les modifications à apporter.
-         monster_set.foreach {(t:(MonsterType,Int)) => {if (t._1 == m_type) {new_t = (m_type,t._2 + 1) ; old_t = t ; monster_type_found = true} }}
-         if (monster_type_found)  {monster_set = (monster_set - old_t) + new_t} else {monster_set = monster_set + (new Tuple2(m_type,1))}
+         monster_set.foreach {(t:(Monster,Int)) => {
+           if ((t._1).monster_type == monster.monster_type &&
+               (t._1).init_pos == monster.init_pos &&
+               (t._1).path_choice == monster.path_choice)
+           {new_t = (t._1,t._2 + 1) ; old_t = t ; new_found = true} }}
+         if (new_found)  {monster_set = (monster_set - old_t) + new_t}
+         else {monster_set = monster_set + (new Tuple2(monster,1))}
        }
       }
       monster_set
