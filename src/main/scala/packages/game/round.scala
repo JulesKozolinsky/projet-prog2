@@ -21,7 +21,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   private var compteur_tick = 0
 
   /** Ensemble des monstres en vie et présents sur la map */
-  private var monsters = Set[Monster] ()
+  var monsters = Set[Monster] ()
 
   /** Variable qui évolue au cours des actalize et qui contient les positions des tours qui ont tiré, avec une position caractéristique du tir */
   var shots = Set[(Position,Position)] ()

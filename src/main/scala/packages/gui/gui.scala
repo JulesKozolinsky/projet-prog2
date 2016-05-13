@@ -60,32 +60,38 @@ object MainFrameGUI extends swing.MainFrame {
   }
 
    /*************** Déclaration du timer ****************/
+
+  val taskPerformer_cont = new ActionListener(){
+    def actionPerformed(evt:ActionEvent){
+      actualize_cont
+    }
+  }
+
+  var timer_cont = new Timer(17,taskPerformer_cont)
+
+
   /** Fonction à appliquer à chaque tick du timer */
   val taskPerformer = new ActionListener() {
     def actionPerformed(evt:ActionEvent) {
       send_tick
-      
+      timer_cont.restart
     }
   }
 
   var timer = new Timer(tick, taskPerformer)
   
   def start_round(){
+    timer_cont.start
     timer.start
     current_level.start_round
   }
 
   def stop_round(){
     timer.stop
+    timer_cont.stop
   }
 
-  val taskPerformer_cont = new ActionListener(){
-    def actionPerformed(evt:ActionEvent){
-
-    }
-  }
-
-  var timer_cont = new Timer(17,taskPerformer_cont)
+  
 
 
 
@@ -185,16 +191,23 @@ object MainFrameGUI extends swing.MainFrame {
       stop_round
       Log.kill
     case WindowDeactivated(_) => //Pause automatique lorsque le focus n'est plus sur la fenêtre
-      if(current_level.in_a_round && !paused)
-        timer.stop
+      timer.stop
+      timer_cont.stop
+      
+        
       Log.kill
     case WindowActivated(_) =>
-      if(current_level.in_a_round && !paused)
+      if(current_level.in_a_round && !paused){
         timer.start
+        timer_cont.start
+      }
+        
     case UIElementResized(_) =>
       resize_icons //les icônes doivent être actualisées
       actualize
       repaint //permet d'actualiser tous les boutons
+
+    
   }
 
 

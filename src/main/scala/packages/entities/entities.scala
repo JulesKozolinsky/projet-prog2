@@ -101,16 +101,19 @@ abstract class Monster () extends Living
   /** vitesse en pixel horizontale */
   var speed_pix_h : Int = 0
 
-  /* vitesse en pixel verticale */
+  /** vitesse en pixel verticale */
   var speed_pix_v : Int = 0
 
-  /* padding absolu sur la grille horizontal */
+  /** padding absolu sur la grille horizontal */
   var absolute_padding_h : Int = 0
 
-  /* padding absolu sur la grille vertical */
+  /** padding absolu sur la grille vertical */
   var absolute_padding_v : Int = 0
 
-  /* fonction rendant des points de vie au monstre */
+  /** Position dans la cellule (3x3)*/
+  //val in_cell_pos : Position
+
+  /** fonction rendant des points de vie au monstre */
   def receive_life(qty:Int) : Unit = {this.life = math.min(life + qty, monster_type.max_life)}
 
   /** le apply du monstre le fait bouger s'il est temps et renvoie True dans le cas où il est parvenu en fin de map et fait ainsi perdre une vie au joueur */
@@ -212,6 +215,7 @@ case object Tower1Type extends TowerType
   val main_icon = "/tower1.png"
   val choice_icon = "/choice_tower1.png"
   val color = (0,0,0)
+  val in_cell_pos  = new Position(0,0)
 }
 case object Tower2Type extends TowerType
 {

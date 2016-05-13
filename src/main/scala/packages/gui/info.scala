@@ -133,7 +133,7 @@ class CellInfo(pos:Position) extends InfoUnit {
       {
         add_attribute("Contenu","")
         for(c <- monsters){
-          contents += new TileableAttribute(c._2,c._1)
+          contents += new TileableAttribute(c._2,c._1.monster_type)
         }
       }
     }

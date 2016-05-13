@@ -40,16 +40,7 @@ package object gui {
 
   /** Convertit un TowerType en skin */
   def tower_skins(t:TowerType) : Skin = {
-    t match {
-      case Tower1Type => tower_skins_array(0)
-      case Tower2Type => tower_skins_array(1)
-      case Tower3Type => tower_skins_array(2)
-      case Tower4Type => tower_skins_array(3)
-      case Tower5Type => tower_skins_array(4)
-      case Tower6Type => tower_skins_array(5)
-      case Tower7Type => tower_skins_array(6)
-      case Tower8Type => tower_skins_array(7)
-    }
+    tower_skins_array(t.id-1)
   }
 
   /** Tableau contenant les skins de tous les types de monstre
@@ -60,16 +51,7 @@ package object gui {
   /** Convertit un MonsterType en skin */
   def monster_skins(t:MonsterType) : Skin =
     {
-      t match {
-        case Monster1Type => monster_skins_array(0)
-        case Monster2Type => monster_skins_array(1)
-        case Monster3Type => monster_skins_array(2)
-        case Monster4Type => monster_skins_array(3)
-        case Monster5Type => monster_skins_array(4)
-        case Monster6Type => monster_skins_array(5)
-        case Monster7Type => monster_skins_array(6)
-        case Monster8Type => monster_skins_array(7)
-      }
+      monster_skins_array(t.id-1)
     }
 
   /** Permet de modifier la dimension de toutes les tower_icons */

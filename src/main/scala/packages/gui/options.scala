@@ -173,6 +173,7 @@ object PlayPauseButton extends Button("")
         if (paused) { //le bouton change d'apparence lorsque l'on est dans un round. On peut alors faire une pause.
           paused = false
           MainFrameGUI.timer.start
+          MainFrameGUI.timer_cont.start
           icon = pause_icon
           rolloverIcon = pause_icon_rollover
           Log("Le jeu n'est plus en pause.")
@@ -180,6 +181,7 @@ object PlayPauseButton extends Button("")
         else {
           paused = true
           MainFrameGUI.timer.stop
+          MainFrameGUI.timer_cont.stop
           icon = play_icon
           rolloverIcon = play_icon_rollover
           Log("Le jeu est à présent en pause.")

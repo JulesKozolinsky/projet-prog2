@@ -46,6 +46,12 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     )
   }
 
+  /** Renvoie la position dans la grille d'un monstre*/
+  def get_pos(monster:Monster) = {
+    val cell_size = contents(0).size
+    new Position(0,0)//pos.l * cell_size.height + monster.absolute_padding_h)
+  }
+
   /** Permet de peindre un laser allant d'une case vers une autre*/
   private def paintLaser(g: Graphics2D, cell1 : Position , cell2 :Position, color : java.awt.Color )
   {
@@ -87,10 +93,9 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
       }}
     repaint
   }
-
   def actualize_cont()
   {
-  
+   // Log((i*17/1000).toString)
   }
 }
 
@@ -183,7 +188,7 @@ class TowerCell(pos:Position) extends Cell(pos)
   * 
   * @param pos Position de la cellule dans la grille
   */
-class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends Cell (pos)
+class MonsterCell(wave : Set[Tuple2[Monster,Int]], pos : Position) extends Cell (pos)
 {
   /**Définit la racine carrée du nombre maximal de monstres par case*/
   var scale = 3//Math.sqrt(wave.size).ceil.toInt
@@ -208,7 +213,7 @@ class MonsterCell(wave : Set[Tuple2[MonsterType,Int]], pos : Position) extends C
     var i = 0
     wave.foreach(
       m =>{
-        val skin = monster_skins(m._1);
+        val skin = monster_skins(m._1.monster_type);
         g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth , (i /scale)* skin().getHeight)
         i += 1
       }
