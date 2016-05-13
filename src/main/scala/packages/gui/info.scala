@@ -27,10 +27,10 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
   preferredSize = new Dimension(250,preferredSize.height)
   
   
-  private def create_info_unit(tileable_type : TileableType) : InfoUnit = {
-    tileable_type match {
-      case tt:TowerType =>  new TowerTypeInfo(tt)
-      case mt:MonsterType => new MonsterTypeInfo(mt)
+  private def create_info_unit(tileable : Tileable) : InfoUnit = {
+    tileable match {
+      case t:Tower =>  new TowerInfo(t)
+      case m:Monster => new MonsterInfo(m)
     }
   }
 
@@ -42,8 +42,8 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
   }
 
   /** Cette fonction permet de changer le type de tour ou de monstre dont les infos sont affichées dans le bloc principal */
-  def change_main_unit_tileable(tileable_type :TileableType) {
-    contents(0) = create_info_unit(tileable_type)
+  def change_main_unit_tileable(tileable :Tileable) {
+    contents(0) = create_info_unit(tileable)
     delete_secundary_units
     repaint
   }
@@ -55,9 +55,9 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
   }
 
   /** Permet d'ajouter ou de changer la deuxième info unit*/
-  def change_second_unit(tileable_type : TileableType)
+  def change_second_unit(tileable : Tileable)
   {
-    contents(1) = create_info_unit(tileable_type)
+    contents(1) = create_info_unit(tileable)
     MainFrameGUI.actualize
   }
 }
@@ -96,17 +96,17 @@ class InfoUnit extends BoxPanel(Orientation.Vertical) {
 
 }
 
-class TileableAttribute(quantity : Int,tileable_type : TileableType) extends BoxPanel(Orientation.Horizontal)
+class TileableAttribute(quantity : Int,tileable : Tileable) extends BoxPanel(Orientation.Horizontal)
 {
   border = Swing.EmptyBorder(0,0,10,10)
   val quantity_label = new Label(quantity.toString){
      border = Swing.EmptyBorder(0,0,0,10)
   }
-  val link_to_info = new Button(tileable_type.name){
-    action = new Action(tileable_type.name){
+  val link_to_info = new Button(tileable.ttype.name){
+    action = new Action(tileable.ttype.name){
       contentAreaFilled = false
       def apply(){
-        InfoPanel.change_second_unit(tileable_type)
+        InfoPanel.change_second_unit(tileable)
       }
     }
   }
@@ -123,7 +123,7 @@ class CellInfo(pos:Position) extends InfoUnit {
   if(Map.is_tower(pos))
     {
       add_attribute("Contenu", "")
-      contents += new TileableAttribute(1,Map.get_tower(pos).tower_type)
+      contents += new TileableAttribute(1,Map.get_tower(pos))
     }else {
       val monsters = Map.get_monsters(pos)
       if(Map.get_monsters(pos).isEmpty)
@@ -133,7 +133,7 @@ class CellInfo(pos:Position) extends InfoUnit {
       {
         add_attribute("Contenu","")
         for(c <- monsters){
-          contents += new TileableAttribute(c._2,c._1.monster_type)
+          contents += new TileableAttribute(c._2,c._1)
         }
       }
     }
@@ -159,25 +159,17 @@ class TowerInfo(tower : Tower) extends TowerTypeInfo(tower.tower_type){
   
 }
 
-class MonsterTypeInfo(monster_type : MonsterType) extends InfoUnit {
-  set_title(monster_type.name)
-  add_attribute("Description : ", monster_type.description)
-  add_attribute("Vies : ", fraction_to_string(monster_type.max_life,monster_type.max_life))
-  add_attribute("Prime : ", monster_type.gold.toString)
-  add_attribute("Vitesse : ", monster_type.slowness.toString)
+class MonsterInfo(monster : Monster) extends InfoUnit {
+  set_title(monster.monster_type.name)
+  add_attribute("Description : ", monster.monster_type.description)
+  add_attribute("Vies : ", fraction_to_string(monster.life,monster.monster_type.max_life))
+  add_attribute("Prime : ", monster.monster_type.gold.toString)
+  add_attribute("Vitesse : ", monster.monster_type.slowness.toString)
+  add_attribute("Orientation horizontale :", monster.orientation_h.toString)
+  add_attribute("Orientation verticale :", monster.orientation_v.toString)
+  add_attribute("Absolute padding h :", monster.absolute_padding_h.toString)
+  add_attribute("Absolute padding v :", monster.absolute_padding_v.toString)
 }
-
-/*class MonsterInfo(monster : Monster) extends InfoUnit {
-set_title(monster.monster_type.name)
-add_attribute("Description : ", monster.monster_type.description)
-add_attribute("Vies : ", fraction_to_string(monster.life,monster.monster_type.max_life))
-add_attribute("Prime : ", monster.monster_type.gold.toString)
-add_attribute("Vitesse : ", monster.monster_type.slowness.toString)
-add_attribute("Orientation horizontale :", monster.orientation_h.toString)
-add_attribute("Orientation verticale :", monster.orientation_v.toString)
-add_attribute("Absolute padding h :", monster.absolute_padding_h.toString)
-add_attribute("Absolute padding v :", monster.absolute_padding_v.toString)
-}*/
 
 
 /** Cette classe permet de créer une description d'un attribut d'un objet du jeu

@@ -15,6 +15,7 @@ abstract class Tileable ()
 {
   /** Coordonnées de l'objet */
   var pos : Position
+  val ttype : TileableType
 }
 
 
@@ -485,48 +486,56 @@ case object Monster8Type extends MonsterType
 class Tower1 (position:Position) extends Tower
 {
   val tower_type = Tower1Type
+  val ttype = Tower1Type
   var pos = position
   var condition = 4
 }
 class Tower2 (position:Position) extends Tower
 {
   val tower_type = Tower2Type
+  val ttype = Tower2Type
   var pos = position
   var condition = 4
 }
 class Tower3 (position:Position) extends Tower
 {
   val tower_type = Tower3Type
+  val ttype = Tower3Type
   var pos = position
   var condition = 4
 }
 class Tower4 (position:Position) extends Tower
 {
   val tower_type = Tower4Type
+  val ttype = Tower4Type
   var pos = position
   var condition = 4
 }
 class Tower5 (position:Position) extends Tower
 {
   val tower_type = Tower5Type
+  val ttype = Tower5Type
   var pos = position
   var condition = 4
 }
 class Tower6 (position:Position) extends Tower
 {
   val tower_type = Tower6Type
+  val ttype = Tower6Type
   var pos = position
   var condition = 4
 }
 class Tower7 (position:Position) extends Tower
 {
   val tower_type = Tower7Type
+  val ttype = Tower7Type
   var pos = position
   var condition = 4
 }
 class Tower8 (position:Position) extends Tower
 {
   val tower_type = Tower8Type
+  val ttype = Tower8Type
   var pos = position
   var condition = 4
 }
@@ -535,6 +544,7 @@ class Tower8 (position:Position) extends Tower
 
 class Monster1 () extends Monster {
   val monster_type = Monster1Type
+  val ttype = Monster1Type
   var init_pos = new Position (1,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -542,6 +552,7 @@ class Monster1 () extends Monster {
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
+  val ttype = Monster2Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -577,6 +588,7 @@ class Monster2 () extends Monster {
 }
 class Monster3 () extends Monster {
   val monster_type = Monster3Type
+  val ttype = Monster3Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -584,6 +596,7 @@ class Monster3 () extends Monster {
 
 class Monster4 () extends Monster {
   val monster_type = Monster4Type
+  val ttype = Monster4Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -595,6 +608,7 @@ class Monster4 () extends Monster {
 }
 class Monster5 () extends Monster {
   val monster_type = Monster5Type
+  val ttype = Monster5Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -602,6 +616,7 @@ class Monster5 () extends Monster {
 
 class Monster6 () extends Monster {
   val monster_type = Monster6Type
+  val ttype = Monster6Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -627,6 +642,7 @@ class Monster6 () extends Monster {
 }
 class Monster7 () extends Monster {
   val monster_type = Monster7Type
+  val ttype = Monster7Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
@@ -634,6 +650,7 @@ class Monster7 () extends Monster {
 
 class Monster8 () extends Monster {
   val monster_type = Monster8Type
+  val ttype = Monster8Type
   var init_pos = new Position (Map.height / 2,0)
   var pos = init_pos
   var life = monster_type.max_life
