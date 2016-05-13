@@ -193,8 +193,7 @@ object MainFrameGUI extends swing.MainFrame {
     case WindowDeactivated(_) => //Pause automatique lorsque le focus n'est plus sur la fenêtre
       timer.stop
       timer_cont.stop
-      
-        
+    
       Log.kill
     case WindowActivated(_) =>
       if(current_level.in_a_round && !paused){
@@ -224,22 +223,20 @@ object MainFrameGUI extends swing.MainFrame {
 class GamePanel extends BorderPanel {
   /** Options et informations sur le jeu*/
   val game_opt = new GameOptions
-  /** Grille du jeu */
-  val game_grid = new GameGrid(Map.get_height_GUI,Map.get_width_GUI)
   val info_panel = InfoPanel
 
   add(game_opt,BorderPanel.Position.North)
-  add(game_grid,BorderPanel.Position.Center)
+  add(GameGrid,BorderPanel.Position.Center)
   add(info_panel,BorderPanel.Position.East)
 
   /** Permet d'actualiser les fonctions de l'interface à partir des informations données par la map.*/
   def actualize() {
     game_opt.actualize()
-    game_grid.actualize()
+    GameGrid.actualize()
   }
 
   def actualize_cont() {
-    game_grid.actualize_cont()
+    GameGrid.actualize_cont()
   }
 
   def actualize_end_round(){

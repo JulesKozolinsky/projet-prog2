@@ -24,7 +24,7 @@ import java.awt.RenderingHints //pour l'anticrénelage
   * @param nb_lines Nombre de lignes dans la grille
   * @param nb_columns Nombre de colonnes dans la grille
   */
-class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_columns) {
+object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
 
   //on remplit la grille de Labels afin de laisser swing calculer la taille de cases
   for(i<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
@@ -61,6 +61,14 @@ class GameGrid(nb_line:Int, nb_columns:Int) extends PosGridPanel(nb_line, nb_col
     val center1 = center_of_cell(cell1)
     val center2 = center_of_cell(cell2)
     g.drawLine(center1.c,center1.l,center2.c,center2.l)
+  }
+
+  private def paintMonster(g:Graphics2D, monster : Monster)
+  {
+    val cell_size = contents(0).size
+    val abs_pos = get_pos(monster)
+    //ici, le 3 correspond au scale du monster cell
+    g.drawImage(monster_skins(monster.monster_type)(cell_size,3), null, abs_pos.c , abs_pos.l)
   }
 
   override def paint(g:Graphics2D) {

@@ -167,6 +167,18 @@ class MonsterTypeInfo(monster_type : MonsterType) extends InfoUnit {
   add_attribute("Vitesse : ", monster_type.slowness.toString)
 }
 
+/*class MonsterInfo(monster : Monster) extends InfoUnit {
+set_title(monster.monster_type.name)
+add_attribute("Description : ", monster.monster_type.description)
+add_attribute("Vies : ", fraction_to_string(monster.life,monster.monster_type.max_life))
+add_attribute("Prime : ", monster.monster_type.gold.toString)
+add_attribute("Vitesse : ", monster.monster_type.slowness.toString)
+add_attribute("Orientation horizontale :", monster.orientation_h.toString)
+add_attribute("Orientation verticale :", monster.orientation_v.toString)
+add_attribute("Absolute padding h :", monster.absolute_padding_h.toString)
+add_attribute("Absolute padding v :", monster.absolute_padding_v.toString)
+}*/
+
 
 /** Cette classe permet de créer une description d'un attribut d'un objet du jeu
   * Le nom de l'attribut apparaît en gras
