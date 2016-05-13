@@ -87,7 +87,7 @@ abstract class Monster () extends Living
   var init_pos : Position
 
   /** choix du chemin le plus court */
-  var path_choice : Int
+  var path_choice : Int = 0
 
   /** type du monstre en question */
   val monster_type : MonsterType
@@ -122,7 +122,10 @@ abstract class Monster () extends Living
       else                                                 // sinon on avance
       {
         Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
+        val prec_pos = pos
         pos = Map.next_case(pos,init_pos,path_choice)
+        orientation_h = pos.c - prec_pos.c
+        orientation_v = pos.l - prec_pos.l
         wait_since = 0
       }
     }
@@ -521,14 +524,12 @@ class Tower8 (position:Position) extends Tower
 class Monster1 () extends Monster {
   val monster_type = Monster1Type
   var init_pos = new Position (1,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 
@@ -563,14 +564,12 @@ class Monster2 () extends Monster {
 class Monster3 () extends Monster {
   val monster_type = Monster3Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster4 () extends Monster {
   val monster_type = Monster4Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
   val rand = new Random()
@@ -581,14 +580,12 @@ class Monster4 () extends Monster {
 class Monster5 () extends Monster {
   val monster_type = Monster5Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster6 () extends Monster {
   val monster_type = Monster6Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 
@@ -614,14 +611,12 @@ class Monster6 () extends Monster {
 class Monster7 () extends Monster {
   val monster_type = Monster7Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 }
 class Monster8 () extends Monster {
   val monster_type = Monster8Type
   var init_pos = new Position (Map.height / 2,0)
-  var path_choice = 0
   var pos = init_pos
   var life = monster_type.max_life
 }
