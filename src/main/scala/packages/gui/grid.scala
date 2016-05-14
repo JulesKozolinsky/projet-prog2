@@ -214,7 +214,7 @@ class TowerCell(pos:Position) extends Cell(pos)
   * 
   * @param pos Position de la cellule dans la grille
   */
-/*class MonsterCell(wave : Set[Tuple2[Monster,Int]], pos : Position) extends Cell (pos)
+class MonsterCell(wave : Set[Tuple2[Monster,Int]], pos : Position) extends Cell (pos)
 {
   /**Définit la racine carrée du nombre maximal de monstres par case*/
   var scale = 3//Math.sqrt(wave.size).ceil.toInt
@@ -234,7 +234,7 @@ class TowerCell(pos:Position) extends Cell(pos)
   }
 
 
-  override def paint(g:Graphics2D){
+  /*override def paint(g:Graphics2D){
     super.paint(g)
     var i = 0
     wave.foreach(
@@ -244,6 +244,6 @@ class TowerCell(pos:Position) extends Cell(pos)
         i += 1
       }
     )   
-  }
-}*/
+  }*/
+}
 
