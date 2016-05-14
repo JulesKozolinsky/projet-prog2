@@ -36,7 +36,8 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
 
   def compute_speed_pix(monster:Monster)
   {
-
+    val cell_size = contents(0).size
+    monster.speed_pix_h = cell_size.height * (cont_tick / tick.toFloat)
   }
 
 

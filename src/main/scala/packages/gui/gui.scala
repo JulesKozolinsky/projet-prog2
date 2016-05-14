@@ -67,7 +67,7 @@ object MainFrameGUI extends swing.MainFrame {
     }
   }
 
-  var timer_cont = new Timer(17,taskPerformer_cont)
+  var timer_cont = new Timer(cont_tick,taskPerformer_cont)
 
 
   /** Fonction à appliquer à chaque tick du timer */

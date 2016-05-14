@@ -100,10 +100,10 @@ abstract class Monster () extends Living
   var orientation_v : Int = 0
 
   /** vitesse en pixel horizontale */
-  var speed_pix_h : Int = 0
+  var speed_pix_h : Float = 0
 
   /** vitesse en pixel verticale */
-  var speed_pix_v : Int = 0
+  var speed_pix_v : Float = 0
 
   /** Position en pixels sur la grille */
   var pix_pos = new Position_Real(0,0)
