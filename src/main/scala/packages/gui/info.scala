@@ -34,6 +34,13 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
     }
   }
 
+  private def create_type_info_unit(tileable_type : TileableType) : InfoUnit = {
+    tileable_type match {
+      case tt:TowerType =>  new TowerTypeInfo(tt)
+      case mt:MonsterType => new MonsterTypeInfo(mt)
+    }
+  }
+
   private def delete_secundary_units(){
     for(i<- 1 to contents.length - 3)
       {
@@ -41,9 +48,16 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
       }
   }
 
-  /** Cette fonction permet de changer le type de tour ou de monstre dont les infos sont affichées dans le bloc principal */
+  /** Cette fonction permet de changer la tour ou le monster dont les infos sont affichées dans le bloc principal */
   def change_main_unit_tileable(tileable :Tileable) {
     contents(0) = create_info_unit(tileable)
+    delete_secundary_units
+    repaint
+  }
+
+  /** Cette fonction permet de changer le type de tour ou de monstre dont les infos sont affichées dans le bloc principal */
+  def change_main_unit_tileable_type(tileable_type :TileableType) {
+    contents(0) = create_type_info_unit(tileable_type)
     delete_secundary_units
     repaint
   }
@@ -55,9 +69,16 @@ object InfoPanel extends BoxPanel(Orientation.Vertical){
   }
 
   /** Permet d'ajouter ou de changer la deuxième info unit*/
-  def change_second_unit(tileable : Tileable)
+  def change_second_unit_tileable(tileable : Tileable)
   {
     contents(1) = create_info_unit(tileable)
+    MainFrameGUI.actualize
+  }
+
+  /** Permet d'ajouter ou de changer la deuxième info unit*/
+  def change_second_unit_tileable_type(tileable_type : TileableType)
+  {
+    contents(1) = create_type_info_unit(tileable_type)
     MainFrameGUI.actualize
   }
 }
@@ -106,7 +127,7 @@ class TileableAttribute(quantity : Int,tileable : Tileable) extends BoxPanel(Ori
     action = new Action(tileable.ttype.name){
       contentAreaFilled = false
       def apply(){
-        InfoPanel.change_second_unit(tileable)
+        InfoPanel.change_second_unit_tileable(tileable)
       }
     }
   }
@@ -156,15 +177,20 @@ class TowerTypeInfo(tower_type:TowerType) extends InfoUnit {
 }
 
 class TowerInfo(tower : Tower) extends TowerTypeInfo(tower.tower_type){
-  
+  add_attribute("Vies : ", tower.condition.toString)
 }
 
-class MonsterInfo(monster : Monster) extends InfoUnit {
-  set_title(monster.monster_type.name)
-  add_attribute("Description : ", monster.monster_type.description)
+class MonsterTypeInfo(monster_type : MonsterType) extends InfoUnit {
+  set_title(monster_type.name)
+  add_attribute("Description : ", monster_type.description)
+  add_attribute("Vie max : ", monster_type.max_life.toString)
+  add_attribute("Prime : ", monster_type.gold.toString)
+  add_attribute("Vitesse : ", monster_type.slowness.toString)
+ 
+}
+
+class MonsterInfo(monster : Monster) extends MonsterTypeInfo(monster.monster_type) {
   add_attribute("Vies : ", fraction_to_string(monster.life,monster.monster_type.max_life))
-  add_attribute("Prime : ", monster.monster_type.gold.toString)
-  add_attribute("Vitesse : ", monster.monster_type.slowness.toString)
   add_attribute("Orientation horizontale :", monster.orientation_h.toString)
   add_attribute("Orientation verticale :", monster.orientation_v.toString)
   add_attribute("Absolute padding h :", monster.absolute_padding_h.toString)

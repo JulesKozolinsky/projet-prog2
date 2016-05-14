@@ -215,7 +215,7 @@ class TowerChoiceButton(ts : TowerSkin) extends ToggleButton("")
 
     def apply(){
       current_tower_type = tower_type
-      InfoPanel.change_main_unit_tileable(current_tower_type) //on change l'info associée
+      InfoPanel.change_main_unit_tileable_type(current_tower_type) //on change l'info associée
       MainFrameGUI.visible = true
     }
   }
