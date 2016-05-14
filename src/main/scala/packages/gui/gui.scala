@@ -107,7 +107,7 @@ object MainFrameGUI extends swing.MainFrame {
 
   def actualize_cont(){
     frame.actualize_cont()
-    MainFrameGUI.visible = true
+    //MainFrameGUI.visible = true
   }
 
   /** Fonction actualise à appeler uniquement à la fin des rounds */

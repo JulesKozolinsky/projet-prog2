@@ -34,6 +34,11 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   }
 
 
+  def compute_speed_pix(monster:Monster)
+  {
+
+  }
+
 
     /** Renvoie la position en pixels du centre d'une cellule
     * 
@@ -50,8 +55,8 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   /** Renvoie la position dans la grille d'un monstre*/
   def get_monster_pos(monster:Monster) = {
     val cell_size = contents(0).size
-    new Position(monster.pos.l * cell_size.height + monster.monster_type.in_cell_pos.l * cell_size.height /3 + 2,
-      monster.pos.c * cell_size.width  + monster.monster_type.in_cell_pos.c * cell_size.width /3 + 2
+    new Position_Real(cell_size.height*(monster.pos.l + monster.orientation_v*monster.wait_since/monster.monster_type.slowness.toFloat) + monster.monster_type.in_cell_pos.l * cell_size.height / 3. + 2,
+       cell_size.width * (monster.pos.c +  monster.orientation_h*monster.wait_since/monster.monster_type.slowness.toFloat )  + monster.monster_type.in_cell_pos.c * cell_size.width /3. + 2
     )
   }
 
@@ -68,7 +73,7 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   {
     val cell_size = contents(0).size
     //ici, le 3 correspond au scale du monster cell
-    g.drawImage(monster_skins(monster.monster_type)(cell_size,3), null, monster.pix_pos.c , monster.pix_pos.l)
+    g.drawImage(monster_skins(monster.monster_type)(cell_size,3), null, monster.pix_pos.c.toInt , monster.pix_pos.l.toInt)
   }
 
   override def paint(g:Graphics2D) {
@@ -90,9 +95,12 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
     }
   }
 
+  var j = 0
   /** Actualise la grille en fonction de l'état de la Map.*/
   def actualize()
   {
+    j +=1
+    println(j)
     val monsters = current_level.rounds.head.monsters
     monsters.foreach(m => m.pix_pos = get_monster_pos(m))
 
@@ -111,7 +119,7 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
             }).build_tower(Map.get_tower(pos).tower_type)
           }
         }else{ //s'il y a au moins un monstre
-          //contents(l*columns + c) = new MonsterCell(monsters,pos)
+          contents(l*columns + c) = new MonsterCell(monsters,pos)
         }
       }}
     repaint
@@ -120,8 +128,11 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   var i = 0
   def actualize_cont()
   {
+    val monsters = current_level.rounds.head.monsters
+    //monsters.foreach(m => m.pix_pos = new Position_Real(m.pix_pos.l + 0.5, m.pix_pos.c + 3.5))
     i+=1
     Log((i*17/1000).toString)
+    repaint
   }
 }
 

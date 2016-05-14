@@ -106,7 +106,7 @@ abstract class Monster () extends Living
   var speed_pix_v : Int = 0
 
   /** Position en pixels sur la grille */
-  var pix_pos = new Position(0,0)
+  var pix_pos = new Position_Real(0,0)
 
   /** fonction rendant des points de vie au monstre */
   def receive_life(qty:Int) : Unit = {this.life = math.min(life + qty, monster_type.max_life)}
