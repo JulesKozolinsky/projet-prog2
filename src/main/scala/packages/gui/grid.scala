@@ -34,10 +34,17 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   }
 
 
-  def compute_speed_pix(monster:Monster)
+  private def compute_speed_pix(monster:Monster)
   {
     val cell_size = contents(0).size
-    monster.speed_pix_h = cell_size.height * (cont_tick / tick.toFloat)
+    monster.speed_pix_h = cell_size.width * (cont_tick / tick.toFloat) / (monster.monster_type.slowness.toFloat  + 1)
+    monster.speed_pix_v = cell_size.height * (cont_tick / tick.toFloat) / (monster.monster_type.slowness.toFloat + 1)
+    
+  }
+
+  def actualize_speed(){
+    val monsters = current_level.rounds.head.monsters
+    monsters.foreach(compute_speed_pix)
   }
 
 
@@ -56,8 +63,8 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   /** Renvoie la position dans la grille d'un monstre*/
   def get_monster_pos(monster:Monster) = {
     val cell_size = contents(0).size
-    new Position_Real(cell_size.height*(monster.pos.l + monster.orientation_v*monster.wait_since/monster.monster_type.slowness.toFloat) + monster.monster_type.in_cell_pos.l * cell_size.height / 3. + 2,
-       cell_size.width * (monster.pos.c +  monster.orientation_h*monster.wait_since/monster.monster_type.slowness.toFloat )  + monster.monster_type.in_cell_pos.c * cell_size.width /3. + 2
+    new Position_Real(cell_size.height*(monster.pos.l + monster.orientation_v*monster.wait_since/(monster.monster_type.slowness.toFloat + 1)) + monster.monster_type.in_cell_pos.l * cell_size.height / 3. + 2,
+       cell_size.width * (monster.pos.c +  monster.orientation_h*monster.wait_since/(monster.monster_type.slowness.toFloat + 1 ))  + monster.monster_type.in_cell_pos.c * cell_size.width /3. + 2
     )
   }
 
@@ -100,8 +107,7 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   /** Actualise la grille en fonction de l'état de la Map.*/
   def actualize()
   {
-    j +=1
-    println(j)
+    actualize_speed
     val monsters = current_level.rounds.head.monsters
     monsters.foreach(m => m.pix_pos = get_monster_pos(m))
 
@@ -130,7 +136,7 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   def actualize_cont()
   {
     val monsters = current_level.rounds.head.monsters
-    //monsters.foreach(m => m.pix_pos = new Position_Real(m.pix_pos.l + 0.5, m.pix_pos.c + 3.5))
+    monsters.foreach(m => m.pix_pos = new Position_Real(m.pix_pos.l + m.orientation_v*m.speed_pix_v, m.pix_pos.c + m.orientation_h*m.speed_pix_h))
     i+=1
     Log((i*17/1000).toString)
     repaint
