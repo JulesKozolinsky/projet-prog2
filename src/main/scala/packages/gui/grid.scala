@@ -34,6 +34,7 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   }
 
 
+
     /** Renvoie la position en pixels du centre d'une cellule
     * 
     * @param pos Position de la cellule considérée (mais cette fois pas en pixel)
@@ -47,10 +48,10 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   }
 
   /** Renvoie la position dans la grille d'un monstre*/
-  def get_pos(monster:Monster) = {
+  def get_monster_pos(monster:Monster) = {
     val cell_size = contents(0).size
-    new Position(monster.pos.l * cell_size.height + monster.absolute_padding_h + monster.monster_type.in_cell_pos.l * cell_size.height /3,
-      monster.pos.c * cell_size.width + monster.absolute_padding_v + monster.monster_type.in_cell_pos.c * cell_size.width /3
+    new Position(monster.pos.l * cell_size.height + monster.monster_type.in_cell_pos.l * cell_size.height /3 + 2,
+      monster.pos.c * cell_size.width  + monster.monster_type.in_cell_pos.c * cell_size.width /3 + 2
     )
   }
 
@@ -66,9 +67,8 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
   private def paintMonster(g:Graphics2D, monster : Monster)
   {
     val cell_size = contents(0).size
-    val abs_pos = get_pos(monster)
     //ici, le 3 correspond au scale du monster cell
-    g.drawImage(monster_skins(monster.monster_type)(cell_size,3), null, abs_pos.c , abs_pos.l)
+    g.drawImage(monster_skins(monster.monster_type)(cell_size,3), null, monster.pix_pos.c , monster.pix_pos.l)
   }
 
   override def paint(g:Graphics2D) {
@@ -79,11 +79,24 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
       val col = (Map.get_tower(s._1).tower_type.color)
       paintLaser(g,s._1,s._2, new java.awt.Color(col._1, col._2, col._3))
     }
+
+
+    //affichage des monstres
+    for(l<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
+      for(c<-0 to columns - 1) {
+        val monsters = Map.get_monsters(new Position(l,c))
+        monsters.foreach(c=>paintMonster(g,c._1))
+      }
+    }
   }
 
   /** Actualise la grille en fonction de l'état de la Map.*/
   def actualize()
   {
+    val monsters = current_level.rounds.head.monsters
+    monsters.foreach(m => m.pix_pos = get_monster_pos(m))
+
+
     for(l<-0 to rows - 1) {//rows et columns sont héritées de GridPanel
       for(c<-0 to columns - 1) {
         val pos = new Position(l,c)
@@ -98,14 +111,17 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
             }).build_tower(Map.get_tower(pos).tower_type)
           }
         }else{ //s'il y a au moins un monstre
-          contents(l*columns + c) = new MonsterCell(monsters,pos)
+          //contents(l*columns + c) = new MonsterCell(monsters,pos)
         }
       }}
     repaint
   }
+
+  var i = 0
   def actualize_cont()
   {
-   // Log((i*17/1000).toString)
+    i+=1
+    Log((i*17/1000).toString)
   }
 }
 
@@ -198,7 +214,7 @@ class TowerCell(pos:Position) extends Cell(pos)
   * 
   * @param pos Position de la cellule dans la grille
   */
-class MonsterCell(wave : Set[Tuple2[Monster,Int]], pos : Position) extends Cell (pos)
+/*class MonsterCell(wave : Set[Tuple2[Monster,Int]], pos : Position) extends Cell (pos)
 {
   /**Définit la racine carrée du nombre maximal de monstres par case*/
   var scale = 3//Math.sqrt(wave.size).ceil.toInt
@@ -224,10 +240,10 @@ class MonsterCell(wave : Set[Tuple2[Monster,Int]], pos : Position) extends Cell 
     wave.foreach(
       m =>{
         val skin = monster_skins(m._1.monster_type);
-        g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth , (i /scale)* skin().getHeight)
+        //g.drawImage(skin(size,scale), null, (i % scale) * skin().getWidth , (i /scale)* skin().getHeight)
         i += 1
       }
     )   
   }
-}
+}*/
 

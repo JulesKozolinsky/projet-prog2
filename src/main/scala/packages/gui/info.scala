@@ -193,8 +193,7 @@ class MonsterInfo(monster : Monster) extends MonsterTypeInfo(monster.monster_typ
   add_attribute("Vies : ", fraction_to_string(monster.life,monster.monster_type.max_life))
   add_attribute("Orientation horizontale :", monster.orientation_h.toString)
   add_attribute("Orientation verticale :", monster.orientation_v.toString)
-  add_attribute("Absolute padding h :", monster.absolute_padding_h.toString)
-  add_attribute("Absolute padding v :", monster.absolute_padding_v.toString)
+  add_attribute("Position pixels : ", monster.pix_pos.toString)
 }
 
 

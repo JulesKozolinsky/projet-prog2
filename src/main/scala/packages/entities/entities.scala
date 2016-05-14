@@ -19,7 +19,7 @@ abstract class Tileable ()
 }
 
 
-/** Les Actor sont ceux parmi les Tileable qui sont appelés dans l'éxécution d'un round, essentiellement les tours et les monstres */
+/** Les Actor sont ceux parmi les Tileable qui sont appelés dans l'exécution d'un round, essentiellement les tours et les monstres */
 abstract class Actor() extends Tileable
 {
   /** temps depuis lequel l'Actor n'a pas agit */
@@ -105,11 +105,8 @@ abstract class Monster () extends Living
   /** vitesse en pixel verticale */
   var speed_pix_v : Int = 0
 
-  /** padding absolu sur la grille horizontal */
-  var absolute_padding_h : Int = 0
-
-  /** padding absolu sur la grille vertical */
-  var absolute_padding_v : Int = 0
+  /** Position en pixels sur la grille */
+  var pix_pos = new Position(0,0)
 
   /** fonction rendant des points de vie au monstre */
   def receive_life(qty:Int) : Unit = {this.life = math.min(life + qty, monster_type.max_life)}

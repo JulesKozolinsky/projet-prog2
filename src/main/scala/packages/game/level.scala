@@ -30,7 +30,7 @@ class Level(file:String)
   private var info_level : (List[Round] , String) = Parser.parse(file)
 
   /** Liste contenant les rounds qui composent le niveau.*/
-  private var rounds : List[Round] = info_level._1
+  var rounds : List[Round] = info_level._1
 
   /** On met à jour tout dans game */
   current_level = info_level._2

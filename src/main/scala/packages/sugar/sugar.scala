@@ -30,6 +30,10 @@ class Position (l_arg:Int, c_arg:Int)
 
   }
   }
+
+  override def toString() : String = {
+    "(l=" + l.toString + ", c="+c.toString+")"
+  }
   /** Produit scalaire entre this et l'argument, vus comme des vecteurs */
   def scalar_prod (pos2:Position) : Int = {(l * pos2.l) + (c * pos2.c)}
 

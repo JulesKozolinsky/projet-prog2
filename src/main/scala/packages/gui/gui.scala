@@ -74,14 +74,14 @@ object MainFrameGUI extends swing.MainFrame {
   val taskPerformer = new ActionListener() {
     def actionPerformed(evt:ActionEvent) {
       send_tick
-      //timer_cont.restart
+      timer_cont.restart
     }
   }
 
   var timer = new Timer(tick, taskPerformer)
   
   def start_round(){
-    //timer_cont.start
+    timer_cont.start
     timer.start
     current_level.start_round
   }
