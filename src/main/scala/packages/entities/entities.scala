@@ -122,8 +122,8 @@ abstract class Monster () extends Living
         Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
         val prec_pos = pos
         pos = Map.next_case(pos,init_pos,path_choice)
-        orientation_h = pos.c - prec_pos.c
-        orientation_v = pos.l - prec_pos.l
+        this.orientation_h = pos.c - prec_pos.c
+        this.orientation_v = pos.l - prec_pos.l
         wait_since = 0
       }
     }
@@ -545,7 +545,7 @@ class Monster1 () extends Monster {
   var init_pos = new Position (1,0)
   var pos = init_pos
   var life = monster_type.max_life
-  
+
 }
 class Monster2 () extends Monster {
   val monster_type = Monster2Type
@@ -570,7 +570,10 @@ class Monster2 () extends Monster {
 	if (! Map.is_tower(front))
 	{
           Map.move_monster (this,pos,front)
+          val prec_pos = pos
           pos = front
+          this.orientation_h = pos.c - prec_pos.c
+          this.orientation_v = pos.l - prec_pos.l
           wait_since = 0
 	}
 	else {Map.get_tower(front).broken}
@@ -627,7 +630,10 @@ class Monster6 () extends Monster {
       else                                                 // sinon on avance
       {
         Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
+        val prec_pos = pos
         pos = Map.next_case(pos,init_pos,path_choice)
+        this.orientation_h = pos.c - prec_pos.c
+        this.orientation_v = pos.l - prec_pos.l
 	(Map.get_real_monsters(pos)).foreach {(m:Monster) => {m.receive_life(6)}}
         wait_since = 0
       }
