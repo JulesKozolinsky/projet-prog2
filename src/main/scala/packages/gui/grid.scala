@@ -1,3 +1,4 @@
+
 //contient l'implémentation de la grille
 
 package packages
@@ -86,11 +87,19 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
 
   override def paint(g:Graphics2D) {
     //anticrénelage pour les lasers
+  
+    val cell_size = contents(0).size
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON)
     super.paint(g)
-    for(s <- current_level.get_shots){
-      val col = (Map.get_tower(s._1).tower_type.color)
-      paintLaser(g,s._1,s._2, new java.awt.Color(col._1, col._2, col._3))
+    for(s <- current_level.get_shots){   // s correspond aux tirs d'une tour
+
+      val col = s._1.tower_type.color
+      val center_tower = center_of_cell(s._1.pos)
+      g.setColor(new java.awt.Color(col._1, col._2, col._3))
+      
+      for (m <- s._2) {// m est un des monstres sur lequel la tour tire
+        g.drawLine(center_tower.c ,center_tower.l,m.pix_pos.c.toInt + cell_size.width/6,m.pix_pos.l.toInt + cell_size.height/6)
+        }
     }
 
 
