@@ -120,10 +120,10 @@ abstract class Monster () extends Living
       else                                                 // sinon on avance
       {
         Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
-        val prec_pos = pos
         pos = Map.next_case(pos,init_pos,path_choice)
-        this.orientation_h = pos.c - prec_pos.c
-        this.orientation_v = pos.l - prec_pos.l
+        val future_pos = Map.next_case(pos,init_pos,path_choice)
+        this.orientation_h = future_pos.c - pos.c
+        this.orientation_v = future_pos.l - pos.l
         wait_since = 0
       }
     }
@@ -632,8 +632,9 @@ class Monster6 () extends Monster {
         Map.move_monster (this,pos,Map.next_case(pos,init_pos,path_choice))
         val prec_pos = pos
         pos = Map.next_case(pos,init_pos,path_choice)
-        this.orientation_h = pos.c - prec_pos.c
-        this.orientation_v = pos.l - prec_pos.l
+        val future_pos = Map.next_case(pos,init_pos,path_choice)
+        this.orientation_h = future_pos.c - pos.c
+        this.orientation_v = future_pos.l - pos.l
 	(Map.get_real_monsters(pos)).foreach {(m:Monster) => {m.receive_life(6)}}
         wait_since = 0
       }
