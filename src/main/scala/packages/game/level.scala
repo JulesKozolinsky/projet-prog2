@@ -66,7 +66,7 @@ class Level(file:String)
   }
 
   /** Récupère les tirs du round en cours ; à appeler après un actualize (dans l'ordre : tour,monstre) */
-  def get_shots : Set[(Position,Position)] = {rounds.head.shots}
+  def get_shots : Set[(Tower,List[Monster])] = {rounds.head.shots}
 
   /** Crée une nouvelle tour
     *

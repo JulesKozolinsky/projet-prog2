@@ -24,7 +24,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
   var monsters = Set[Monster] ()
 
   /** Variable qui évolue au cours des actalize et qui contient les positions des tours qui ont tiré, avec une position caractéristique du tir */
-  var shots = Set[(Position,Position)] ()
+  var shots = Set[(Tower,List[Monster])] ()
 
   /** Les différentes vagues d'attaquants qui vont entrer à un moment donné sur la map durant le round */
   private var waves = sort_tupple_list (wave)
@@ -102,7 +102,7 @@ class Round(wave:List[Tuple2[Set[Tuple2[MonsterType,Int]],Int]]) {
       {
 	var tower = Map.get_tower(p)
         var target = tower.tower_type.priority( Map.get_targets(tower) )
-        if (! target.isEmpty) {shots = shots + new Tuple2 (p , target(0).pos )}
+        if (! target.isEmpty) { shots = shots + new Tuple2 (tower , target) }
         var killed = tower.apply
         for (m <- killed) {money = money + m.monster_type.gold ; rem_monster(m)}
       }
