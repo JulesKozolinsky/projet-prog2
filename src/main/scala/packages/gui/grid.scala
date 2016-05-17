@@ -69,14 +69,6 @@ object GameGrid extends PosGridPanel(Map.get_height_GUI, Map.get_width_GUI) {
     )
   }
 
-  /** Permet de peindre un laser allant d'une case vers une autre*/
-  private def paintLaser(g: Graphics2D, cell1 : Position , cell2 :Position, color : java.awt.Color )
-  {
-    g.setColor(color)
-    val center1 = center_of_cell(cell1)
-    val center2 = center_of_cell(cell2)
-    g.drawLine(center1.c,center1.l,center2.c,center2.l)
-  }
 
   private def paintMonster(g:Graphics2D, monster : Monster)
   {
