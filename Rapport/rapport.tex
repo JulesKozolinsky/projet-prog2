@@ -57,6 +57,7 @@ Les tours ont pour caractéristiques : wait-since, pos, tower-type, frequency, p
 Les monstres ont pour caractéristiques : wait-since, pos, init-pos, monster-type, slowness, gold, life, orientation-h, orientation-v, speed-pix-h, speed-pix-v, pix-pos, ainsi qu'une méthode receive-dammages.
 
 
+
 \begin{figure}[h]
 \center
 \includegraphics[scale = 0.4]{Entities.png}
@@ -70,8 +71,6 @@ Le package round gère les actions faites à chaque tick du timer par les tours 
 Le set nous a été nécessaire car les monstres peuvent avancer sur un tick, et nous ne pouvions donc pas faire un parcours des positions sur la map des monstres.
 \subsubsection{Level}
 Le package level est celui qui est appelé par gui, c'est lui qui relance round en permanence et qui gère les cas d'arrêt de jeu. C'est également level qui fournit à round la listes des vagues de monstres qui correspondent, ceci en demandant au parser de le faire.
-\subsection{Parser}
-Le package \textbf{parser} s'occupe d'extraire d'un fichier XML les différentes informations sur un \textit{Level}, par exemple le nombre de round ou encore la date à laquelle les monstres de différents types vont apparaître, i.e. toutes les informations nécessaires pour construire un \textit{Level}. En pratique le \textbf{parser} ne fonctionne pas à cause d'un problème dû à la librairie d'extraction de XML. On écrit donc naïvement à l'intérieur du package pour implémenter nos exemples. 
 
 \subsection{Map}
 Le package \textbf{map} représente les emplacements physiques des entités du jeu. En réalité, il existe trois cartes différentes : \textit{ground} représentant les obstacles fixes du jeu (par exemple des roches, des arbres ou encore des rivières), \textit{towers} représentant la position des différentes tours, et \textit{monsters} représentant la position des monstres pendant un round. Ces trois cartes étant \textit{privées}, les autres packages \textbf{game} et \textbf{gui} appellent des fonctions particulières du package, par exemple s'il est possible de placer une tour, ou pour avoir accès aux monstres situés à une position donnée, ou également pour connaître la prochaine position d'un monstre. 
@@ -92,28 +91,16 @@ Pour le calcul de l'algorithme de Dijkstra, nous avons utilisé un module déjà
 Le package \textbf{gui} contient l'interface graphique du jeu. Celle-ci a été écrite avec swing. L'objet principal est \textit{MainFrameGUI}. Il contient notamment la fonction actualize qui permet d'actualiser complètement \textbf{gui}. L'interface est alors séparée en deux parties : \textit{GameOptions} qui contient les options du jeu, situées en haut et \textit{GameGrid} qui contient la grille du jeu. \textit{GameOptions} est principalement constitué de boutons et d'informations sur le jeu. \textit{GameGrid} est le coeur de l'interface. C'est une grille qui peut contenir des \textit{MonsterCell} ou des \textit{TowerCell}. La fonction actualize de \textit{GameGrid} est la principale fonction d'actualisation de l'interface : c'est elle qui va lire la carte afin de placer les monstres et les tours à leur place.
 \par
 La gestion des images a posé de nombreux problèmes : en effet, nous n'avons pas trouvé d'autre moyen que de recharger le fichier image pour changer ses dimensions. Nous avons donc essayé de minimiser le nombre de fois où l'on change de taille d'image. De cette idée est née la classe \textit{Skin} qui permet un partage d'image entre les différentes entités de la grille et une évaluation paresseuse des différentes échelles dont on a besoin pour l'image. Cette classe permet donc de mettre autant de monstres qu'on le souhaite sur une même case sans pour autant ralentir de manière significative.
+Passage au continu : 
 
 
-\section{Ce qu'on aimerait faire}
+\section{Ce qu'on aurait aimé faire si on avait eu davantage de temps (tri par ordre de difficulté croissante)}
 \begin{itemize}
-\item Wave serait une classe comprenant des entiers : hour-to-start ; nmber-of-monster1 ... ; ... nmber-of-monster6
-\item Un fond d'herbe partout sauf sur le chemin des monstres qui serait une sorte de sentier (donc évolutif en fonction de où on pose les tours entre les round, à partir de partie 2)
-\item Une matérialisation des tirs des tours (soit des boules qui partent, soit des traits si plus simple)
-\item Le numéro du round qui s'affiche dans la gui
-\item Des noms plus stylés et des particularités pour les tours : des priority qui diffèrent, possibilité de lancer des boules de feu et donc d'enflammer des monstres (=> les Liveable ont un booléen is-burning initialisé à false) ; FireTower, SpeedyTower, BoomBoomTower (vise tous les monstres sur une case) etc
-\item Le nombre de monstres de chaque type s'affiche sur les cases de la gui
-\item On n'a plus évolution des tailles de monstres en fonction du nombre de type différents par case
-\item On peut upgrader les tours, voire leur ajouter des traits ; on peut aussi les détruire, on récupère des sous mais on perd un peu en tout quand même
-\item Un parser qui fonctionne
-\item Un Dijkstra en pleine forme
-\item Des objets posables même pendant un round, très chers, qui ne tirent pas, rapportent 0 quand détruits, mais qui peuvent faire faire des demi-tour aux monstres et gagner du temps
-\item Quand on clique sur une case on a des infos sur ce qui s'y trouve
-\item Le parser lit l'argent et le nb de vie en fonction du level pour les mettre dans game
-\item Des musiques d'ambiance aléatoires pendant le jeu (GoT, Amélie Poulain, Schrtroumpf, Terminator, Taisez-Vous de Finkelkraut, hymne russe etc...)
-\item Gagner plein de sous avec
-\item La puissance des tours peut décroître avec la distance
-\item La fonction de tri des round ne gère pas encore l'éventualité où deux vagues ont la même date (mais le parser est censé s'en occuper tout seul de toute façon)
-\item Des options de tours qui apparaissent au fur et à mesure des rounds
+\item Des obstacles, posables pendant un round, coutant très chers, qui ne tirent pas et ne rapportent rien quand ils sont détruits, mais qui peuvent faire changer la trajectoire des monstres.
+\item On peut améliorer les tours, on peut aussi les détruire et on récupère un peu d'or.
+\item La puissance des tours peut décroître avec la distance.
+\item Un parser aléatoire fonctionnel.
+
 
 \end{itemize}
 
